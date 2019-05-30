@@ -1,0 +1,31 @@
+
+<?php
+composer create-project --prefer-dist laravel/laravel docmaster
+.env szerkesztése (adatbázis)
+
+composer require appzcoder/laravel-admin
+
+telepítésnél feelépő hibák:
+
+hiba1:
+[PDOException]
+//SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
+
+javítás:
+\app\Providers\AppServiceProvider.boot();
+   \Schema::defaultStringLength(191);
+
+hiba2:
+ A laravel-adminhoz szükséges spatie/laravel-activitylog  migrátions fájl json mezője hibát okoz
+ javítás: 
+ még az install előtt a json mezőt text-re változtatni
+ vendor\spatie\laravel-activitylog\migrations\create_activity_log_table.php.stub
+ $table->json('properties')->nullable(); sort kicserélni $table->text('properties')->nullable();
+
+php artisan laravel-admin:install
+(felteszi az user authentikációt, crud generátort, actuviti-log-ot,
+fdelmásolja a view config stb fájlokat, lefuttatja amigrációkat, beállítja a routot. stb)
+ elérés (localhost:8000) /admin
+
+ git init
+ git add .
