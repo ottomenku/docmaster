@@ -4,12 +4,66 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use File;
 use App\Doc;
 use Illuminate\Http\Request;
+use Image;
 
 class DocController extends Controller
 {
+    public function prewupload(Request $request){
+        $path= public_path('docprew');
+     /*   $this->validate($request, [
+
+            'prewfile' => 'required',
+
+            'prewfile.*' => 'mimes:jpg,png,bmp'
+
+    ]);
+
+    $prev_image_array=['jpg','png','bmp'];
+    $ext=$request->prewfile->getClientOriginalExtension();
+    $filename = rand(1111,9999).time().'.'.$ext;
+    if(in_array($ext, $prev_image_array)){$prev=$ext.'png';}else{$prev='file.png';}
+    **/
+    
+
+        $this->validate($request, [
+            'prewfile' => 'required',
+            'prewfile.*' => 'mimes:jpg,png,bmp'
+    ]);
+/*
+    $docdata=[
+    'filename'=> $filename,
+    'name'=>$OriginalName,
+    'originalname'=>$OriginalName,
+    'type'=>$ext,
+    'prev'=>$prev,
+    'sizekb'=>$request->file('file')->getSize()];
+    Doc::create($docdata);
+    */	
+      //  request()->file->move(resource_path('doc'), $OriginalName);
+      try {
+    
+     $image = $request->file('prewfile');
+     $filename    = $image->getClientOriginalName();
+     
+    // save thumb  
+     $image_resize = Image::make($image->getRealPath());              
+     $image_resize->resize(100, 100);
+     $image_resize->save(public_path('docprew/thumb/' .$filename));
+    //save image
+    request()->prewfile->move($path, $filename );
+
+    	return response()->json(['uploaded' => $filename,'message' => 'feltoltve']);
+      }
+      catch(Exception $e) {
+        return response()->json(['error' => $e->getMessage(),'message' => 'feltolés nem sikerült']);
+      }
+       
+    }
+    public static function getDocFolder()
+    { return resource_path('doc'); }
     /**
      * Display a listing of the resource.
      *
@@ -122,7 +176,8 @@ class DocController extends Controller
     public function destroy($id)
     {
         Doc::destroy($id);
-
+        $file =self::$path. Doc::findOrFail($id)->filename;
+        File::delete($file);
         return redirect('admin/doc')->with('flash_message', 'Doc deleted!');
     }
 }

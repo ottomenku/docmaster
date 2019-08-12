@@ -23,10 +23,16 @@ hiba2:
  $table->json('properties')->nullable(); sort kicserélni $table->text('properties')->nullable();
 
 php artisan laravel-admin:install
+doc: https://github.com/appzcoder/laravel-admin
 (felteszi az user authentikációt, crud generátort, actuviti-log-ot,
 fdelmásolja a view config stb fájlokat, lefuttatja amigrációkat, beállítja a routot. stb)
  elérés (localhost:8000) /admin
-
+ middlewer rout grouphoz: 
+// Add roles middleware in app/Http/Kernel.php
+protected $routeMiddleware = [
+    ...
+    'roles' => \App\Http\Middleware\CheckRole::class,
+];
  git init
  git add .
  git commit -m "first commit"

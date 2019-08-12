@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Doc;
+use  App\Http\Controllers\Admin\DocController;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -43,29 +44,33 @@ $pdflib->convert();-*/
    
     public function uploadImages(Request $request)
     {
+
+        $path= DocController::getDocFolder();
         $this->validate($request, [
 
             'file' => 'required',
 
-            'file.*' => 'mimes:doc,pdf,docx,zip'
+            'file.*' => 'mimes:doc,pdf,docx,txt,xls'
 
     ]);
-
+    $prev_image_array=['pdf','doc','text'];
     $ext=$request->file->getClientOriginalExtension();
     $filename = rand(1111,9999).time().'.'.$ext;
     $OriginalName =$request->file->getClientOriginalName();
-    if($ext='pdf'){
 
-    }
+    if(in_array($ext, $prev_image_array)){$prev=$ext.'png';}else{$prev='file.png';}
+
     $docdata=[
-    'filenamename'=> $filename,
+    'filename'=> $filename,
     'name'=>$OriginalName,
     'originalname'=>$OriginalName,
-    'ext'=>$ext,
+    'type'=>$ext,
+    'prev'=>$prev,
     'sizekb'=>$request->file('file')->getSize()];
     Doc::create($docdata);
     	
-        request()->file->move(resource_path('doc'), $OriginalName);
-    	return response()->json(['uploaded' => '/doc/'.$OriginalName]);
+       // request()->file->move(resource_path('doc'), $OriginalName);
+       request()->file->move($path, $OriginalName);
+    	return response()->json(['uploaded' => $OriginalName]);
     }
 }

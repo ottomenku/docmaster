@@ -29,7 +29,7 @@ class Doc extends Model
      *
      * @var array
      */
-    protected $fillable = ['category_id', 'name', 'originalname','filename', 'ext','prev','thumb','sizekb','note'];
+    protected $fillable = ['category_id', 'name', 'originalname','filename', 'type','prev','thumb','sizekb','note'];
 
     public function category()
     {
