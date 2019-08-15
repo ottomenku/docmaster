@@ -1,0 +1,16 @@
+{
+    "html.autoClosingTags": false,
+    "html.format.enable": false,
+    "html.validate.scripts": false,
+    "html.validate.styles": false,
+    "html.suggest.html5": false,
+    "vetur.format.defaultFormatter.html": "none",
+    "vetur.validation.template": false,
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "editor.autoClosingQuotes": "never",
+    "editor.renderFinalNewline": false,
+    "editor.foldingStrategy": "indentation"
+  
+    
+}
