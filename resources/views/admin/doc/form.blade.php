@@ -1,28 +1,44 @@
-<div class="form-group{{ $errors->has('category_id') ? 'has-error' : ''}}">
-    {!! Form::label('category_id', 'Category Id', ['class' => 'control-label']) !!}
-    {!! Form::number('category_id', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('category_id', '<p class="help-block">:message</p>') !!}
-</div>
+  <div class="form-group {{ $errors->has('category_id') ? 'has-error' : ''}}">
+        {!! Form::label('category_id', 'Ktegória', ['class' => 'col-md-4 control-label']) !!}
+        <div class="col-md-6">
+          
+            {!! Form::select('category_id', $data['categories'], null, ['class' => 'form-control',]) !!}
+            
+             {!! $errors->first('category_id', '<p class="help-block">:message</p>') !!}
+        </div>
+    </div>
+
 <div class="form-group{{ $errors->has('name') ? 'has-error' : ''}}">
-    {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
+    {!! Form::label('name', 'Név', ['class' => 'control-label']) !!}
     {!! Form::text('name', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
     {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
 </div>
-<div class="form-group{{ $errors->has('imgpath') ? 'has-error' : ''}}">
-    {!! Form::label('imgpath', 'Imgpath', ['class' => 'control-label']) !!}
-    {!! Form::text('imgpath', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('imgpath', '<p class="help-block">:message</p>') !!}
+<div class="form-group{{ $errors->has('originalname') ? 'has-error' : ''}}">
+    {!! Form::label('originalname', 'Eredeti név', ['class' => 'control-label']) !!}
+    {!! Form::text('originalname', null, ['class' => 'form-control','readonly'])  !!}
+    {!! $errors->first('originalname', '<p class="help-block">:message</p>') !!}
 </div>
-<div class="form-group{{ $errors->has('path') ? 'has-error' : ''}}">
-    {!! Form::label('path', 'Path', ['class' => 'control-label']) !!}
-    {!! Form::text('path', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('path', '<p class="help-block">:message</p>') !!}
-</div>
+
 <div class="form-group{{ $errors->has('note') ? 'has-error' : ''}}">
-    {!! Form::label('note', 'Note', ['class' => 'control-label']) !!}
+    {!! Form::label('note', 'Megjegyzés', ['class' => 'control-label']) !!}
     {!! Form::text('note', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
     {!! $errors->first('note', '<p class="help-block">:message</p>') !!}
 </div>
+<div class="form-group{{ $errors->has('thumb') ? 'has-error' : ''}}">
+    {!! Form::label('thumb', 'Előnézet', ['class' => 'control-label']) !!}
+    {!! Form::file('thumb', null, ('required' == 'required') ? ['class' => 'form-control','id' => 'thumb', ] : ['class' => 'form-control']) !!}
+    @php 
+     $prew=$data['doc']->prev ?? $data['doc']->type.'.png' ?? 'file.png'  ;
+//$src='/docprev/thumb/'.$prew;
+$src=url(App\Http\Controllers\Admin\DocController::getDocPrevpath('base'));
+    @endphp
+   
+    <img id="prewimg" src="{{ $src}}/thumb/{{$prew}}" alt="your image" width="200px"  height="200px"/>
+    
+    {!! $errors->first('thumb', '<p class="help-block">:message</p>') !!}
+</div>
+
+
 
 
 <div class="form-group">

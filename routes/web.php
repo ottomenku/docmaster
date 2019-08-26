@@ -10,41 +10,46 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('cristal/index');
 });
-
+*/
 Auth::routes();
-
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/cat/{id}', 'HomeController@cat')->name('cat');
+//Route::get('/download/{id}', 'HomeController@download');
+Route::get('/download/{id}', 'DocController@download');
 
 // Check role in route middleware
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'superadmin'], function () {
+Route::group([ 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'superadmin'], function () {
     
-    Route::resource('admin/pages', 'Admin\PagesController');
-    Route::resource('admin/permissions', 'Admin\PermissionsController');
-    Route::resource('admin/roles', 'Admin\RolesController');
-    Route::resource('admin/settings', 'Admin\SettingsController');
-    Route::get('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
-    Route::post('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
-    Route::resource('admin/category', 'Admin\\CategoryController');
-    Route::resource('admin/activitylogs', 'Admin\ActivityLogsController')->only([
+    Route::resource('/pages', 'Admin\PagesController');
+    Route::resource('/permissions', 'Admin\PermissionsController');
+    Route::resource('/roles', 'Admin\RolesController');
+    Route::resource('/settings', 'Admin\SettingsController');
+    Route::get('/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
+    Route::post('/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
+    Route::resource('/category', 'Admin\\CategoryController');
+    Route::resource('/activitylogs', 'Admin\ActivityLogsController')->only([
     'index', 'show', 'destroy']);
 
  });
 
+ //Route::get('admin', 'Admin\AdminController@index');
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'admin'], function () {
-    Route::get('/', ['uses' => 'AdminController@index']);
-    Route::get('admin', 'Admin\AdminController@index');
-    Route::resource('admin/roletimes', 'Admin\RoletimesController');
-    Route::resource('admin/users', 'Admin\UsersController');
-    Route::resource('admin/doc', 'Admin\\DocController');
-    Route::post('admin/prewupload','Admin\\DocController@prewupload')->name('prewupload');
-    Route::get('admin/convert','FileController@convert');
-    Route::get('admin/upload-image','FileController@index');
-    Route::post('admin/upload-image',['as'=>'image.upload','uses'=>'FileController@uploadImages']);
+Route::group([ 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'admin'], function () {
+    Route::get('/', ['uses' => 'Admin\\AdminController@index']);
+    Route::resource('/roletimes', 'Admin\\RoletimesController');
+    Route::resource('/users', 'Admin\\UsersController');
+    Route::resource('/doc', 'Admin\\DocController');
+//Route::post('/upload-image',['as'=>'image.upload','uses'=>'Admin\\DocController@uploadImages']);
+    Route::post('/upload-image',['as'=>'image.upload','uses'=>'Admin\\DocController@store']);
+    Route::post('/prewupload','Admin\\DocController@prewupload')->name('prewupload');
+   // Route::get('/convert','FileController@convert');
+   // Route::get('/upload-image','FileController@index');
+    
 });
 
 

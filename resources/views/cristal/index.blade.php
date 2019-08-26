@@ -31,30 +31,12 @@
 
             <div class="icon-list navbar-collapse">
                 <ul class="navbar-nav">
+
+                @foreach($data['categories'] as $cat)    
                     <li class="nav-item">
-                        <a class="nav-link" href="#video-area">Home</a>
+                        <a class="nav-link" href="/cat/{{ $cat->id }}">{{ $cat->name }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolios">Our Works</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pricing">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#subscribe">Subscribe</a>
-                    </li>
+                 @endforeach   
                 </ul>
             </div>
         </nav>
@@ -67,7 +49,32 @@
         <div class="fixed-top">
             <div class="container">
                 <div class="logo-menu">
-                    <a href="index.html" class="logo"><span class="lnr lnr-diamond"></span> Cégnév</a>
+             <!--       <a href="index.html" class="logo"><span class="lnr lnr-diamond"></span> Cégnév</a> -->
+
+
+  
+            <!-- Authentication Links -->
+            @guest
+                <a class="logo" href="{{ url('/login') }}">Belépés </a>
+                <a class="logo" href="{{ url('/register') }}"> Regisztráció</a>
+            @else
+            
+                        <a class="logo" href="{{ url('/logout') }}"
+                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                            Kilépés
+                        </a>
+
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+             
+            @endguest
+     
+
+
+
+
                  <button  style="right:150px;" class="menu-button" id="open-button"><h2  style="font-size:x-large " >Dokumentumok</h2></button>
                 </div>
             </div>

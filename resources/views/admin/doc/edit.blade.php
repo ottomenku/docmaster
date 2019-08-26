@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-
+@php  $doc=$data['doc']   @endphp
 @section('content')
     <div class="container">
         <div class="row">
@@ -37,4 +37,5 @@
             </div>
         </div>
     </div>
+
 @endsection

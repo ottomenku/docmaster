@@ -1,88 +1,49 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
+use App\Category;
+use App\Doc;
 use App\Http\Controllers\Controller;
 use File;
-use App\Doc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Image;
 
 class DocController extends Controller
 {
-    public function prewupload(Request $request){
-        $path= public_path('docprew');
-     /*   $this->validate($request, [
+    public static $configFile = 'appp'; // a config file neve ami felül írja az alap propertiket ha a getProp()-al kérjük le. ha felül akarjuk írni  a kulsnak meg kell egyeznie a property nevével
+    public static $doc_path = 'doc'; //a dokumentumok mentésének helye a resources mappán belül
+    public static $docprev_path = 'docprev'; //prev fileok helye a public mappán belül, a public és a resource  a getPath() ban változtatható
+    public  $base_prev_img = ['pdf.png','file.png','doc.png']; // ezeket nem törli a prev img közül
 
-            'prewfile' => 'required',
-
-            'prewfile.*' => 'mimes:jpg,png,bmp'
-
-    ]);
-
-    $prev_image_array=['jpg','png','bmp'];
-    $ext=$request->prewfile->getClientOriginalExtension();
-    $filename = rand(1111,9999).time().'.'.$ext;
-    if(in_array($ext, $prev_image_array)){$prev=$ext.'png';}else{$prev='file.png';}
-    **/
-    
-
-        $this->validate($request, [
-            'prewfile' => 'required',
-            'prewfile.*' => 'mimes:jpg,png,bmp'
-    ]);
-/*
-    $docdata=[
-    'filename'=> $filename,
-    'name'=>$OriginalName,
-    'originalname'=>$OriginalName,
-    'type'=>$ext,
-    'prev'=>$prev,
-    'sizekb'=>$request->file('file')->getSize()];
-    Doc::create($docdata);
-    */	
-      //  request()->file->move(resource_path('doc'), $OriginalName);
-      try {
-    
-     $image = $request->file('prewfile');
-     $filename    = $image->getClientOriginalName();
-     
-    // save thumb  
-     $image_resize = Image::make($image->getRealPath());              
-     $image_resize->resize(100, 100);
-     $image_resize->save(public_path('docprew/thumb/' .$filename));
-    //save image
-    request()->prewfile->move($path, $filename );
-
-    	return response()->json(['uploaded' => $filename,'message' => 'feltoltve']);
-      }
-      catch(Exception $e) {
-        return response()->json(['error' => $e->getMessage(),'message' => 'feltolés nem sikerült']);
-      }
+    public function getProp($keyname)
+    {return config(self::$configFile . '.' . $keyname) ?? self::$$keyname;}
+    public static function getDocpath()
+    {
+        $docpath = config(self::$configFile . '.doc_path') ?? self::$doc_path;
+        return resource_path($docpath) . '/';
+    }
+    public static function getDocPrevpath($base='')
+    {
+        $docprev_path = config(self::$configFile . '.docprev_path') ?? self::$docprev_path;
+        if($base=='base'){return $docprev_path. '/';}
+        else{ return public_path($docprev_path) . '/';}
        
     }
-    public static function getDocFolder()
-    { return resource_path('doc'); }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $doc = Doc::where('category_id', 'LIKE', "%$keyword%")
+            $doc = Doc::with('category')->where('category_id', 'LIKE', "%$keyword%")
                 ->orWhere('name', 'LIKE', "%$keyword%")
-                ->orWhere('imgpath', 'LIKE', "%$keyword%")
-                ->orWhere('path', 'LIKE', "%$keyword%")
+                ->orWhere('originalname', 'LIKE', "%$keyword%")
+                ->orWhere('type', 'LIKE', "%$keyword%")
                 ->orWhere('note', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $doc = Doc::latest()->paginate($perPage);
+            $doc = Doc::with('category')->latest()->paginate($perPage);
         }
 
         return view('admin.doc.index', compact('doc'));
@@ -95,7 +56,7 @@ class DocController extends Controller
      */
     public function create()
     {
-        return view('admin.doc.create');
+        return view('file');
     }
 
     /**
@@ -103,18 +64,33 @@ class DocController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\Response|
      */
     public function store(Request $request)
     {
+        $path = self::getDocpath();
         $this->validate($request, [
-			'path' => 'required'
-		]);
-        $requestData = $request->all();
-        
-        Doc::create($requestData);
+            'file' => 'required',
+            'file.*' => 'mimes:doc,pdf,docx,txt,xls',
+        ]);
+        $prev_image_array = ['pdf', 'doc'];
+        $ext = $request->file->getClientOriginalExtension();
+        $filename = rand(1111, 9999) . time() . '.' . $ext;
+        $OriginalName = $request->file->getClientOriginalName();
 
-        return redirect('admin/doc')->with('flash_message', 'Doc added!');
+        if (in_array($ext, $prev_image_array)) {$prev = $ext . '.png';} else { $prev = 'file.png';}
+
+        $docdata = [
+            'filename' => $filename,
+            'name' => $OriginalName,
+            'originalname' => $OriginalName,
+            'type' => $ext,
+            'prev' => $prev,
+            'sizekb' => $request->file('file')->getSize()];
+        Doc::create($docdata);
+
+        request()->file->move($path, $filename);
+        return response()->json(['uploaded' => $OriginalName]);
     }
 
     /**
@@ -140,9 +116,9 @@ class DocController extends Controller
      */
     public function edit($id)
     {
-        $doc = Doc::findOrFail($id);
-
-        return view('admin.doc.edit', compact('doc'));
+        $data['doc'] = Doc::findOrFail($id);
+        $data['categories'] = Category::all()->pluck('name', 'id');
+        return view('admin.doc.edit', compact('data'));
     }
 
     /**
@@ -155,12 +131,33 @@ class DocController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-			'path' => 'required'
-		]);
-        $requestData = $request->all();
-        
+
         $doc = Doc::findOrFail($id);
+
+        $this->validate($request, [
+            //'path' => 'required'
+        ]);
+        $requestData = $request->all();
+
+        if (Input::file()) {
+
+            $image = Input::file('thumb');
+            $ext = $request->thumb->getClientOriginalExtension();
+            $prevname = $doc->filename . '.' . $ext;
+
+           $prevpath=self::getDocPrevpath();
+           $thumbpath=self::getDocPrevpath(). 'thumb/';
+          
+           if (!in_array($doc->prev , $this->base_prev_img)) {
+                  if (file_exists($prevpath. $doc->prev)) {File::delete($prevpath. $doc->prev);}
+                  if (file_exists($thumbpath . $doc->prev)) {File::delete($thumbpath . $doc->prev);}
+           }
+            Image::make($image->getRealPath())->save( $prevpath. $prevname);
+            Image::make($image->getRealPath())->resize(100, 100)->save( $thumbpath. $prevname);
+        }
+
+        $requestData['prev'] = $prevname;
+        unset($requestData['thumb']);
         $doc->update($requestData);
 
         return redirect('admin/doc')->with('flash_message', 'Doc updated!');
@@ -175,9 +172,51 @@ class DocController extends Controller
      */
     public function destroy($id)
     {
+        $doc = Doc::findOrFail($id);
+        $file =  self::getDocpath() . $doc->filename;
+        $prew = self::getDocPrevpath()  . $doc->prev;
+        $thumb =self::getDocPrevpath()  . 'thumb/' . $doc->prev;
         Doc::destroy($id);
-        $file =self::$path. Doc::findOrFail($id)->filename;
         File::delete($file);
-        return redirect('admin/doc')->with('flash_message', 'Doc deleted!');
+        File::delete($prew);
+        File::delete($thumb);
+        return redirect('admin/doc')->with('flash_message', 'Doc deleted!'.$file);
+    }
+    public function resetPrev($id)
+    {
+        $doc = Doc::findOrFail($id);
+        $type = $doc->type ?? 'file';
+        $newPrev = $type . '.png';
+
+        $prew = self::getDocPrevpath()  . $doc->prew;
+        $thumb = self::getDocPrevpath()  . 'thumb/' . $doc->prew;
+        $doc->updated(['prev' => $newPrev]);
+        File::delete($prew);
+        File::delete($thumb);
+        return redirect('admin/doc')->with('flash_message', 'Doc prev reset!');
+    }
+
+    public function download($id)
+    {
+        $user = Auth::user();
+        if ($user->id < 1) {return redirect('/login');} else {
+            if (Roletime::hasRole($user->id, 3)) {
+                $fileNeve = Doc::find($id)->filename;
+
+                return response()->download(self::getDocPrevpath() . $fileNeve); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
+
+                //return response()->download($fileNeve, $kivantNev, $headers); // második paraméterként megadhatunk neki egy nevet, amivel menti alapértelmezetten, valamint egyéb headeröket is felvehetünk
+            } else {
+                return redirect('#pricing');
+            }
+        }
+
+    }
+    public function convert($path)
+    {
+        $imagick = new \Imagick();
+        // Reads image from PDF
+        $imagick->readImage(resource_path('doc') . $path);
+
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Doc;
+use App\Roletime;
 use  App\Http\Controllers\Admin\DocController;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,27 @@ class FileController extends Controller
     {
     	return view('file');
     }
+  public function download($id)
+    {
+$basepath=config('moconf.docpath') ?? 'resources/doc';
+        $user = Auth::user();
+        if($user->id<1)
+        { return redirect('/login');}
+        else{
+            if(Roletime::hasRole($user->id,3))
+            {
+                $fileNeve=Doc::find($id)->filename;
 
+                return response()->download($basepath.'/'.$fileNeve); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
+
+                //return response()->download($fileNeve, $kivantNev, $headers); // második paraméterként megadhatunk neki egy nevet, amivel menti alapértelmezetten, valamint egyéb headeröket is felvehetünk
+            }
+            else{
+                return redirect('#pricing');
+                }
+        }        
+        
+    }
     public function convert()
     { 
             $imagick = new \Imagick();

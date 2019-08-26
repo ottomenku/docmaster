@@ -84,6 +84,31 @@
     </div>
 
     <!-- Scripts -->
+ 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+              function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();            
+                reader.onload = function (e) {
+                    $('#prewimg').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        $("#thumb").change(function(){
+            readURL(this);
+        });
+        });
+
+
+      
+    </script>
+
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.1/tinymce.min.js"></script>
     <script type="text/javascript">

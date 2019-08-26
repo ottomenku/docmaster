@@ -12,7 +12,11 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+   // 'doc_path' => resource_path('doc'),
+    'doc_path' => 'doc',
+  //  'docprew_path'=>public_path('docprew'),
+    'docprew_path'=>'docprev',
+    //'public_docprew_thumb_path'=>public_path('docprew/thumb'),  // nem mukod
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -176,6 +180,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+
+        LaravelHungary\Barion\BarionServiceProvider::class,
     ],
 
     /*
@@ -227,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
+        'Barion' =>  LaravelHungary\Barion\BarionFacade::class
     ],
 
 ];
