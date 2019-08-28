@@ -9,11 +9,11 @@
                 <div class="card">
                     <div class="card-header">Roles</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/roles/create') }}" class="btn btn-success btn-sm" title="Add New Role">
+                        <a href="{{ url('/admin/roletimes/create') }}" class="btn btn-success btn-sm" title="Add New Role">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
-                        {!! Form::open(['method' => 'GET', 'url' => '/admin/roles', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
+                        {!! Form::open(['method' => 'GET', 'url' => '/admin/roletimes', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Search...">
                             <span class="input-group-btn">
@@ -31,17 +31,17 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>username</th><th>Jog</th><th>admin</th><th>note</th><th>start</th><th>end</th>
+                                        <th>ID</th><th>username</th><th>note</th><th>start</th><th>end</th><th>actiom</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($roles as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td><a href="{{ url('/admin/roletimes', $item->id) }}">{{ $item->name }}</a></td><td>{{ $item->label }}</td>
+                                        <td>{{ $item->user->name }}</td><td>{{Str::limit( $item->note,30) }}</td><td>{{ $item->start }}</td><td>{{ $item->end }}</td>
                                         <td>
                                             <a href="{{ url('/admin/roletimes/' . $item->id) }}" title="View Role"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                            <a href="{{ url('/admin/roletimes/' . $item->id . '/edit') }}" title="Edit Role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                      
                                             {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'url' => ['/admin/roletimes', $item->id],

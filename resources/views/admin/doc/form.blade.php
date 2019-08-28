@@ -21,7 +21,7 @@
 
 <div class="form-group{{ $errors->has('note') ? 'has-error' : ''}}">
     {!! Form::label('note', 'Megjegyzés', ['class' => 'control-label']) !!}
-    {!! Form::text('note', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('note', null, ('' == 'required') ? ['class' => 'form-control'] : ['class' => 'form-control']) !!}
     {!! $errors->first('note', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group{{ $errors->has('thumb') ? 'has-error' : ''}}">

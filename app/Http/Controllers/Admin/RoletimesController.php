@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Role;
+use App\RoleTime;
+use App\User;
 use App\Permission;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class RoletimesController extends Controller
 {
@@ -20,13 +22,13 @@ class RoletimesController extends Controller
         $perPage = 15;
 
         if (!empty($keyword)) {
-            $roles = Role::where('name', 'LIKE', "%$keyword%")->orWhere('label', 'LIKE', "%$keyword%")
+            $roles = RoleTime::where('note', 'LIKE', "%$keyword%")->orWhere('User_id', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $roles = Role::latest()->paginate($perPage);
+            $roles = RoleTime::latest()->paginate($perPage);
         }
 
-        return view('admin.roles.index', compact('roles'));
+        return view('admin.roletimes.index', compact('roles'));
     }
 
     /**
@@ -36,9 +38,12 @@ class RoletimesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::select('id', 'name', 'label')->get()->pluck('label', 'name');
-
-        return view('admin.roles.create', compact('permissions'));
+        $data['users'] = User::pluck('name', 'id');
+        $data['date1'] = User::pluck('name', 'id');
+//   $today=\Carbon\Carbon::now()->format('Y-m-d') ;
+$data['start']=Carbon::now()->format('Y-m-d') ;
+$data['end']=Carbon::now()->addDay(30)->format('Y-m-d') ;
+        return view('admin.roletimes.create', compact('data'));
     }
 
     /**
@@ -50,19 +55,14 @@ class RoletimesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required']);
+        //$this->validate($request, ['name' => 'required']);
+        $data=$request->all();
+        $data['admin_id']=1;
+        $data['role_id']=3;
+        $role = RoleTime::create($data);
 
-        $role = Role::create($request->all());
-        $role->permissions()->detach();
 
-        if ($request->has('permissions')) {
-            foreach ($request->permissions as $permission_name) {
-                $permission = Permission::whereName($permission_name)->first();
-                $role->givePermissionTo($permission);
-            }
-        }
-
-        return redirect('admin/roles')->with('flash_message', 'Role added!');
+        return redirect('admin/roletimes')->with('flash_message', 'Role added!');
     }
 
     /**
@@ -76,7 +76,7 @@ class RoletimesController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        return view('admin.roles.show', compact('role'));
+        return view('admin.roletimes.show', compact('role'));
     }
 
     /**
@@ -91,7 +91,7 @@ class RoletimesController extends Controller
         $role = Role::findOrFail($id);
         $permissions = Permission::select('id', 'name', 'label')->get()->pluck('label', 'name');
 
-        return view('admin.roles.edit', compact('role', 'permissions'));
+        return view('admin.roletimes.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -117,7 +117,7 @@ class RoletimesController extends Controller
             }
         }
 
-        return redirect('admin/roles')->with('flash_message', 'Role updated!');
+        return redirect('admin/roletimes')->with('flash_message', 'Role updated!');
     }
 
     /**
@@ -129,8 +129,8 @@ class RoletimesController extends Controller
      */
     public function destroy($id)
     {
-        Role::destroy($id);
+        RoleTime::destroy($id);
 
-        return redirect('admin/roles')->with('flash_message', 'Role deleted!');
+        return redirect('admin/roletimes')->with('flash_message', 'Role deleted!');
     }
 }

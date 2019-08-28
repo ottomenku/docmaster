@@ -23,7 +23,7 @@ class CreateDocsTable extends Migration
         //  $table->string('path')->nullable();
         //  $table->string('thumb')->nullable();
             $table->integer('sizekb')->nullable();
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
             });
     }

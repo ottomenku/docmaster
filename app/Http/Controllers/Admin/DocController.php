@@ -154,9 +154,10 @@ class DocController extends Controller
            }
             Image::make($image->getRealPath())->save( $prevpath. $prevname);
             Image::make($image->getRealPath())->resize(100, 100)->save( $thumbpath. $prevname);
+             $requestData['prev'] = $prevname;
         }
 
-        $requestData['prev'] = $prevname;
+       
         unset($requestData['thumb']);
         $doc->update($requestData);
 
@@ -196,22 +197,7 @@ class DocController extends Controller
         return redirect('admin/doc')->with('flash_message', 'Doc prev reset!');
     }
 
-    public function download($id)
-    {
-        $user = Auth::user();
-        if ($user->id < 1) {return redirect('/login');} else {
-            if (Roletime::hasRole($user->id, 3)) {
-                $fileNeve = Doc::find($id)->filename;
-
-                return response()->download(self::getDocPrevpath() . $fileNeve); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
-
-                //return response()->download($fileNeve, $kivantNev, $headers); // második paraméterként megadhatunk neki egy nevet, amivel menti alapértelmezetten, valamint egyéb headeröket is felvehetünk
-            } else {
-                return redirect('#pricing');
-            }
-        }
-
-    }
+ 
     public function convert($path)
     {
         $imagick = new \Imagick();

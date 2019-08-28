@@ -31,13 +31,13 @@ class Roletime extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function hasRole($user_id,$role_id)
+    public static function hasRole($user_id,$role_id)
     {
         $res=false;
         $date= Carbon::now(); 
       //  $roletime = DB::table('roletimes')->where([
       //    $roletime = Roletime::where([
-          $roletimes = $this->where([
+          $roletimes = Roletime::where([
             ['user_id', '=', $user_id],
             ['role_id', '=', $role_id],
           // ['start', '>=', $date],
