@@ -15,7 +15,7 @@ class Roletime extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'role_id', 'note','start', 'end'];
+    protected $fillable = ['user_id', 'role_id','admin_id','note','start', 'end'];
 
     /**
      * A role may be given various permissions.

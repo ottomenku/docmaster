@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('cristal/index');
 });
 */
+Route::any('/pay', 'PayController@pay') ;
+Route::any('/payredirect', 'PayController@redirect') ;
+Route::any('/paycallback', 'PayController@callback') ;
+
 Auth::routes();
 Route::get('/', 'HomeController@index');
 
