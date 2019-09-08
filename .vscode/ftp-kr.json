@@ -1,8 +1,8 @@
 {
-    "host": "cpanel17.tarhelypark.hu",
-    "username": "mottoweb",
-    "password": "j1w60F)AdrB.7A",
-    "remotePath": "doc.mottoweb.hu",
+    "host": "ftp.mottoweb.hu",
+    "username": "mottoweb2@mottoweb.hu",
+    "password": "motto6814",
+    "remotePath": "/doc.mottoweb.hu",
     "protocol": "ftp",
     "port": 21,
     "fileNameEncoding": "utf8",
@@ -10,7 +10,9 @@
     "autoDelete": false,
     "autoDownload": false,
     "ignore": [
-        ".git",
-        "/.vscode"
+     ".git",
+     ".vscode",
+     "example",
+     ".env"
     ]
 }

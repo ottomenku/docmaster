@@ -1,5 +1,5 @@
   <div class="form-group {{ $errors->has('category_id') ? 'has-error' : ''}}">
-        {!! Form::label('category_id', 'Ktegória', ['class' => 'col-md-4 control-label']) !!}
+        {!! Form::label('category_id', 'Kategória', ['class' => 'col-md-4 control-label']) !!}
         <div class="col-md-6">
           
             {!! Form::select('category_id', $data['categories'], null, ['class' => 'form-control',]) !!}
@@ -30,16 +30,30 @@
     @php 
      $prew=$data['doc']->prev ?? $data['doc']->type.'.png' ?? 'file.png'  ;
 //$src='/docprev/thumb/'.$prew;
-$src=url(App\Http\Controllers\Admin\DocController::getDocPrevpath('base'));
+$src=url(App\Http\Controllers\Admin\DocController::$docPrev_path_final);
     @endphp
    
     <img id="prewimg" src="{{ $src}}/thumb/{{$prew}}" alt="your image" width="200px"  height="200px"/>
     
     {!! $errors->first('thumb', '<p class="help-block">:message</p>') !!}
 </div>
-
-
-
+<script>
+function imgPrev(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        $('#prewimg').attr('src', e.target.result);
+      }
+      
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  
+  $("#thumb").change(function() {
+    imgPrev(this);
+  });
+</script>
 
 <div class="form-group">
     {!! Form::submit($formMode === 'edit' ? 'Update' : 'Create', ['class' => 'btn btn-primary']) !!}

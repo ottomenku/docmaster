@@ -22,14 +22,51 @@
     <link rel="stylesheet" href="/cristal/css/menu_sideslide.css">
     <link rel="stylesheet" href="/cristal/css/main.css">
     <link rel="stylesheet" href="/cristal/css/responsive.css">
-
+    <script src="/cristal/js/jquery-min.js"></script>
 <script>
     $( document ).ready(function() {
+        $("#myModal").on("show.bs.modal", function(e) {
             var link = $(e.relatedTarget);
             $(this).find(".modal-body").load(link.attr("href"));
+        });
         });  
-    });
+function datasend() {
+    $.ajax({
+      data: $('#billingdataform').serialize(),
+      url: "{{ route('pay') }}",
+      type: "POST",
+      dataType: 'json',
+      success: function (data) { // session has script kezeli!
+      /*    $('#productForm').trigger("reset");
+          $('#ajaxModel').modal('hide');
+          table.draw();*/
+          $('#alertdiv').html(data.flash_message);
+          $('#modalbody').html(data.html);
+         // alert('succes');
+      },
+      error: function (data) {
+        alert('hiba');
+         // $('#saveBtn').html('Save Changes');
+       //  $('#modalbody').html('kkkkk');
+      }
+  });
+
+};
+     
 </script>    
+
+<!--
+@if (Session::has('flash_message'))
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
+
+@endif
+-->
+
+
 </head>
 
 <body>
@@ -127,10 +164,27 @@
         </div>
     </div>
 
+    <!-- Default bootstrap modal example -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           
+          </div>
+          <div id="modalbody" class="modal-body">
+                <div id="alertdiv" class="alert alert-success">         
+                        {{ Session::get('flash_message') }}
+                    </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="/cristal/js/jquery-min.js"></script>
-    <script src="/cristal/js/tether.min.js"></script>
-    <script src="/cristal/js/bootstrap.min.js"></script>
+  
+   <script src="/cristal/js/tether.min.js"></script>
+   <script src="/cristal/js/bootstrap.min.js"></script>
     <script src="/cristal/js/classie.js"></script>
     <script src="/cristal/js/mixitup.min.js"></script>
     <script src="/cristal/js/nivo-lightbox.js"></script>
@@ -147,7 +201,7 @@
     <script src="/cristal/js/waypoints.min.js"></script>
     <script src="/cristal/js/form-validator.min.js"></script>
     <script src="/cristal/js/contact-form-script.js"></script>
-    <script src="/cristal/js/main.js"></script>
+    <script src="/cristal/js/main.js"></script> 
 
 </body>
 

@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('cristal/index');
 });
 */
-Route::any('/pay', 'PayController@pay') ;
-Route::any('/payredirect', 'PayController@redirect') ;
-Route::any('/paycallback', 'PayController@callback') ;
+
+Route::any('/billingdata/{id}', 'BarionController@billingdata');
+Route::any('/pay', 'BarionController@pay')->name('pay')  ;
+Route::any('/barionredirect', 'BarionController@redirect') ;
+Route::any('/barioncallback', 'BarionController@callback') ;
 
 Auth::routes();
 Route::get('/', 'HomeController@index');
@@ -54,9 +56,13 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =
     Route::post('/prewupload','Admin\\DocController@prewupload')->name('prewupload');
    // Route::get('/convert','FileController@convert');
    // Route::get('/upload-image','FileController@index');
-    
+   Route::resource('/pays', 'PaysController');
+   Route::resource('/customers', 'CustomersController');
 });
 
 
 
 
+
+Route::resource('pays', 'PaysController');
+Route::resource('customers', 'CustomersController');

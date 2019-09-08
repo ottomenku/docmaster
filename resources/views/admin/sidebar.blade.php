@@ -17,7 +17,8 @@
     ['/admin/category','Kategóriák'],
     ['/admin/doc', 'Dokumentumok'],
     ['/admin/upload-image', ' upload'],
- 
+    ['/admin/pays', ' befizetések'],
+    ['/admin/customers', ' Vevő adatok'],
     ],
     
     ];

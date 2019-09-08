@@ -10,26 +10,28 @@ use Illuminate\Support\Facades\Input;
 use Image;
 
 class DocController extends Controller
-{
+{ 
+  use \App\Traits\StatPropertyHandler; //getProp('doc_path')
+    
     public static $configFile = 'appp'; // a config file neve ami felül írja az alap propertiket ha a getProp()-al kérjük le. ha felül akarjuk írni  a kulsnak meg kell egyeznie a property nevével
+  //config file értékének felülírása. pótlása--------------
     public static $doc_path = 'doc'; //a dokumentumok mentésének helye a resources mappán belül
     public static $docprev_path = 'docprev'; //prev fileok helye a public mappán belül, a public és a resource  a getPath() ban változtatható
     public  $base_prev_img = ['pdf.png','file.png','doc.png']; // ezeket nem törli a prev img közül
+//a controller által használt változók----------------
+public static $doc_path_final; //a dokumentumok mentésének helye a resources mappán belül
+public static $docPrev_path_final; //prev fileok helye a public mappán belül, a public és a resource  a getPath() ban változtatható
+public static $docPrevThumb_path_final ;
 
-    public function getProp($keyname)
-    {return config(self::$configFile . '.' . $keyname) ?? self::$$keyname;}
-    public static function getDocpath()
-    {
-        $docpath = config(self::$configFile . '.doc_path') ?? self::$doc_path;
-        return resource_path($docpath) . '/';
-    }
-    public static function getDocPrevpath($base='')
-    {
-        $docprev_path = config(self::$configFile . '.docprev_path') ?? self::$docprev_path;
-        if($base=='base'){return $docprev_path. '/';}
-        else{ return public_path($docprev_path) . '/';}
-       
-    }
+public function __construct()
+{
+    //self::$doc_path_final = resource_path(self::getProp('doc_path')).'/';  // a teljes elérési út problémás lehet a bladeben
+   // self::$docPrev_path_final = public_path(self::getProp('doc_path')).'/';
+self::$doc_path_final =url('resources/'.self::getProp('doc_path'));
+self::$docPrev_path_final =url(self::getProp('docprev_path')).'/'; 
+    self::$docPrevThumb_path_final = self::$docPrev_path_final.'thumb';
+}
+
     public function index(Request $request)
     {
         $keyword = $request->get('search');
@@ -68,7 +70,7 @@ class DocController extends Controller
      */
     public function store(Request $request)
     {
-        $path = self::getDocpath();
+        $path =self::$doc_path_final; 
         $this->validate($request, [
             'file' => 'required',
             'file.*' => 'mimes:doc,pdf,docx,txt,xls',
@@ -145,8 +147,8 @@ class DocController extends Controller
             $ext = $request->thumb->getClientOriginalExtension();
             $prevname = $doc->filename . '.' . $ext;
 
-           $prevpath=self::getDocPrevpath();
-           $thumbpath=self::getDocPrevpath(). 'thumb/';
+           $prevpath=self::$docPrev_path_final;
+           $thumbpath=self::$docPrevThumb_path_final;
           
            if (!in_array($doc->prev , $this->base_prev_img)) {
                   if (file_exists($prevpath. $doc->prev)) {File::delete($prevpath. $doc->prev);}
@@ -174,9 +176,9 @@ class DocController extends Controller
     public function destroy($id)
     {
         $doc = Doc::findOrFail($id);
-        $file =  self::getDocpath() . $doc->filename;
-        $prew = self::getDocPrevpath()  . $doc->prev;
-        $thumb =self::getDocPrevpath()  . 'thumb/' . $doc->prev;
+        $file = self::$doc_path_final. $doc->filename;
+        $prew = self::$docPrev_path_final. $doc->prev;
+        $thumb =self::$docPrevThumb_path_final. $doc->prev;
         Doc::destroy($id);
         File::delete($file);
         File::delete($prew);
@@ -189,8 +191,8 @@ class DocController extends Controller
         $type = $doc->type ?? 'file';
         $newPrev = $type . '.png';
 
-        $prew = self::getDocPrevpath()  . $doc->prew;
-        $thumb = self::getDocPrevpath()  . 'thumb/' . $doc->prew;
+        $prew = self::$docPrev_path_final. $doc->prew;
+        $thumb = self::$docPrevThumb_path_final. $doc->prew;
         $doc->updated(['prev' => $newPrev]);
         File::delete($prew);
         File::delete($thumb);

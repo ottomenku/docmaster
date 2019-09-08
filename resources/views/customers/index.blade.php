@@ -7,13 +7,13 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Doc</div>
+                    <div class="card-header">Customers</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/doc/create') }}" class="btn btn-success btn-sm" title="Add New Doc">
+                        <a href="{{ url('/customers/create') }}" class="btn btn-success btn-sm" title="Add New Customer">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
-                        {!! Form::open(['method' => 'GET', 'url' => '/admin/doc', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
+                        {!! Form::open(['method' => 'GET', 'url' => '/customers', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
                             <span class="input-group-append">
@@ -30,30 +30,26 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Category Id</th><th>Name</th><th>Imgpath</th><th>Actions</th>
+                                        <th>#</th><th>User Id</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        @php 
-                                   $src=url(App\Http\Controllers\Admin\DocController::$docPrevThumb_path_final).'/';
-                                       @endphp
-
-                                @foreach($doc as $item)
+                                @foreach($customers as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->category->name ?? '' }}</td><td>{{ $item->name }}</td><td><img src="{{ $src.$item->prev}}" width="50px" height="50px"></td>
+                                        <td>{{ $loop->iteration or $item->id }}</td>
+                                        <td>{{ $item->User_id }}</td>
                                         <td>
-                                            <a href="{{ url('/admin/doc/' . $item->id) }}" title="View Doc"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                            <a href="{{ url('/admin/doc/' . $item->id . '/edit') }}" title="Edit Doc"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                            <a href="{{ url('/customers/' . $item->id) }}" title="View Customer"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                            <a href="{{ url('/customers/' . $item->id . '/edit') }}" title="Edit Customer"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                                             {!! Form::open([
                                                 'method' => 'DELETE',
-                                                'url' => ['/admin/doc', $item->id],
+                                                'url' => ['/customers', $item->id],
                                                 'style' => 'display:inline'
                                             ]) !!}
                                                 {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>', array(
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger btn-sm',
-                                                        'title' => 'Delete Doc',
+                                                        'title' => 'Delete Customer',
                                                         'onclick'=>'return confirm("Confirm delete?")'
                                                 )) !!}
                                             {!! Form::close() !!}
@@ -62,7 +58,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $doc->appends(['search' => Request::get('search')])->render() !!} </div>
+                            <div class="pagination-wrapper"> {!! $customers->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>
