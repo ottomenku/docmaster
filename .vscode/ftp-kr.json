@@ -2,7 +2,7 @@
     "host": "ftp.mottoweb.hu",
     "username": "mottoweb2@mottoweb.hu",
     "password": "motto6814",
-    "remotePath": "/doc.mottoweb.hu",
+    "remotePath": "",
     "protocol": "ftp",
     "port": 21,
     "fileNameEncoding": "utf8",
@@ -10,9 +10,10 @@
     "autoDelete": false,
     "autoDownload": false,
     "ignore": [
-     ".git",
-     ".vscode",
-     "example",
-     ".env"
-    ]
+        ".git",
+        ".vscode",
+        "example",
+        ".env"
+    ],
+    "ignoreWrongFileEncoding": true
 }

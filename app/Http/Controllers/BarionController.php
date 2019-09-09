@@ -10,7 +10,7 @@ require_once '../library/BarionClient.php';
 
 class BarionController extends Controller
 {
-
+use \App\Traits\BarionHandler;
     public function billingdata($id)
     {
         $user = \Auth::user();
@@ -19,8 +19,6 @@ class BarionController extends Controller
             return view('cristal.needlogin');
         } else {
             $data['id'] = $id;
-            $data['hiba'] = '';
-
             return view('cristal.billingdata', compact('data'));
         }
     }
@@ -32,62 +30,25 @@ class BarionController extends Controller
      */
     public function pay(Request $request)
     {
-
+        $data=[];
         $validator = \Validator::make($request->all(), [
             //'email' => 'required|email|unique:users',
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:200',
             //  'password' => 'required'
         ]);
         if ($validator->fails()) {
 
             $data['id'] = $request->id;
-            $data['hiba'] = $validator->error_get_last ?? '';
+            //$data['hiba'] = $validator->error_get_last ?? '';
             return response()->json(['html' => view('cristal.billingdata', compact('data'))->withErrors($validator)->render()]);
         } else {
 
-            $rand = str_random(5);
-            $BC = \Barion::paymentStart([
-                'PaymentType' => 'IMMEDIATE',
-                'GuestCheckOut' => true,
-                'FundingSources' => ['ALL'],
-                'Locale' => 'hu-HU',
-                'Currency' => 'HUF',
-                'PayerHint' => "joseph-schmidt@example.com",
-                'ShippingAddress' => [
-                    'Country' => "AT",
-                    'City' => "Salzburg",
-                    'Zip' => "1234",
-                    'Street' => "13 Etwas Strasse",
-                    'Street2' => "",
-                    'FullName' => "Joseph Schmidt",
-                    'Phone' => "43259123456789",
-                ],
-                'RedirectUrl' => "https://doc.mottoweb.hu/barionredirect",
-                'CallbackUrl' => "https://doc.mottoweb.hu/barioncallback",
-                'Transactions' => [
-                    [
-                        'POSTransactionId' => 'ABC-' . $rand,
-                        'Payee' => 'menkuotto@gmail.com',
-                        'Total' => 400,
-                        'Items' => [
-                            [
-                                'Name' => 'Example item',
-                                'Description' => 'This is a sample description',
-                                'Quantity' => 1,
-                                'Unit' => 'db',
-                                'UnitPrice' => 400,
-                                'ItemTotal' => 400,
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-            $paymentid = $BC->PaymentId;
+           $data = saveBillingData($request);
+            $BC =  prepareBarion($data)
+;            $paymentid = $BC->PaymentId;
             $error = $BC->Errors;
             $gateway = $BC->GatewayUrl;
             if (empty($error)) {
-                // redirect the user to the Barion Smart Gateway
-                //header("Location: " . BARION_WEB_URL_TEST . "?id=" . $myPayment->PaymentId);
                 return redirect($gateway);
             } else {
                 return response()->json(['error' => $error]);
@@ -99,8 +60,7 @@ class BarionController extends Controller
 
     public function redirect(Request $request)
     {
-        //$this->validate($request, ['name' => 'required']);
-        //   $paymentid=$request->get("paymentId") ?? $_GET['paymentId'] ;
+        
         $paymentId = $request->get("paymentId");
 
         $data['admin_id'] = 21;

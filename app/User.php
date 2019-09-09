@@ -41,4 +41,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\RoleTime');
     }
+    public function pay()
+    {
+        return $this->hasMany('App\Pay');
+    }
+    public function bilingdata()
+    {
+        return $this->hasMany('App\Billingdata');
+    }
 }

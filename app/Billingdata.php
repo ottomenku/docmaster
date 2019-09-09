@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Billingdata extends Model
 {
     use LogsActivity;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class Customer extends Model
      *
      * @var string
      */
-    protected $table = 'customers';
+    protected $table = 'billingdata';
 
     /**
     * The database primary key value.
@@ -31,14 +31,17 @@ class Customer extends Model
      *
      * @var array
      */
-    protected $fillable = ['User_id'];
+    protected $fillable = ['user_id','fullname','cardname','city','zip','address','tel','adosz'];
 
     public function user()
     {
-        return $this->hasone('App\user');
+        return $this->belongsTo('App\User');
     }
     
-
+    public function pay()
+    {
+        return $this->hasMany('App\Pay');
+    }
     /**
      * Change activity log event description
      *

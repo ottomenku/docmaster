@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateCustomersTable extends Migration
+class CreateBillingdataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,17 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('billingdata', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->softDeletes();
-            $table->string('User_id')->nullable();
+            $table->integer('user_id');
+            $table->string('fullname');
+            $table->string('cardname');
+            $table->string('city');
+            $table->integer('zip');
+            $table->string('tel');
+            $table->string('adosz')->nullable();
             });
     }
 

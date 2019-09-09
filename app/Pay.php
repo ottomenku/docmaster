@@ -31,14 +31,17 @@ class Pay extends Model
      *
      * @var array
      */
-    protected $fillable = ['User_id'];
+    protected $fillable = ['user_id','admin_id','pay_id','billingdata_id','plan_id','nyugtaszam','total','note','status'];
 
+  
     public function user()
     {
-        return $this->hasone('App\user');
+        return $this->belongsTo('App\User');
     }
-    
-
+    public function billingdata()
+    {
+        return $this->belongsTo('App\Billingdata');
+    }
     /**
      * Change activity log event description
      *
