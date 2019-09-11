@@ -20,6 +20,7 @@ class CreateRoletimesTables extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->integer('admin_id')->nullable();
+            $table->integer('pay_id')->nullable();
           
     /*        $table->foreign('user_id')
                 ->references('id')

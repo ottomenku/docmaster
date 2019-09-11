@@ -18,12 +18,13 @@ class CreatePaysTable extends Migration
             $table->softDeletes();
             $table->integer('user_id');
             $table->integer('admin_id');
-            $table->integer('pay_id')->nullable(); //egyenlőre barion azonosító , lehet paypal_id, bitcoin táca stb
-            $table->integer('billingdata_id');
-            $table->integer('plan_id'); //csomag azonosító egyenlőre 1,2,vagy 3 controllerben definiálva
+            $table->integer('payment_id')->nullable(); //egyenlőre barion azonosító , lehet paypal_id, bitcoin táca stb
+            $table->integer('billingdata_id');  //számlázasi adatok
+            $table->integer('order_id'); //csomag azonosító egyenlőre 1,2,vagy 3 controllerben definiálva
+            $table->integer('type')->nullable();  //barion ,kp, paypal
             $table->integer('nyugtaszam')->nullable(); // ha állítottak ki számlát
             $table->integer('total');
-            $table->text('note')->nullable();
+            $table->text('note')->nullable();  // a barion beírja akomplett jsont
             $table->string('status')->nullable();
             
             });

@@ -31,7 +31,7 @@ class Pay extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','admin_id','pay_id','billingdata_id','plan_id','nyugtaszam','total','note','status'];
+    protected $fillable = ['user_id','admin_id','payment_id','billingdata_id','order_id','type','nyugtaszam','total','note','status'];
 
   
     public function user()

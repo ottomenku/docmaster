@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2019. Aug 29. 01:19
+-- Létrehozás ideje: 2019. Sze 11. 03:25
 -- Kiszolgáló verziója: 10.3.16-MariaDB
 -- PHP verzió: 7.3.6
 
@@ -156,6 +156,27 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_id`, `subj
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `billingdata`
+--
+
+CREATE TABLE `billingdata` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `fullname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cardname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zip` int(11) NOT NULL,
+  `address` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tel` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `adosz` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `categories`
 --
 
@@ -236,7 +257,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2019_05_30_045300_create_activity_log_table', 1),
 (7, '2019_05_30_110002_create_categories_table', 1),
 (8, '2019_05_31_141618_create_docs_table', 1),
-(12, '2016_01_01_193650_create_role_times_tables ', 2);
+(12, '2016_01_01_193650_create_roletimes_tables ', 2),
+(15, '2019_09_05_172552_create_pays_table', 3),
+(18, '2019_09_05_173358_create_billingdata_table', 4);
 
 -- --------------------------------------------------------
 
@@ -263,6 +286,28 @@ CREATE TABLE `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `pays`
+--
+
+CREATE TABLE `pays` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `payment_id` int(11) DEFAULT NULL,
+  `billingdata_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `nyugtaszam` int(11) DEFAULT NULL,
+  `total` int(11) NOT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -325,6 +370,7 @@ CREATE TABLE `roletimes` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `role_id` int(10) UNSIGNED NOT NULL,
   `admin_id` int(11) DEFAULT NULL,
+  `pay_id` int(11) DEFAULT NULL,
   `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
@@ -337,11 +383,11 @@ CREATE TABLE `roletimes` (
 -- A tábla adatainak kiíratása `roletimes`
 --
 
-INSERT INTO `roletimes` (`id`, `user_id`, `role_id`, `admin_id`, `note`, `start`, `end`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 3, NULL, 'warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r', '2019-08-28', '2019-09-27', '2019-08-28 01:23:16', '2019-08-28 01:39:52', '2019-08-28 01:39:52'),
-(2, 1, 3, NULL, 'warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r', '2019-08-28', '2019-09-27', '2019-08-28 01:40:07', '2019-08-28 01:40:07', NULL),
-(3, 3, 3, NULL, 'a:0:{}', '2019-09-14', '2019-10-14', '2019-08-28 20:57:26', '2019-08-28 20:57:26', NULL),
-(4, 3, 3, 21, 'a:0:{}', '2019-09-14', '2019-10-14', '2019-08-28 21:07:43', '2019-08-28 21:07:43', NULL);
+INSERT INTO `roletimes` (`id`, `user_id`, `role_id`, `admin_id`, `pay_id`, `note`, `start`, `end`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 3, NULL, 0, 'warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r', '2019-08-28', '2019-09-27', '2019-08-28 01:23:16', '2019-08-28 01:39:52', '2019-08-28 01:39:52'),
+(2, 1, 3, NULL, 0, 'warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r warfgergwergw  ewfbvwre t4z z46z 454werte3rg352tv t5t35t4 34rt 3 4r 4r 4r 3124r', '2019-08-28', '2019-09-27', '2019-08-28 01:40:07', '2019-08-28 01:40:07', NULL),
+(3, 3, 3, NULL, 0, 'a:0:{}', '2019-09-14', '2019-10-14', '2019-08-28 20:57:26', '2019-08-28 20:57:26', NULL),
+(4, 3, 3, 21, 0, 'a:0:{}', '2019-09-14', '2019-10-14', '2019-08-28 21:07:43', '2019-08-28 21:07:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -418,6 +464,12 @@ ALTER TABLE `activity_log`
   ADD KEY `activity_log_log_name_index` (`log_name`);
 
 --
+-- A tábla indexei `billingdata`
+--
+ALTER TABLE `billingdata`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `categories`
 --
 ALTER TABLE `categories`
@@ -446,6 +498,12 @@ ALTER TABLE `pages`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- A tábla indexei `pays`
+--
+ALTER TABLE `pays`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A tábla indexei `permissions`
@@ -504,6 +562,12 @@ ALTER TABLE `activity_log`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
+-- AUTO_INCREMENT a táblához `billingdata`
+--
+ALTER TABLE `billingdata`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT a táblához `categories`
 --
 ALTER TABLE `categories`
@@ -519,12 +583,18 @@ ALTER TABLE `docs`
 -- AUTO_INCREMENT a táblához `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `pages`
 --
 ALTER TABLE `pages`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT a táblához `pays`
+--
+ALTER TABLE `pays`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --

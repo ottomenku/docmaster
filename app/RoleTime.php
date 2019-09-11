@@ -15,7 +15,7 @@ class Roletime extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'role_id','admin_id','note','start', 'end'];
+    protected $fillable = ['user_id', 'role_id','admin_id','pay_id','note','start', 'end'];
 
     /**
      * A role may be given various permissions.
@@ -30,6 +30,16 @@ class Roletime extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+ public function pay()
+    {
+        return $this->belongsTo('App\Pay');
+    }
+    public function admin()
+    {
+        return $this->belongsTo('App\Pay');
+    }
+
 
     public static function hasRole($user_id,$role_id)
     {

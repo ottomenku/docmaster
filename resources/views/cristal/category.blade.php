@@ -28,7 +28,7 @@ $items=$data['list'] ?? [];
                                     {{Str::limit($item['note'] , 100)}}
                             </p>
 
-                        <a href="http://localhost:8000/download/{{$item['id']}}"" class="btn btn-common" style="color:white;"
+                        <a href="{{url('download/'.$item['id'])}}" class="btn btn-common" style="color:white;"
                         data-remote="false" data-toggle="modal" data-target="#myModal"><i class="lnr lnr-download"></i> Letöltés</a>
                         </div>
                     </div> 
@@ -39,25 +39,5 @@ $items=$data['list'] ?? [];
    
             </div>
     </section>
-    <!-- Default bootstrap modal example -->
-    <div class="modal fade bd-example-modal-lg " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
 
     @endsection

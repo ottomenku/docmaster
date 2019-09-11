@@ -69,7 +69,7 @@ class HomeController extends Controller
 
                 //return response()->download($fileNeve, $kivantNev, $headers); // második paraméterként megadhatunk neki egy nevet, amivel menti alapértelmezetten, valamint egyéb headeröket is felvehetünk
             } else {
-                return view('cristal.needrole');
+                return view('cristal.pricingModal');
             }
         }
 

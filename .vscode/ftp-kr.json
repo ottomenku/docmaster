@@ -13,6 +13,7 @@
         ".git",
         ".vscode",
         "example",
+        "vendor",
         ".env"
     ],
     "ignoreWrongFileEncoding": true

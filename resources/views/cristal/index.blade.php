@@ -1,6 +1,7 @@
 @extends('cristal.frame')
 
 @section('content')
+<!--view:index-->
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-10">
@@ -69,7 +70,7 @@
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
                             </p>
-                            <a href="single-post.html" class="btn btn-common btn-rm">Read More</a>
+                            <a href="single-post.html"  class="btn btn-common btn-rm">Read More</a>
                         </div>
                     </div>
                     <!-- Blog Item Wrapper Ends-->

@@ -15,8 +15,11 @@ Route::get('/', function () {
     return view('cristal/index');
 });
 */
+Route::any('/messagetest', 'BarionController@messagetest');
+Route::any('/errortest', 'BarionController@errortest');
 
-Route::any('/billingdata/{id}', 'BarionController@billingdata');
+Route::any('/billingdata/{orders_id}', 'BarionController@billingdata');
+Route::any('/billingdataJson/{orders_id}', 'BarionController@billingdataJson');
 Route::any('/pay', 'BarionController@pay')->name('pay')  ;
 Route::any('/barionredirect', 'BarionController@redirect') ;
 Route::any('/barioncallback', 'BarionController@callback') ;
@@ -27,7 +30,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/cat/{id}', 'HomeController@category')->name('cat');
 //Route::get('/download/{id}', 'HomeController@download');
-Route::get('/download/{id}', 'homeController@download');
+Route::get('/download/{id}', 'HomeController@download');
 
 // Check role in route middleware
 Route::group([ 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'superadmin'], function () {

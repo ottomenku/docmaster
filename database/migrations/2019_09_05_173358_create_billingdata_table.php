@@ -21,7 +21,8 @@ class CreateBillingdataTable extends Migration
             $table->string('cardname');
             $table->string('city');
             $table->integer('zip');
-            $table->string('tel');
+            $table->string('tel'); 
+            $table->string('address');
             $table->string('adosz')->nullable();
             });
     }

@@ -15,7 +15,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                    <a href="/billingdata/1" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Get Plan</a>
+                    <a href="/billingdata/1"  id="csomag1" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Get Plan</a>
                 </div>
             </div>
         </div>

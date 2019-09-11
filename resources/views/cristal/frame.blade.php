@@ -29,6 +29,18 @@
             var link = $(e.relatedTarget);
             $(this).find(".modal-body").load(link.attr("href"));
         });
+
+        @if (Session::has('flash_message') or $errors->any())
+        
+            $(window).on('load',function(){
+                $('#myModal').modal('show');
+            });
+       
+        
+        @endif
+
+
+
         });  
 function datasend() {
     $.ajax({
@@ -52,11 +64,33 @@ function datasend() {
   });
 
 };
+function datasend2(id) {
+  
+    $.ajax({
+    data: { "_token": "{{ csrf_token() }}","id": id },
+      url: "/billingdataJson/1",
+      type: "POST",
+      dataType: 'json',
+      success: function (data) { // session has script kezeli!
+      /*    $('#productForm').trigger("reset");
+          $('#ajaxModel').modal('hide');
+          table.draw();*/
+          $('#alertdiv').html(data.flash_message);
+          $('#modalbody').html(data.html);
+         // alert('succes');
+      },
+      error: function (data) {
+        alert(data.html);
+   
+      }
+  });
+
+};
      
 </script>    
 
 <!--
-@if (Session::has('flash_message'))
+@if (Session::has('flash_message') or $errors->any())
 <script type="text/javascript">
     $(window).on('load',function(){
         $('#myModal').modal('show');
@@ -169,13 +203,26 @@ function datasend() {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>              
+               
           </div>
           <div id="modalbody" class="modal-body">
-                <div id="alertdiv" class="alert alert-success">         
-                        {{ Session::get('flash_message') }}
-                    </div>
+                
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li> 
+                        @endforeach
+                    </ul>
+                </div>
+                 @endif
+               @if(Session::has('flash_message'))  
+               <!-- class="alert alert-success"  -->
+               <div id="alertdiv" class="alert {{ Session::get('alert-class', 'alert-info') }}">
+                   {{ Session::get('flash_message') }}
+                </div>   
+                @endif
           </div>
     
         </div>
