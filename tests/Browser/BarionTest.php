@@ -16,9 +16,11 @@ class BarionTest extends DuskTestCase
     public function testExample()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
+          //  $browser->visit('http://localhost:8000/')
+          $browser->visit('http://doc.mottoweb.hu/login')
                 //->assertPresent('#csomag1');
-                   ->assertSee('Csomagjaink');
+                  //  ->screenshot('home-page')
+                   ->assertSee('Login');
                    //->assertPresent('<!--view:index-->');
         });
     }

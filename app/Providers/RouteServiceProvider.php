@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+       // $this->mapTestRoutes();
 
         //
     }
@@ -70,4 +71,13 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+/*
+    protected function mapTestRoutes()
+    {
+        Route::domain('test.localhost:8000/')
+             ->middleware('test')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/test.php'));
+    }
+*/
 }

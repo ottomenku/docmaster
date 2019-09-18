@@ -15,7 +15,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                        <button onclick="datasend2(1);" class="btn btn-common">Buy Now</button>
+                        <button onclick="datasendModal({'url':'{{ route('billingdataformJson', 1) }}'}) ;" class="btn btn-common">Buy Now</button>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                        <button onclick="datasend2(2);" class="btn btn-common">Buy Now</button>
+                        <button onclick="datasendModal({'url':'{{ route('billingdataformJson', 2) }}'}) ;" class="btn btn-common">Buy Now</button>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                    <button onclick="datasend2(3);" class="btn btn-common">Buy Now</button>
+                    <button onclick="datasendModal({'url':'{{ route('billingdataformJson', 3) }}'}) ;" class="btn btn-common">Buy Now</button>
                 </div>
             </div>
         </div>

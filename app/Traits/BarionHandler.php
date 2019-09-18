@@ -6,25 +6,13 @@ use App\Billingdata;
 trait BarionHandler
 {
 
-  public  function saveBillingDataGetBillingId($request)
-   {
-        $user = \Auth::user() ?? 0;
-        $billing= Billingdata::where([
-            ['user_id', '=', $user->id],
-            ['fullname', '=', $request->fullname],
-            ['cardname', '=', $request->cardname],
-            ['city', '=',$request->city],
-            ['zip', '=', $request->zip],
-            ['address', '=', $request->address ],
-            ['tel', '=', $request->tel],
-            ['adosz', '=',  $request->adosz]
-        ])->first();
-  
-       $b_id=$billing->id ?? 0;
-       if($b_id<1){$billing=Billingdata::create($request);}
-       return $billing;
+    public  function saveBillingDataGetBilling($request)
+    {
+        
+         $billing = Billingdata::firstOrCreate($request->only(['user_id', 'fullname', 'cardname', 'city', 'zip', 'address', 'tel', 'adosz']));
+         return $billing;
+    }
 
-   }
    public  function prepareBarion($billingdata,$order_id)
    {
         $order=$this->ordersData[$order_id];
@@ -35,7 +23,7 @@ trait BarionHandler
                'FundingSources' => ['ALL'],
                'Locale' => 'hu-HU',
                'Currency' => 'HUF',
-               'PayerHint' => $this->barionResEmail,
+               'PayerHint' => $user->email,
                'ShippingAddress' => [
                    'Country' => "HU",
                    'City' =>$billingdata->city,
@@ -50,12 +38,12 @@ trait BarionHandler
                'Transactions' => [
                    [
                        'POSTransactionId' => $billingdata->id .'-'.rand(100,10000),
-                       'Payee' => $user->email,
+                       'Payee' => $this->barionResEmail,
                        'Total' => $order['total'],
                        'Items' => [
                            [
                                'Name' =>  $order['name'],
-                               'Description' => $order['description'],
+                               'Description' => $order['descripton'],
                                'Quantity' => 1,
                                'Unit' => 'db',
                                'UnitPrice' => $order['total'],

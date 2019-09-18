@@ -41,51 +41,40 @@
 
 
 
-        });  
-function datasend() {
+        }); 
+        
+    //   datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'})       
+function datasendModal(dataout) {
+    datasend={};
+    if(dataout.formid != null){
+        //datasend=$('#'+dataout.formid).serialize();
+        datasend= $('form#'+dataout.formid).serialize();
+       //  alert(datasend);
+    }  
+    else{
+        datasend=dataout.data;
+       // datasend._token= '{{ csrf_token() }}';
+    }
+
     $.ajax({
-      data: $('#billingdataform').serialize(),
-      url: "{{ route('pay') }}",
+      url:dataout.url,
+      headers: {'X-CSRF-TOKEN':'{{ csrf_token() }}'},
       type: "POST",
+      data:datasend,
       dataType: 'json',
       success: function (data) { // session has script kezeli!
-      /*    $('#productForm').trigger("reset");
-          $('#ajaxModel').modal('hide');
-          table.draw();*/
-          $('#alertdiv').html(data.flash_message);
+          if(data.modalstatus != null){ $('#myModal').modal(data.modalstatus);} //hide, show 
+          $('#alertdiv').html(data.flash_message || '');
           $('#modalbody').html(data.html);
-         // alert('succes');
+          if(data.gateway != null){document.location.href = data.gateway;}
       },
       error: function (data) {
-        alert('hiba');
-         // $('#saveBtn').html('Save Changes');
-       //  $('#modalbody').html('kkkkk');
+        alert('hiba'+data);
       }
   });
-
+//billingdataJson/1
 };
-function datasend2(id) {
-  
-    $.ajax({
-    data: { "_token": "{{ csrf_token() }}","id": id },
-      url: "/billingdataJson/1",
-      type: "POST",
-      dataType: 'json',
-      success: function (data) { // session has script kezeli!
-      /*    $('#productForm').trigger("reset");
-          $('#ajaxModel').modal('hide');
-          table.draw();*/
-          $('#alertdiv').html(data.flash_message);
-          $('#modalbody').html(data.html);
-         // alert('succes');
-      },
-      error: function (data) {
-        alert(data.html);
-   
-      }
-  });
 
-};
      
 </script>    
 
@@ -133,11 +122,11 @@ function datasend2(id) {
   
             <!-- Authentication Links -->
             @guest
-                <a class="logo" href="{{ url('/login') }}">Belépés </a>
-                <a class="logo" href="{{ url('/register') }}"> Regisztráció</a>
+                <a class="logo" dusk="login-link"  href="{{ url('/login') }}">Belépés </a>
+                <a class="logo" dusk="registration-link" href="{{ url('/register') }}"> Regisztráció</a>
             @else
             
-                        <a class="logo" href="{{ url('/logout') }}"
+                        <a class="logo" dusk="logout-link"  href="{{ url('/logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                             Kilépés
@@ -153,7 +142,7 @@ function datasend2(id) {
 
 
 
-                 <button  style="right:150px;" class="menu-button" id="open-button"><h2  style="font-size:x-large " >Dokumentumok</h2></button>
+                 <button  style="right:150px;" dusk="category-head" class="menu-button" id="open-button"><h2  style="font-size:x-large " >Dokumentumok</h2></button>
                 </div>
             </div>
         </div>

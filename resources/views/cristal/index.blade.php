@@ -2,7 +2,7 @@
 
 @section('content')
 <!--view:index-->
-        <div class="container">
+        <div dusk="index-contener" class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-10">
                     <div class="contents text-center">

@@ -6,7 +6,7 @@
 @php
 $items=$data['list'] ?? [];
 @endphp
-   <div class="container">
+   <div dusk="category-contener" class="container">
             <div class="section-header" style="background-color:white;">
                 <h2 class="section-title wow fadeIn" data-wow-duration="1000ms" data-wow-delay="0.3s"><span>{{$data['catname']}}</span></h2>
            </div>

@@ -16,28 +16,15 @@ class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
 
-    public $barionResEmail = 'motto001@gmail.com'; //ide küld a barion értesítést. BarioHandler->prepareBarion();
-    public $ordersData = [ //csomag dijak adatok
+    public $barionResEmail = 'menkuotto@gmail.com'; //a barion user emailje kell. BarioHandler->prepareBarion();
+    public $ordersData = [ //csomag dijak, adatok
         1 => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
         2 => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
         3 => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ];
 
-    public function messagetest()
-    {
-        return redirect('/')->with('flash_message', 'Teszt üzenet');
-    }
-    public function errortest(Request $request)
-    {
-        $data['categories']=Category::all();
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required|string|max:200',
-        ]);
-      return  view('cristal.index', compact('data'))->withErrors($validator);
-    }
 
-
-    public function billingdata($order_id)
+    public function billingdataform($order_id)
     {
         $user = \Auth::user();
         $userid = $user->id ?? 0;
@@ -48,12 +35,18 @@ class BarionController extends Controller
             return view('cristal.billingdata', compact('data'));
         }
     }
-    public function billingdataJson($order_id)
+    public function billingdataformJson($order_id)
     {
-       $data['order_id'] = $order_id;
-        return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
-        
+        $user = \Auth::user();
+        $userid = $user->id ?? 0;
+        if ($userid < 1) {
+            return response()->json(['html' => view('cristal.needlogina')->render()]);    
+        } else {
+            $data['order_id'] = $order_id;
+         return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
+        }        
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -63,18 +56,16 @@ class BarionController extends Controller
     {  
         $data = [];
         $user = \Auth::user();
-
-        $validator = \Validator::make($request->all(), [
+       $validator = \Validator::make($request->all(), [
             //'email' => 'required|email|unique:users',
             'fullname' => 'required|string|max:200',
-            'cardname' => 'required|string|max:200',
+           'cardname' => 'required|string|max:200',
         ]);
 
-        if ($validator->fails()) {return response()->json(['html' => view('cristal.billingdata', compact('data'))->withErrors($validator)->render()]);}
+         // $billingData = Billingdata::firstOrCreate($request->only(['user_id', 'fullname', 'cardname', 'city', 'zip', 'address', 'tel', 'adosz']));
+        $billingData= $this->saveBillingDataGetBilling($request);
 
-        $request->request->add(['user_id' => \Auth::user()->id]);
-        $billingData = Billingdata::firstOrCreate($request->all());
-        $BC = prepareBarion($billingData, $request->order_id);
+        $BC = $this->prepareBarion($billingData, $request->order_id);
         $paymentid = $BC->PaymentId;
         $error = $BC->Errors;
         $gateway = $BC->GatewayUrl;
@@ -92,13 +83,18 @@ class BarionController extends Controller
 
         if (empty($error)) {
                  // a barion ide menti a komplett json választ
-                $data['status'] ='prepared' ;
+            $data['status'] ='prepared' ;
             Pay::create($data);
-            return redirect($gateway);
+            return response()->json(['gateway'=>$gateway,'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
+           // return redirect($gateway);  //php átirányítás nem jó mert mert az ajax lekérdezésbe nem megy át. 
+          // header("Location: $gateway"); 
+          // exit;
         } else {
-            $data['status'] ='hiba_prepared:'. $error ;
+            $data['status'] ='hiba_prepared:';
+            $data['note']= $error ;
             Pay::create($data);
-           return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
+            return response()->json(['statusz'=>'hiba','html' => '<h4>Hiba:</h4> '.$error]);
+          // return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
         }
     }
 
@@ -148,7 +144,20 @@ class BarionController extends Controller
        
         
         
-        
+/*
+    public function messagetest()
+    {
+        return redirect('/')->with('flash_message', 'Teszt üzenet');
+    }
+    public function errortest(Request $request)
+    {
+        $data['categories']=Category::all();
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|string|max:200',
+        ]);
+      return  view('cristal.index', compact('data'))->withErrors($validator);
+    }
+*/        
 
         /*
     //  return redirect('admin/roletimes')->with('flash_message', 'paying succesfull');

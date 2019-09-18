@@ -15,7 +15,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                    <a href="/billingdata/1"  id="csomag1" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Get Plan</a>
+                    <a href="/billingdataform/1"  id="csomag1" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Get Plan</a>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                    <a href="/billingdata/2"  data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Buy Now</a>
+                    <a href="/billingdataform/2"  data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     </ul>
                 </div>
                 <div class="plan-button">
-                    <a href="/billingdata/3"  data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Buy Now</a>
+                    <a href="/billingdataform/3"  data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-common">Buy Now</a>
                 </div>
             </div>
         </div>

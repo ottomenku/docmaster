@@ -41,10 +41,10 @@
                         {!! Form::text('zip', null,   ['class' => 'form-control', 'required' => 'required'])  !!}
                      
                     </div> 
-                <div class="form-group{{ $errors->has('adress') ? 'has-error' : ''}}">
-                        {!! Form::label('adress', 'Utca, házszám', ['class' => 'control-label']) !!}
-                        {!! $errors->first('adress', '<p class="alert alert-danger">:message</p>') !!}
-                        {!! Form::text('adress', null,   ['class' => 'form-control', 'required' => 'required'])  !!}
+                <div class="form-group{{ $errors->has('address') ? 'has-error' : ''}}">
+                        {!! Form::label('address', 'Utca, házszám', ['class' => 'control-label']) !!}
+                        {!! $errors->first('address', '<p class="alert alert-danger">:message</p>') !!}
+                        {!! Form::text('address', null,   ['class' => 'form-control', 'required' => 'required'])  !!}
                       
                     </div>  
                     <div class="form-group{{ $errors->has('tel') ? 'has-error' : ''}}">
@@ -60,13 +60,12 @@
                         {!! Form::text('adosz', null,  ['class' => 'form-control']) !!}
                        
                     </div> 
-                    @@php
+                    @php
                       $orderid =  $data['order_id'] ?? '1';
-                    @endphp
-                    
-               <input type="hidden"  name="order_id" value"{{ $orderid }}">        
+                    @endphp     
+               <input type="hidden"  name="order_id" value="{{ $orderid }}">        
                     <div class="form-group">
-                            <input id="saveBtn" onclick="datasend();" class="btn btn-primary" type="button" value="Tovább a fizetéshez">
+                            <input id="saveBtn" onclick=" datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary" type="button" value="Tovább a fizetéshez">
                         </div>
     </form>
 </div>
