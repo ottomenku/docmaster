@@ -28,8 +28,8 @@ $items=$data['list'] ?? [];
                                     {{Str::limit($item['note'] , 100)}}
                             </p>
 
-                        <a href="{{url('download/'.$item['id'])}}" class="btn btn-common" style="color:white;"
-                        data-remote="false" data-toggle="modal" data-target="#myModal"><i class="lnr lnr-download"></i> Letöltés</a>
+                        <button onclick=" datasendModal({'url':'{{ url('download/'.$item['id']) }}','modalstatus':'show'}) ;" class="btn btn-common" style="color:white;" ><i class="lnr lnr-download"></i> -->
+                         Letöltés</button>
                         </div>
                     </div> 
                 </div>

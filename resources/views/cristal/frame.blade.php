@@ -49,13 +49,14 @@ function datasendModal(dataout) {
     if(dataout.formid != null){
         //datasend=$('#'+dataout.formid).serialize();
         datasend= $('form#'+dataout.formid).serialize();
-       //  alert(datasend);
+      
+        // alert(datasend);
     }  
-    else{
-        datasend=dataout.data;
-       // datasend._token= '{{ csrf_token() }}';
+    else{    
+        if(dataout.data != null){datasend=dataout.data ;}
     }
-
+//alert(datasend);
+    if(dataout.modalstatus != null){ $('#myModal').modal(dataout.modalstatus);}
     $.ajax({
       url:dataout.url,
       headers: {'X-CSRF-TOKEN':'{{ csrf_token() }}'},
@@ -67,9 +68,14 @@ function datasendModal(dataout) {
           $('#alertdiv').html(data.flash_message || '');
           $('#modalbody').html(data.html);
           if(data.gateway != null){document.location.href = data.gateway;}
+         if(data.filedownload != null){
+            window.location=data.filedownload;
+          //  $.fileDownload(data.filedownload);
+         // alert('file:'+data.filedownload);
+        }
       },
-      error: function (data) {
-        alert('hiba'+data);
+      error: function (jqXHR, exception) {
+      alert('hiba:'+jqXHR.status);
       }
   });
 //billingdataJson/1

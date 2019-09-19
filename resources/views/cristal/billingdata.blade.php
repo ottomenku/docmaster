@@ -15,7 +15,7 @@
         <div class="form-group{{ $errors->has('cardname') ? 'has-error' : ''}}">
                 {!! $errors->first('cardname', '<p class="alert alert-danger">:message</p>') !!}
                 {!! Form::label('cardname', 'Kártyán szereplő Név', ['class' => 'control-label']) !!}
-                {!! Form::text('cardname', null,  ['class' => 'form-control', 'required' => 'required'])    !!}
+                {!! Form::text('cardname', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
              
             </div>
             <h6> Számlázási adatok: </h6>

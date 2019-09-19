@@ -13,9 +13,9 @@ return [
     |
     */
    // 'doc_path' => resource_path('doc'),
-    'doc_path' => 'doc',
+    'doc_path' => 'doc',  //resource mappán belül
   //  'docprew_path'=>public_path('docprew'),
-    'docprew_path'=>'docprev',
+    'docprew_path'=>'docprev',  //public mappán belül
     //'public_docprew_thumb_path'=>public_path('docprew/thumb'),  // nem mukod
     'name' => env('APP_NAME', 'Laravel'),
 

@@ -15,12 +15,12 @@ require_once '../library/BarionClient.php';
 class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
-
+    
     public $barionResEmail = 'menkuotto@gmail.com'; //a barion user emailje kell. BarioHandler->prepareBarion();
     public $ordersData = [ //csomag dijak, adatok
-        1 => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
-        2 => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
-        3 => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
+        '1' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
+        '2' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
+        '3' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ];
 
 
@@ -31,7 +31,9 @@ class BarionController extends Controller
         if ($userid < 1) {
             return view('cristal.needlogin');
         } else {
+            $data=Billingdata::where('user_id',$userid)->latest()->first();
             $data['order_id'] = $order_id;
+           // print_r($data);
             return view('cristal.billingdata', compact('data'));
         }
     }
@@ -42,6 +44,8 @@ class BarionController extends Controller
         if ($userid < 1) {
             return response()->json(['html' => view('cristal.needlogina')->render()]);    
         } else {
+            $data=Billingdata::where('user_id',$userid)->latest()->first();
+           // print_r($data);
             $data['order_id'] = $order_id;
          return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
         }        
@@ -52,8 +56,12 @@ class BarionController extends Controller
      *
      * @return void
      */
-    public function pay(Request $request)
+   // public function pay(Request $request)
+     public function pay()
     {  
+        $request=new Request();
+        return response()->json(['statusz'=>'hiba','html' => json_encode( $request->all)]);
+        /*
         $data = [];
         $user = \Auth::user();
        $validator = \Validator::make($request->all(), [
@@ -66,10 +74,10 @@ class BarionController extends Controller
         $billingData= $this->saveBillingDataGetBilling($request);
 
         $BC = $this->prepareBarion($billingData, $request->order_id);
-        $paymentid = $BC->PaymentId;
+      $paymentid = $BC->PaymentId;
         $error = $BC->Errors;
         $gateway = $BC->GatewayUrl;
-
+       
         //paydata--------  
                 $data['user_id'] = $user->id ;
                 $data['admin_id'] = 1;  //1: root a gépi bevitelek pl barion ezt használják egyébként user_id
@@ -91,11 +99,12 @@ class BarionController extends Controller
           // exit;
         } else {
             $data['status'] ='hiba_prepared:';
-            $data['note']= $error ;
+            $data['note']= json_encode( $error) ;
             Pay::create($data);
-            return response()->json(['statusz'=>'hiba','html' => '<h4>Hiba:</h4> '.$error]);
+            return response()->json(['statusz'=>'hiba','html' => json_encode( $error)]);
           // return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
         }
+        */
     }
 
     public function redirect(Request $request)
@@ -122,25 +131,31 @@ class BarionController extends Controller
       
             $paymentState = \Barion::getPaymentState($paymentId);
             $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
-          //  $errors = $paymentState->Errors ?? 'nincs hiba';
+            $errors = $paymentState->Errors ?? 'nincs hiba';
  
-       
+   ///if($errors['title']=='Model Validation Error'){return response()->json(['status'=>$status,'html' => '<h4>Nem valós payment</h4> ']);}
        //paydata--------  
         $pay=Pay::where('payment_id',$paymentId )->first();
-        $pay->update(['statusz' => $status]);
+        $payid=$pay->id  ?? 0;
+        if($payid>0){
+        $pay->update(['status' => $status,'note'=>json_encode($paymentState)]);
        // $pay->update(['note' => $errors]);
-      
        //roletime data--------  
-        if($status=='Succeeded'){
-        $rData['user_id'] =  $pay->user_id;
-                $rData['admin_id'] = 1;
-                $rData['role_id'] = 3;
-                $rData['payment_id'] =  $paymentId ;
-                $rData['start'] = Carbon::now()->format('Y-m-d') ;
-                $rData['end'] = Carbon::now()->addDay(30)->format('Y-m-d') ;
-                //$data['note'] = ;
-                RoleTime::create($rData);
+            if($status=='Succeeded'){
+            $rData['user_id'] =  $pay->user_id;
+                    $rData['admin_id'] = 1;
+                    $rData['role_id'] = 3;
+                    $rData['payment_id'] =  $paymentId ;
+                    $rData['start'] = Carbon::now()->format('Y-m-d') ;
+                    $rData['end'] = Carbon::now()->addDay(30)->format('Y-m-d') ;
+                    //$data['note'] = ;
+                    RoleTime::create($rData);
+                     return response()->json(['status'=>'Succeeded','html' => '<h4>Csomagvásárlás sikerült:</h4> ']);      
+            }
+            else{return response()->json(['status'=>$status,'html' => '<h4>Sikertelen barion fizetés</h4> ']); }
+     
         }
+        else{return response()->json(['status'=>'hiba','html' => '<h4>Érvénytelen paymentId</h4> ']); }
        
         
         
