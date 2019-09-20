@@ -20,7 +20,7 @@ class CreatePaysTable extends Migration
             $table->integer('admin_id');
             $table->string('payment_id')->nullable(); //egyenlőre barion azonosító , lehet paypal_id, bitcoin táca stb
             $table->integer('billingdata_id');  //számlázasi adatok
-            $table->integer('order_id'); //csomag azonosító egyenlőre 1,2,vagy 3 controllerben definiálva
+            $table->string('order_id'); //csomag azonosító egyenlőre min,base,vagy max controllerben definiálva
             $table->integer('type')->nullable();  //barion ,kp, paypal
             $table->integer('nyugtaszam')->nullable(); // ha állítottak ki számlát
             $table->integer('total');

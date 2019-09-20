@@ -50,7 +50,7 @@ function datasendModal(dataout) {
         //datasend=$('#'+dataout.formid).serialize();
         datasend= $('form#'+dataout.formid).serialize();
       
-        // alert(datasend);
+    //    alert(datasend);
     }  
     else{    
         if(dataout.data != null){datasend=dataout.data ;}

@@ -9,8 +9,8 @@ use App\Category;
 use App\Billingdata;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-require_once '../library/BarionClient.php';
+//use Illuminate\Foundation\Http\FormRequest ;
+//require_once '../library/BarionClient.php';
 
 class BarionController extends Controller
 {
@@ -18,9 +18,9 @@ class BarionController extends Controller
     
     public $barionResEmail = 'menkuotto@gmail.com'; //a barion user emailje kell. BarioHandler->prepareBarion();
     public $ordersData = [ //csomag dijak, adatok
-        '1' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
-        '2' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
-        '3' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
+        'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
+        'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
+        'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ];
 
 
@@ -33,20 +33,21 @@ class BarionController extends Controller
         } else {
             $data=Billingdata::where('user_id',$userid)->latest()->first();
             $data['order_id'] = $order_id;
-           // print_r($data);
+            $data['user_id'] = $userid;
             return view('cristal.billingdata', compact('data'));
         }
     }
     public function billingdataformJson($order_id)
     {
         $user = \Auth::user();
-        $userid = $user->id ?? 0;
+         $userid = $user->id ?? 0;
         if ($userid < 1) {
             return response()->json(['html' => view('cristal.needlogina')->render()]);    
         } else {
             $data=Billingdata::where('user_id',$userid)->latest()->first();
            // print_r($data);
             $data['order_id'] = $order_id;
+            $data['user_id'] = $userid;
          return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
         }        
     }
@@ -56,14 +57,17 @@ class BarionController extends Controller
      *
      * @return void
      */
-   // public function pay(Request $request)
-     public function pay()
+ public function store(Request $request)
     {  
-        $request=new Request();
-        return response()->json(['statusz'=>'hiba','html' => json_encode( $request->all)]);
-        /*
+       // $request2=new Request();
+     //  $fullname=$_POST['fullname'].'mmmmmmmmmm' ;
+    // $fullname=$request->fullname.'mmm------------mm'.$request->zip.'gfghfhg' ;
+   // return response()->json(['statusz'=>$fullname,'html' => serialize($request->all())]);
+    
         $data = [];
         $user = \Auth::user();
+        $order_id=$request->input('order_id') ?? 'max';;
+
        $validator = \Validator::make($request->all(), [
             //'email' => 'required|email|unique:users',
             'fullname' => 'required|string|max:200',
@@ -73,20 +77,20 @@ class BarionController extends Controller
          // $billingData = Billingdata::firstOrCreate($request->only(['user_id', 'fullname', 'cardname', 'city', 'zip', 'address', 'tel', 'adosz']));
         $billingData= $this->saveBillingDataGetBilling($request);
 
-        $BC = $this->prepareBarion($billingData, $request->order_id);
+        $BC = $this->prepareBarion($billingData,$order_id );
       $paymentid = $BC->PaymentId;
         $error = $BC->Errors;
         $gateway = $BC->GatewayUrl;
        
-        //paydata--------  
+        //paydata--------  order_id
                 $data['user_id'] = $user->id ;
                 $data['admin_id'] = 1;  //1: root a gépi bevitelek pl barion ezt használják egyébként user_id
                 $data['payment_id'] = $paymentid  ;
                 $data['billingdata_id'] =$billingData->id ;
-                $data['order_id'] =$request->order_id ;  // csomag azonosító 1-3
+                $data['order_id'] =$order_id ;  // csomag azonosító 1-3
                // $data['nyugtaszam'] = ;  // ha számlát állítottak ki
                 $data['type'] = 'barion' ; 
-                $data['total'] =$this->ordersData[$request->order_id]['total'];
+                $data['total'] =$this->ordersData[$order_id]['total'];
                 $data['note'] = '' ; 
 
         if (empty($error)) {
@@ -104,7 +108,7 @@ class BarionController extends Controller
             return response()->json(['statusz'=>'hiba','html' => json_encode( $error)]);
           // return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
         }
-        */
+       
     }
 
     public function redirect(Request $request)

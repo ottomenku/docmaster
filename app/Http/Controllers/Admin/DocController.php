@@ -62,7 +62,7 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource  in storage.
      *
      * @param \Illuminate\Http\Request $request
      *

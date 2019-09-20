@@ -23,7 +23,7 @@ Route::any('/billingdataform/{orders_id}', 'BarionController@billingdataform')->
 //fizetési adatok form megjelenítése Json válasz
 Route::any('/billingdataformJson/{orders_id}', 'BarionController@billingdataformJson')->name('billingdataformJson');
 
-Route::any('/pay', 'BarionController@pay')->name('pay')  ;
+Route::post('/pay', 'BarionController@store')->name('pay')  ;
 Route::any('/barionredirect', 'BarionController@redirect') ;
 Route::any('/barioncallback', 'BarionController@callback') ;
 

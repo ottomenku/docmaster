@@ -15,6 +15,7 @@ trait BarionHandler
 
    public  function prepareBarion($billingdata,$order_id)
    {
+  
         $order=$this->ordersData[$order_id];
         $user = \Auth::user() ;
        return \Barion::paymentStart([

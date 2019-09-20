@@ -61,11 +61,13 @@
                        
                     </div> 
                     @php
-                      $orderid =  $data['order_id'] ?? '1';
+                      $orderid =  $data['order_id'] ?? 'min';
+                      $userid= $data['user_id'];
                     @endphp     
+             <input type="hidden"  name="user_id" value="{{ $userid }}">      
                <input type="hidden"  name="order_id" value="{{ $orderid }}">        
                     <div class="form-group">
-                            <input id="saveBtn" onclick=" datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary" type="button" value="Tovább a fizetéshez">
+                            <button id="saveBtn" onclick=" datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary">Tovább a fizetéshez</button>
                         </div>
     </form>
 </div>

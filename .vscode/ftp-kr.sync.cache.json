@@ -1,507 +1,123 @@
 {
-  "ftp://cpanel17.tarhelypark.hu:21@mottoweb": {
-    ".bash_logout": {
+  "ftp://ftp.mottoweb.hu:21@mottoweb2@mottoweb.hu": {
+    ".editorconfig": {
       "type": "-",
-      "size": 18,
+      "size": 213,
       "lmtime": 0,
       "modified": false
     },
-    ".bash_profile": {
+    ".env": {
       "type": "-",
-      "size": 193,
+      "size": 886,
       "lmtime": 0,
       "modified": false
     },
-    ".bashrc": {
+    ".env.example": {
       "type": "-",
-      "size": 231,
+      "size": 739,
       "lmtime": 0,
       "modified": false
     },
-    ".cagefs": {},
-    ".cl.selector": {},
-    ".contactemail": {
+    ".ftpquota": {
       "type": "-",
-      "size": 19,
+      "size": 16,
       "lmtime": 0,
       "modified": false
     },
-    ".cpanel": {},
-    ".cphorde": {},
-    ".gemrc": {
+    ".gitattributes": {
       "type": "-",
-      "size": 139,
+      "size": 111,
       "lmtime": 0,
       "modified": false
     },
-    ".htpasswds": {},
-    ".lastlogin": {
+    ".gitignore": {
       "type": "-",
-      "size": 168,
+      "size": 151,
       "lmtime": 0,
       "modified": false
     },
-    ".pki": {},
-    ".softaculous": {},
-    ".spamassassin": {},
-    ".spamassassinboxenable": {
+    ".styleci.yml": {
       "type": "-",
-      "size": 0,
+      "size": 174,
       "lmtime": 0,
       "modified": false
     },
-    ".spamassassinenable": {
+    "app": {},
+    "artisan": {
       "type": "-",
-      "size": 0,
+      "size": 1686,
       "lmtime": 0,
       "modified": false
     },
-    ".trash": {},
-    "access-logs": {
-      "type": "l",
-      "size": 34,
+    "barion-web-php-master": {},
+    "bootstrap": {},
+    "composer.json": {
+      "type": "-",
+      "size": 1746,
       "lmtime": 0,
       "modified": false
     },
-    "doc.mottoweb.hu": {
-      ".editorconfig": {
-        "type": "-",
-        "size": 213,
-        "lmtime": 0,
-        "modified": false
-      },
-      ".env": {
-        "type": "-",
-        "size": 886,
-        "lmtime": 0,
-        "modified": true
-      },
-      ".env.example": {
-        "type": "-",
-        "size": 739,
-        "lmtime": 0,
-        "modified": false
-      },
-      ".gitattributes": {
-        "type": "-",
-        "size": 111,
-        "lmtime": 0,
-        "modified": false
-      },
-      ".gitignore": {
-        "type": "-",
-        "size": 151,
-        "lmtime": 0,
-        "modified": false
-      },
-      ".styleci.yml": {
-        "type": "-",
-        "size": 174,
-        "lmtime": 0,
-        "modified": false
-      },
-      ".well-known": {},
-      "app": {
-        "Http": {
-          "Controllers": {
-            "PayController.php": {
-              "type": "-",
-              "size": 4536,
-              "lmtime": 1567110648784,
-              "modified": false
-            }
-          }
-        }
-      },
-      "artisan": {
-        "type": "-",
-        "size": 1686,
-        "lmtime": 0,
-        "modified": false
-      },
-      "barion-web-php-master": {},
-      "bootstrap": {},
-      "composer.json": {
-        "type": "-",
-        "size": 1714,
-        "lmtime": 0,
-        "modified": false
-      },
-      "composer.lock": {
-        "type": "-",
-        "size": 189729,
-        "lmtime": 0,
-        "modified": false
-      },
-      "config": {},
-      "database": {},
-      "docmaster.sql": {
-        "type": "-",
-        "size": 29665,
-        "lmtime": 0,
-        "modified": false
-      },
-      "docmaster.zip": {
-        "type": "-",
-        "size": 28241829,
-        "lmtime": 0,
-        "modified": false
-      },
-      "library": {
-        "BarionClient.php": {
-          "type": "-",
-          "size": 11875,
-          "lmtime": 1565857082000,
-          "modified": false
-        },
-        "common": {
-          "Constants.php": {
-            "type": "-",
-            "size": 1430,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "Enumerations.php": {
-            "type": "-",
-            "size": 5355,
-            "lmtime": 1565857082000,
-            "modified": false
-          }
-        },
-        "helpers": {
-          "BarionHelper.php": {
-            "type": "-",
-            "size": 1045,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "iBarionModel.php": {
-            "type": "-",
-            "size": 726,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "loader.php": {
-            "type": "-",
-            "size": 1424,
-            "lmtime": 1565857082000,
-            "modified": false
-          }
-        },
-        "models": {
-          "3dsecure": {
-            "BillingAddressModel.php": {
-              "type": "-",
-              "size": 1509,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "GiftCardPurchaseModel.php": {
-              "type": "-",
-              "size": 1019,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PayerAccountInformationModel.php": {
-              "type": "-",
-              "size": 3409,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PurchaseInformationModel.php": {
-              "type": "-",
-              "size": 2263,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "ShippingAddressModel.php": {
-              "type": "-",
-              "size": 1617,
-              "lmtime": 1565857082000,
-              "modified": false
-            }
-          },
-          "ApiErrorModel.php": {
-            "type": "-",
-            "size": 1139,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "BaseRequestModel.php": {
-            "type": "-",
-            "size": 909,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "BaseResponseModel.php": {
-            "type": "-",
-            "size": 1980,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "common": {
-            "BankCardModel.php": {
-              "type": "-",
-              "size": 1310,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "FundingInformationModel.php": {
-              "type": "-",
-              "size": 1155,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "ItemModel.php": {
-              "type": "-",
-              "size": 1528,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "UserModel.php": {
-              "type": "-",
-              "size": 1026,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "UserNameModel.php": {
-              "type": "-",
-              "size": 1262,
-              "lmtime": 1565857082000,
-              "modified": false
-            }
-          },
-          "payment": {
-            "CancelAuthorizationRequestModel.php": {
-              "type": "-",
-              "size": 821,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "CancelAuthorizationResponseModel.php": {
-              "type": "-",
-              "size": 1825,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "CaptureRequestModel.php": {
-              "type": "-",
-              "size": 1441,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "CaptureResponseModel.php": {
-              "type": "-",
-              "size": 1813,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "FinishReservationRequestModel.php": {
-              "type": "-",
-              "size": 1449,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "FinishReservationResponseModel.php": {
-              "type": "-",
-              "size": 1823,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PayeeTransactionModel.php": {
-              "type": "-",
-              "size": 923,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PayeeTransactionToFinishModel.php": {
-              "type": "-",
-              "size": 880,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PaymentQRRequestModel.php": {
-              "type": "-",
-              "size": 915,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PaymentStateRequestModel.php": {
-              "type": "-",
-              "size": 814,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PaymentStateResponseModel.php": {
-              "type": "-",
-              "size": 4311,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PaymentTransactionModel.php": {
-              "type": "-",
-              "size": 2063,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PreparePaymentRequestModel.php": {
-              "type": "-",
-              "size": 2826,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "PreparePaymentResponseModel.php": {
-              "type": "-",
-              "size": 1999,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "TransactionDetailModel.php": {
-              "type": "-",
-              "size": 2682,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "TransactionResponseModel.php": {
-              "type": "-",
-              "size": 1410,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "TransactionToCaptureModel.php": {
-              "type": "-",
-              "size": 2033,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "TransactionToFinishModel.php": {
-              "type": "-",
-              "size": 2032,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "TransactionToRefundModel.php": {
-              "type": "-",
-              "size": 1095,
-              "lmtime": 1565857082000,
-              "modified": false
-            }
-          },
-          "refund": {
-            "RefundedTransactionModel.php": {
-              "type": "-",
-              "size": 1363,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "RefundRequestModel.php": {
-              "type": "-",
-              "size": 1431,
-              "lmtime": 1565857082000,
-              "modified": false
-            },
-            "RefundResponseModel.php": {
-              "type": "-",
-              "size": 1495,
-              "lmtime": 1565857082000,
-              "modified": false
-            }
-          }
-        },
-        "ssl": {
-          "cacert.pem": {
-            "type": "-",
-            "size": 256338,
-            "lmtime": 1565857082000,
-            "modified": false
-          },
-          "gd_bundle-g2.crt": {
-            "type": "-",
-            "size": 3095,
-            "lmtime": 1565857082000,
-            "modified": false
-          }
-        }
-      },
-      "notes": {
-        "type": "-",
-        "size": 1407,
-        "lmtime": 0,
-        "modified": false
-      },
-      "package.json": {
-        "type": "-",
-        "size": 1125,
-        "lmtime": 0,
-        "modified": false
-      },
-      "phpunit.xml": {
-        "type": "-",
-        "size": 1155,
-        "lmtime": 0,
-        "modified": false
-      },
-      "public": {},
-      "readme.md": {
-        "type": "-",
-        "size": 4151,
-        "lmtime": 0,
-        "modified": false
-      },
-      "resources": {},
-      "routes": {
-        "api.php": {
-          "type": "-",
-          "size": 528,
-          "lmtime": 0,
-          "modified": false
-        },
-        "channels.php": {
-          "type": "-",
-          "size": 508,
-          "lmtime": 0,
-          "modified": false
-        },
-        "console.php": {
-          "type": "-",
-          "size": 553,
-          "lmtime": 0,
-          "modified": false
-        },
-        "web.php": {
-          "type": "-",
-          "size": 2522,
-          "lmtime": 1567110868908,
-          "modified": false
-        }
-      },
-      "server.php": {
-        "type": "-",
-        "size": 563,
-        "lmtime": 0,
-        "modified": false
-      },
-      "storage": {},
-      "tests": {},
-      "vendor": {},
-      "webpack.mix.js": {
-        "type": "-",
-        "size": 538,
-        "lmtime": 0,
-        "modified": false
-      }
+    "composer.lock": {
+      "type": "-",
+      "size": 194247,
+      "lmtime": 0,
+      "modified": false
     },
-    "etc": {},
-    "hh.mottoweb.hu": {},
-    "logs": {},
-    "mail": {},
-    "public_ftp": {},
-    "public_html": {},
-    "ssl": {},
-    "tmp": {},
-    "www": {
-      "type": "l",
-      "size": 11,
+    "config": {},
+    "database": {},
+    "docmaster.sql": {
+      "type": "-",
+      "size": 31777,
+      "lmtime": 0,
+      "modified": false
+    },
+    "docmaster.zip": {
+      "type": "-",
+      "size": 45989496,
+      "lmtime": 0,
+      "modified": false
+    },
+    "example": {},
+    "library": {},
+    "notes": {
+      "type": "-",
+      "size": 1407,
+      "lmtime": 0,
+      "modified": false
+    },
+    "package.json": {
+      "type": "-",
+      "size": 1125,
+      "lmtime": 0,
+      "modified": false
+    },
+    "phpunit.xml": {
+      "type": "-",
+      "size": 1155,
+      "lmtime": 0,
+      "modified": false
+    },
+    "public": {},
+    "readme.md": {
+      "type": "-",
+      "size": 4151,
+      "lmtime": 0,
+      "modified": false
+    },
+    "resources": {},
+    "routes": {},
+    "server.php": {
+      "type": "-",
+      "size": 563,
+      "lmtime": 0,
+      "modified": false
+    },
+    "storage": {},
+    "tests": {},
+    "vendor": {},
+    "webpack.mix.js": {
+      "type": "-",
+      "size": 538,
       "lmtime": 0,
       "modified": false
     }
