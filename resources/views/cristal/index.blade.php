@@ -34,7 +34,7 @@
                 <p class="section-subtitle wow fadeIn" data-wow-duration="1000ms" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy <br> nibh euismod tincidunt ut laoreet dolore magna.</p>
             </div>
 
-            @include('cristal.pricing')    
+            @include('cristal.pricingModal')    
 
         </div>
     </div>

@@ -18,6 +18,8 @@ return [
     'docprew_path'=>'docprev',  //public mappán belül
     //'public_docprew_thumb_path'=>public_path('docprew/thumb'),  // nem mukod
     'name' => env('APP_NAME', 'Laravel'),
+   // 'barioncallback' => 'https://doc.mottoweb.hu/barioncallback', 
+  //  'barionredirect' => 'https://doc.mottoweb.hu/barionredirect', 
 
     /*
     |--------------------------------------------------------------------------

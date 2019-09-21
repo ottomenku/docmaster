@@ -24,8 +24,8 @@ Route::any('/billingdataform/{orders_id}', 'BarionController@billingdataform')->
 Route::any('/billingdataformJson/{orders_id}', 'BarionController@billingdataformJson')->name('billingdataformJson');
 
 Route::post('/pay', 'BarionController@store')->name('pay')  ;
-Route::any('/barionredirect', 'BarionController@redirect') ;
-Route::any('/barioncallback', 'BarionController@callback') ;
+Route::any('/barionredirect', 'BarionController@barionredirect') ;
+Route::any('/barioncallback', 'BarionController@barioncallback') ;
 
 Auth::routes();
 Route::get('/', 'HomeController@index');

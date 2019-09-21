@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\RoleTime;
-use App\Pay;
-use App\Category;
 use App\Billingdata;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use App\Pay;
+use App\Roletime;
 use Illuminate\Http\Request;
+
 //use Illuminate\Foundation\Http\FormRequest ;
 //require_once '../library/BarionClient.php';
 
 class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
-    
+
     public $barionResEmail = 'menkuotto@gmail.com'; //a barion user emailje kell. BarioHandler->prepareBarion();
     public $ordersData = [ //csomag dijak, adatok
         'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
         'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
         'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ];
-
-
+/*
     public function billingdataform($order_id)
     {
         $user = \Auth::user();
@@ -31,25 +29,26 @@ class BarionController extends Controller
         if ($userid < 1) {
             return view('cristal.needlogin');
         } else {
-            $data=Billingdata::where('user_id',$userid)->latest()->first();
+            $data = Billingdata::where('user_id', $userid)->latest()->first();
             $data['order_id'] = $order_id;
             $data['user_id'] = $userid;
             return view('cristal.billingdata', compact('data'));
         }
     }
+ */   
     public function billingdataformJson($order_id)
     {
         $user = \Auth::user();
-         $userid = $user->id ?? 0;
+        $userid = $user->id ?? 0;
         if ($userid < 1) {
-            return response()->json(['html' => view('cristal.needlogina')->render()]);    
+            return response()->json(['html' => view('cristal.needlogin')->render()]);
         } else {
-            $data=Billingdata::where('user_id',$userid)->latest()->first();
-           // print_r($data);
+            $data = Billingdata::where('user_id', $userid)->latest()->first();
+            // print_r($data);
             $data['order_id'] = $order_id;
             $data['user_id'] = $userid;
-         return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
-        }        
+            return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
+        }
     }
 
     /**
@@ -57,126 +56,115 @@ class BarionController extends Controller
      *
      * @return void
      */
- public function store(Request $request)
-    {  
-       // $request2=new Request();
-     //  $fullname=$_POST['fullname'].'mmmmmmmmmm' ;
-    // $fullname=$request->fullname.'mmm------------mm'.$request->zip.'gfghfhg' ;
-   // return response()->json(['statusz'=>$fullname,'html' => serialize($request->all())]);
-    
+    public function store(Request $request)
+    {
+        // $request2=new Request();
+        //  $fullname=$_POST['fullname'].'mmmmmmmmmm' ;
+        // $fullname=$request->fullname.'mmm------------mm'.$request->zip.'gfghfhg' ;
+        // return response()->json(['statusz'=>$fullname,'html' => serialize($request->all())]);
+
         $data = [];
         $user = \Auth::user();
-        $order_id=$request->input('order_id') ?? 'max';;
+        $order_id = $request->input('order_id') ?? 'max';
 
-       $validator = \Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
             //'email' => 'required|email|unique:users',
             'fullname' => 'required|string|max:200',
-           'cardname' => 'required|string|max:200',
+            'cardname' => 'required|string|max:200',
         ]);
 
-         // $billingData = Billingdata::firstOrCreate($request->only(['user_id', 'fullname', 'cardname', 'city', 'zip', 'address', 'tel', 'adosz']));
-        $billingData= $this->saveBillingDataGetBilling($request);
+        // $billingData = Billingdata::firstOrCreate($request->only(['user_id', 'fullname', 'cardname', 'city', 'zip', 'address', 'tel', 'adosz']));
+        $billingData = $this->saveBillingDataGetBilling($request);
 
-        $BC = $this->prepareBarion($billingData,$order_id );
-      $paymentid = $BC->PaymentId;
+        $BC = $this->prepareBarion($billingData, $order_id);
+        $paymentid = $BC->PaymentId;
         $error = $BC->Errors;
         $gateway = $BC->GatewayUrl;
-       
+
         //paydata--------  order_id
-                $data['user_id'] = $user->id ;
-                $data['admin_id'] = 1;  //1: root a gépi bevitelek pl barion ezt használják egyébként user_id
-                $data['payment_id'] = $paymentid  ;
-                $data['billingdata_id'] =$billingData->id ;
-                $data['order_id'] =$order_id ;  // csomag azonosító 1-3
-               // $data['nyugtaszam'] = ;  // ha számlát állítottak ki
-                $data['type'] = 'barion' ; 
-                $data['total'] =$this->ordersData[$order_id]['total'];
-                $data['note'] = '' ; 
+        $data['user_id'] = $user->id;
+        $data['admin_id'] = 1; //1: root a gépi bevitelek pl barion ezt használják egyébként user_id
+        $data['payment_id'] = $paymentid;
+        $data['billingdata_id'] = $billingData->id;
+        $data['order_id'] = $order_id; // csomag azonosító 1-3
+        // $data['nyugtaszam'] = ;  // ha számlát állítottak ki
+        $data['type'] = 'barion';
+        $data['total'] = $this->ordersData[$order_id]['total'];
+        $data['note'] = '';
 
         if (empty($error)) {
-                 // a barion ide menti a komplett json választ
-            $data['status'] ='prepared' ;
+            // a barion ide menti a komplett json választ
+            $data['status'] = 'prepared';
             Pay::create($data);
-            return response()->json(['gateway'=>$gateway,'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
-           // return redirect($gateway);  //php átirányítás nem jó mert mert az ajax lekérdezésbe nem megy át. 
-          // header("Location: $gateway"); 
-          // exit;
+            return response()->json(['gateway' => $gateway, 'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
+            // return redirect($gateway);  //php átirányítás nem jó mert mert az ajax lekérdezésbe nem megy át.
+            // header("Location: $gateway");
+            // exit;
         } else {
-            $data['status'] ='hiba_prepared:';
-            $data['note']= json_encode( $error) ;
+            $data['status'] = 'hiba_prepared:';
+            $data['note'] = json_encode($error);
             Pay::create($data);
-            return response()->json(['statusz'=>'hiba','html' => json_encode( $error)]);
-          // return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
+            return response()->json(['statusz' => 'hiba', 'html' => json_encode($error)]);
+            // return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$error);
         }
-       
+
     }
 
-    public function redirect(Request $request)
+    public function barionredirect(Request $request)
     {
 
         $paymentId = $request->get("paymentId");
+        $pay = Pay::findOrFail($paymentId);
+        $paymentState = \Barion::getPaymentState($paymentId);
+        $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
+       // $errors = $paymentState->Errors;
+        if ($status == 'Succeeded') {
+            $pay->update(['status' => $status]);
+            $this->setRoletime($pay);
+            return redirect('/home')->with('flash_message', 'Barion fizetés sikeres volt. Letöltési jog beállítva');
+        } else {
+
+            return redirect('/home')->with('flash_message', 'Hiba történ a Barion fizetés közben');
+        }
+
+    }
+
+    public function barioncallback(Request $request)
+    {
+        $paymentId = $request->get("paymentId");
+        $res= ['status' => 'hiba', 'html' => '<h4>Érvénytelen paymentId</h4> '];
+
        $paymentState = \Barion::getPaymentState($paymentId);
-       $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
-        $errors = $paymentState->Errors;
-        if (empty($errors)) {
-      return redirect('/')->with('flash_message', 'Barion fizetés sikeres volt. Letöltési jog beállítva');
-   } else {
-      
-      return redirect('/')->with('flash_message', 'Hiba történ a Barion fizetés közben. A barion server válasza:'.$errors);
-   }
+        $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
+       // $errors = $paymentState->Errors ?? 'nincs hiba';
+
+       $pay = Pay::where('payment_id',$paymentId)->first();
+      $pay->update(['status' => $status]); //$pay->update(['status' => $status, 'note' => json_encode($paymentState)]);  
+
+            if ($status == 'Succeeded') {
+               $this->setRoletime($pay);
+
+                $res=['status' => 'Succeeded', 'html' => '<h4>Barion tranzakció sikeres:</h4> '.$pay->id];
+            } 
+            else {$res=['status' => $status, 'html' => '<h4>Sikertelen barion fizetés</h4> '];}
 
 
+      return response()->json($res);
     }
-
-    public function callback(Request $request)
-    {
-        //   $paymentid=$request->get("paymentId") ?? $_GET['paymentId'] ;
-        $paymentId = $request->get("paymentId");
-      
-            $paymentState = \Barion::getPaymentState($paymentId);
-            $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
-            $errors = $paymentState->Errors ?? 'nincs hiba';
- 
-   ///if($errors['title']=='Model Validation Error'){return response()->json(['status'=>$status,'html' => '<h4>Nem valós payment</h4> ']);}
-       //paydata--------  
-        $pay=Pay::where('payment_id',$paymentId )->first();
-        $payid=$pay->id  ?? 0;
-        if($payid>0){
-        $pay->update(['status' => $status,'note'=>json_encode($paymentState)]);
-       // $pay->update(['note' => $errors]);
-       //roletime data--------  
-            if($status=='Succeeded'){
-            $rData['user_id'] =  $pay->user_id;
-                    $rData['admin_id'] = 1;
-                    $rData['role_id'] = 3;
-                    $rData['payment_id'] =  $paymentId ;
-                    $rData['start'] = Carbon::now()->format('Y-m-d') ;
-                    $rData['end'] = Carbon::now()->addDay(30)->format('Y-m-d') ;
-                    //$data['note'] = ;
-                    RoleTime::create($rData);
-                     return response()->json(['status'=>'Succeeded','html' => '<h4>Csomagvásárlás sikerült:</h4> ']);      
-            }
-            else{return response()->json(['status'=>$status,'html' => '<h4>Sikertelen barion fizetés</h4> ']); }
-     
-        }
-        else{return response()->json(['status'=>'hiba','html' => '<h4>Érvénytelen paymentId</h4> ']); }
-       
-        
-        
 /*
-    public function messagetest()
-    {
-        return redirect('/')->with('flash_message', 'Teszt üzenet');
-    }
-    public function errortest(Request $request)
-    {
-        $data['categories']=Category::all();
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required|string|max:200',
-        ]);
-      return  view('cristal.index', compact('data'))->withErrors($validator);
-    }
-*/        
+public function messagetest()
+{
+return redirect('/')->with('flash_message', 'Teszt üzenet');
+}
+public function errortest(Request $request)
+{
+$data['categories']=Category::all();
+$validator = \Validator::make($request->all(), [
+'name' => 'required|string|max:200',
+]);
+return  view('cristal.index', compact('data'))->withErrors($validator);
+}
+ */
 
         /*
     //  return redirect('admin/roletimes')->with('flash_message', 'paying succesfull');
@@ -189,7 +177,7 @@ class BarionController extends Controller
     $data['note']='paymentId=nincs';
     $role = RoleTime::create($data);
     return response()->json(['paymentId' => 'valami']);*/
-    }
+    
 }
 /*
 sikeres példa válasz

@@ -70,4 +70,6 @@
                             <button id="saveBtn" onclick=" datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary">Tovább a fizetéshez</button>
                         </div>
     </form>
+
 </div>
+
