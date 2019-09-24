@@ -17,6 +17,8 @@ Route::get('/', function () {
 */
 Route::any('/messagetest', 'BarionController@messagetest');
 Route::any('/errortest', 'BarionController@errortest');
+Route::any('/bckiir/{id}', 'BarionController@bckiir');
+
 
 //fizetési adatok form megjelenítése html válasz
 Route::any('/billingdataform/{orders_id}', 'BarionController@billingdataform')->name('billingdataform'); 

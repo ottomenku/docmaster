@@ -12,6 +12,13 @@ return [
     | any other location as required by the application or its packages.
     |
     */
+
+    'barionResEmail' => 'menkuotto@gmail.com',
+    'ordersData' => [ //csomag dijak, adatok 
+      'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
+      'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
+      'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
+    ],
    // 'doc_path' => resource_path('doc'),
     'doc_path' => 'doc',  //resource mappán belül
   //  'docprew_path'=>public_path('docprew'),

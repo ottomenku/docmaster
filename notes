@@ -38,3 +38,18 @@ protected $routeMiddleware = [
  git commit -m "first commit"
  git remote add origin https://github.com/ottomenku/docmaster.git
  git push -u origin master
+
+ xdebug telepítés:
+ parancssori ppinfo: php -i
+ a kimentetet benásolni ide https://xdebug.org/wizard.php
+ kielemzi hogy van e telepítve és felkínálja a megfelelő dll letöltését.
+ és azt is hogy a php.ini-be mit kell beírni
+  pl.: zend_extension = C:\xampp\php\ext\php_xdebug-2.7.2-7.3-vc15-x86_64.dll
+  vagy ha átnevezzük: zend_extension=php_xdebug
+  a sima extensionok alá jó írni
+  a visualstudiónak kellhet még:
+  [XDebug]
+xdebug.remote_enable = 1
+xdebug.remote_autostart = 1  // ez okozhat figyelmeztetést
+ha valami iconv depcrepated... hiba-figyelmeztetés van, ki kell kapcsolni az oldalsávon a töréspontoknál az everything -et.
+csak az error meg az exeptions legyen bekapcsolva

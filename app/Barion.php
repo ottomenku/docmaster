@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Pay extends Model
+class Barion extends Model
 {
     use LogsActivity;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class Pay extends Model
      *
      * @var string
      */
-    protected $table = 'pays';
+    protected $table = 'barions';
 
     /**
     * The database primary key value.
@@ -31,7 +31,7 @@ class Pay extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','admin_id','action_id','billingdata_id','order_id','type','total','note'];
+    protected $fillable = ['user_id','billingdata_id','payment_id','order_id','transaction_d','total','status','script','fulljson','errors'];
 
   
     public function user()
@@ -41,10 +41,6 @@ class Pay extends Model
     public function billingdata()
     {
         return $this->belongsTo('App\Billingdata');
-    }
-    public function barion()
-    {
-        return $this->belongsTo('App\Bari','action_id', 'other_key');
     }
     /**
      * Change activity log event description

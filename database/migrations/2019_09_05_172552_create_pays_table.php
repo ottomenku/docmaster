@@ -13,20 +13,17 @@ class CreatePaysTable extends Migration
     public function up()
     {
         Schema::create('pays', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->increments('id');       
             $table->integer('user_id');
             $table->integer('admin_id');
-            $table->string('payment_id')->nullable(); //egyenlőre barion azonosító , lehet paypal_id, bitcoin táca stb
-            $table->integer('billingdata_id');  //számlázasi adatok
-            $table->string('order_id'); //csomag azonosító egyenlőre min,base,vagy max controllerben definiálva
-            $table->integer('type')->nullable();  //barion ,kp, paypal
-            $table->integer('nyugtaszam')->nullable(); // ha állítottak ki számlát
+            $table->string('action_id')->nullable(); //barion azonosító (Transactions->POSTransactionId) , paypal_id, bitcoin táca stb
+            $table->integer('billingdata_id')->nullable();  //számlázasi adatok
+            $table->string('order_id')->nullable(); //csomag azonosító egyenlőre min,base,vagy max controllerben definiálva
+            $table->integer('type')->nullable();  //barion ,cash, paypal...
             $table->integer('total');
-            $table->text('note')->nullable();  // a barion beírja akomplett jsont
-            $table->string('status')->nullable();
-            
+            $table->text('note')->nullable();    
+            $table->timestamps();
+            $table->softDeletes();
             });
     }
    
