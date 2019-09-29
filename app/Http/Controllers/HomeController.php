@@ -54,46 +54,38 @@ class HomeController extends Controller
         $user = Auth::user();
         $userid = $user->id ?? 0;
 
-            if ($userid > 0  && Roletime::hasRole($user->id, 3)) {
-                $fileNeve = Doc::find($id)->filename ?? '';
-                $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
-                return response()->download($filepath); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
-                
-            }
- 
+        if ($userid > 0 && Roletime::hasRole($user->id, 3)) {
+            $fileNeve = Doc::find($id)->filename ?? '';
+            $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
+            return response()->download($filepath); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
+
+        }
+
     }
     public function download($id)
     {
-        $user = Auth::user();
-        $userid = $user->id ?? 0;
-        if ($userid < 1) {
-            return response()->json(['html' => view('cristal.needlogin')->render()]);
+        //$user = Auth::user();
+       // $userid = $user->id ?? 0; // ajax kérésben nem azonosít
+       Auth::check() ;
+        if (Auth::id() < 1) {
+          return response()->json(['html' => view('cristal.needlogin')->render()]);
+          // return response()->json(['html' => 'erzherzhzhzhrt']);
         } else {
-            if (Roletime::hasRole($user->id, 3)) {
+            if (Roletime::hasRole(Auth::id(), 3)) {
                 $fileNeve = Doc::find($id)->filename ?? '';
                 $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
                 if (is_file($filepath)) {
-                    // return response()->download($filepath); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
-                    //  return redirect('/home')->with('flash_message', 'Letöltés elindult');
-                    return response()->json(['filedownload' => url('directdownload/' . $id ), 'html' => '<h4>File letöltés</h4><span>Ha nem indul el automatikusan kattintson <span>
+                    return response()->json(['filedownload' => url('directdownload/' . $id), 'html' => '<h4>File letöltés</h4><span>Ha nem indul el automatikusan kattintson <span>
              <a href="/directdownload/' . $id . '" > ide </a>',
-          //  return response()->json(['filedownload' => '//directdownload/', 'html'=>'filetöltés' ]);
                     ]);
 
                 } else {
-                    // $data=[];
-                    //  $data['err']='Nemlétező file';
-                    // return view('cristal.error', compact('data'));
                     return response()->json(['html' => '<h4>Nemlétező file</h4>']);
                 }
-
-                //return response()->download($fileNeve, $kivantNev, $headers); // második paraméterként megadhatunk neki egy nevet, amivel menti alapértelmezetten, valamint egyéb headeröket is felvehetünk
             } else {
-                //return view('cristal.pricingModal');
                 return response()->json(['html' => view('cristal.pricingModal')->render()]);
             }
         }
 
     }
 }
-

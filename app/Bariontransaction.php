@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Pay extends Model
+class Bariontransaction extends Model
 {
     use LogsActivity;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class Pay extends Model
      *
      * @var string
      */
-    protected $table = 'pays';
+    protected $table = 'bariontransactions';
 
     /**
     * The database primary key value.
@@ -28,27 +28,23 @@ class Pay extends Model
 
     /**
      * Attributes that should be mass-assignable.
-     *
+     *    
      * @var array
      */
-    protected $fillable = ['user_id','admin_id','action_id','billingdata_id','order_id','type','total','days','note'];
+    protected $fillable = ['time','user_id','billingdata_id','order_id','total','days'];
 
   
     public function user()
     {
         return $this->belongsTo('App\User');
     }
+      public function barion()
+    {
+        return $this->hasMany('App\Barion');
+    }
     public function billingdata()
     {
         return $this->belongsTo('App\Billingdata');
-    }
-    public function barion()
-    {
-        return $this->belongsTo('App\Bariion','action_id', 'other_key');
-    }
-    public function bariontransaction()
-    {
-        return $this->belongsTo('App\Bariiontransaction','action_id', 'other_key');
     }
     /**
      * Change activity log event description

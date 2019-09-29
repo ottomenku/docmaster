@@ -31,16 +31,12 @@ class Barion extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','billingdata_id','payment_id','order_id','transaction_d','total','status','script','fulljson','errors'];
+    protected $fillable = ['payment_id','bariontransaction_id','script','fulljson','errors'];
 
-  
-    public function user()
+ 
+    public function bariontransaction()
     {
-        return $this->belongsTo('App\User');
-    }
-    public function billingdata()
-    {
-        return $this->belongsTo('App\Billingdata');
+        return $this->belongsTo('App\bariontransaction');
     }
     /**
      * Change activity log event description

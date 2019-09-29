@@ -7,8 +7,8 @@ use Tests\DuskTestCase;
 
 // test készítés: php artisan dusk:make admin/LoginTest
 class dusExample extends DuskTestCase
-{
-    use DatabaseMigrations;
+{  
+ use DatabaseMigrations;
 
     protected $user;
 
@@ -24,7 +24,7 @@ class dusExample extends DuskTestCase
      *
      * @return void
      */
-    public function webes() //távoli gépen is használható
+   public function webes() //távoli gépen is használható
 
     {
         $this->browse(function (Browser $browser) {
@@ -72,4 +72,5 @@ class dusExample extends DuskTestCase
                 ->assertAuthenticatedAs(User::find(1));
         });
     }
+    
 }

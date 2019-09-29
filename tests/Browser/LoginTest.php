@@ -6,11 +6,11 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 // test készítés: php artisan dusk:make admin/LoginTest
-class LoginTest extends DuskTestCase
+/* class LoginTest extends DuskTestCase
 {
     //use \DatabaseMigrations;
 
-    protected $user;
+   protected $user;
     protected $baseurl;
     public function setUp() :void //test előtti beállítások
     {
@@ -25,7 +25,7 @@ class LoginTest extends DuskTestCase
      *
      * @return void
      */
-    public function testLogin() //távoli gépen is használható
+  /*  public function testLogin() //távoli gépen is használható
 
     {
         $this->browse(function (Browser $browser) {
@@ -70,7 +70,7 @@ $response = $this->call('POST',$this->baseurl.'/logout', ['_token' => csrf_token
                 ->assertVisible('.my-class-element')
                 ->screenshot('image_name') //képernyő képet készít image_name.png névvel
                 ->assertSee('Login');*/
-        });
+/*        });
     }
 
   /*  public function localhost() //artisan futtatási lehetőséggel
@@ -87,4 +87,4 @@ $response = $this->call('POST',$this->baseurl.'/logout', ['_token' => csrf_token
                 ->assertAuthenticatedAs(User::find(1));
         });
     }**/
-}
+//}

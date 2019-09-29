@@ -41,5 +41,5 @@ $crm->AddTransaction($trans); // add the transaction to the request
 $captureResult = $BC->Capture($crm);
 
 if ($captureResult->RequestSuccessful) {
-    // TODO: process the information contained in $finishReservationResult
+  
 }

@@ -12,22 +12,28 @@ return [
     | any other location as required by the application or its packages.
     |
     */
+    //test beállítások
+    'duskDomain' => "https://doc.mottoweb.hu",
 
+    // barion beállítások-------------------------------
+    'RedirectUrl' => "https://doc.mottoweb.hu/barionredirect",
+    'CallbackUrl' => "https://doc.mottoweb.hu/barioncallback",
     'barionResEmail' => 'menkuotto@gmail.com',
     'ordersData' => [ //csomag dijak, adatok 
       'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
       'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
       'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ],
-   // 'doc_path' => resource_path('doc'),
-    'doc_path' => 'doc',  //resource mappán belül
-  //  'docprew_path'=>public_path('docprew'),
-    'docprew_path'=>'docprev',  //public mappán belül
-    //'public_docprew_thumb_path'=>public_path('docprew/thumb'),  // nem mukod
-    'name' => env('APP_NAME', 'Laravel'),
-   // 'barioncallback' => 'https://doc.mottoweb.hu/barioncallback', 
-  //  'barionredirect' => 'https://doc.mottoweb.hu/barionredirect', 
 
+    // doc beállítások-------------------------------------------
+
+    'doc_path' => 'doc',  //resource mappán belül
+    'docprew_path'=>'docprev',  //public mappán belül
+    'docprew_thumb_path'=>'docprew/thumb',  // nem mukod
+
+
+   // Laravel beállítások 
+    'name' => env('APP_NAME', 'Laravel'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

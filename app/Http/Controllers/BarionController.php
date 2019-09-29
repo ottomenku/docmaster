@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Billingdata;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Pay;
 use Illuminate\Http\Request;
 
@@ -13,67 +14,61 @@ use Illuminate\Http\Request;
 class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
-    private $configFile='app'; // Ha lesz külön config az applikációnak oda át tehető
-    //a copnfigfájlból betöltött adatok
-    public $barionResEmail ; //a barion user emailje kell.(menkuotto@gmail.com) BarioHandler->prepareBarion();
-    public $ordersData ; //csomag dijak, adatok 
+    //helyi adatok
+    private $configFile = 'app'; // Ha lesz külön config az applikációnak oda át tehető
+    private $userid; 
 
-public function __construct()
-{
-    $this->barionResEmail=config($this->configFile.'.barionResEmail');
-    $this->ordersData=config($this->configFile.'.ordersData');
-}
+    //a copnfigfájlból betöltött adatok
+    public $barionResEmail; //a barion user emailje kell.(menkuotto@gmail.com) BarioHandler->prepareBarion();
+    public $ordersData; //csomag dijak, adatok
+
+    public function __construct()
+    {   Auth::check() ;
+        //$user = Auth::user();
+        $this->userid = Auth::id() ?? 0;
+        $this->barionResEmail = config($this->configFile . '.barionResEmail');
+        $this->ordersData = config($this->configFile . '.ordersData');
+    }
     /**
- * Json tömbel tér vissza A html elemben a biilingdata formmal
- *  han incs bejelentkezve a felhasználó akkorr a login formal
- *  @return Json
- */
+     * Json tömbel tér vissza A html elemben a biilingdata formmal
+     *  han incs bejelentkezve a felhasználó akkorr a login formal
+     *  @return Json
+     */
     public function billingdataformJson($order_id)
     {
-        $user = \Auth::user();
-        $userid = $user->id ?? 0;
-        if ($userid < 1) {
-            return response()->json(['html' => view('cristal.needlogin')->render()]);
-        } else {
-            $data = Billingdata::where('user_id', $userid)->latest()->first();
-            // print_r($data);
+       if (Auth::check() == FALSE) {  
+        return response()->json(['html' => view('cristal.needlogin')->render()]);
+       // return response()->json(['html' => 'userid:'.$this->userid ]);
+       } else {
+            $data = Billingdata::where('user_id', Auth::id())->latest()->first();
             $data['order_id'] = $order_id;
-            $data['user_id'] = $userid;
+            $data['user_id'] = Auth::id();
             return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
-        }
+      }
     }
 
     /**
-     * Menti a fizetési és a prerpared barion adatokat 
-     * Json választ küld. Vagy hiba üzenttel
-     *  vagy a gatewayel, ami alapján a hívó script átirányít a barion fizetési oldalra
+     *a z App\Traits\BarionHandler->storeHandler()-el készít egy barion tranzakciót.
+     * A requestből Menti a fizetési adatokat
+     * Készít egy prerpared_bariont és az adataival ment egy barion rekordot.
+     * Json választ küld a gatewayel, ami alapján a hívó script átirányít a barion fizetési oldalra
+     *  Vagy hiba üzenttelg
+     * route: /pay
      * @return Json
      */
     public function store(Request $request)
     {
-        $data = [];
-        $user = \Auth::user();
-        $order_id = $request->input('order_id') ?? 'max';
-
         $validator = \Validator::make($request->all(), [
             //'email' => 'required|email|unique:users',
             'fullname' => 'required|string|max:200',
             'cardname' => 'required|string|max:200',
         ]);
-
-        $billingData = $this->saveBillingDataGetBilling($request);
-        $BC = $this->prepareBarion($billingData, $order_id);
-        $error = $BC->Errors;
-        $gateway = $BC->GatewayUrl;
-        $barion = createBarion($BC, $billingData->id, 'store');
-
-        if (empty($error)) {
-
-            return response()->json(['gateway' => $gateway, 'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
+        $data = $this->storeHandler($request); $data['res'];
+        if ( $data['noerror']) {
+            return response()->json(['gateway' => $data['res']['gateway'], 'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
         } else {
-            return response()->json(['statusz' => 'hiba', 'html' => json_encode($error)]);
+            return response()->json(['statusz' => 'hiba', 'html' => json_encode($data['errors'])]);
         }
-
     }
 /**
  * A barion hivja meg a fizetési tranzakció végéen
@@ -87,45 +82,32 @@ public function __construct()
  */
     public function barionredirect(Request $request)
     {
-
         $paymentId = $request->get("paymentId");
-        $paymentState = \Barion::getPaymentState($paymentId);
-        $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
-        $errors = $paymentState->Errors;
-        if ($status == 'Succeeded') {
-            $pay = $this->createBarionPay(111, 11, 'min');
-            $roletime = $this->setRoletime($pay);
+        $data= $this-> barioncallbackHandler($paymentId);
+        $status=$data['res']['status'] ?? '';
+  
+        if ($status == 'Succeeded') { //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
             return redirect('/home')->with('flash_message', 'Barion fizetés sikeres volt. Letöltési jog beállítva');
         } else {
-
             return redirect('/home')->with('flash_message', 'Hiba történ a Barion fizetés közben');
         }
-
     }
 /**
- * a routot a az App\Traits\BarionHandler\prepareBarion() -ben kell megadni
  * A barion hivja meg minden statusz változásnál. 200 as válasz kell adnia különben üjra hívja
+ * a routot a barion controllerben megadott konfig fájlban kell deklarálni
  * ellenőrzi hogy ilyen statussal és ilyen transaction_id (Transactions->POSTransactionId)-el van e már mentett barion ha nincs menti
  * ha a status Succededeed  és még nincs beállítva  a fizetés, és a letöltési jog beállítja.
+ * testroute: /test/barioncallback
  *  @return Json
  */
     public function barioncallback(Request $request)
     {
         $paymentId = $request->get("paymentId");
-        $res = ['status' => 'hiba', 'html' => '<h4>Érvénytelen paymentId</h4> '];
-
-        $paymentState = \Barion::getPaymentState($paymentId);
-        $status = $paymentState->Status; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
-        // $errors = $paymentState->Errors ?? 'nincs hiba';
-
-        $pay = Pay::where('payment_id', $paymentId)->first();
-        $pay->update(['status' => $status]); //$pay->update(['status' => $status, 'note' => json_encode($paymentState)]);
-
-        if ($status == 'Succeeded') {
-            $roletime = $this->setRoletime($pay);
-
-            $res = ['status' => 'Succeeded', 'html' => '<h4>Barion tranzakció sikeres:</h4> ' . $pay->id];
-        } else { $res = ['status' => $status, 'html' => '<h4>Sikertelen barion fizetés</h4> '];}
+        $data= $this-> barioncallbackHandler($paymentId);
+        $res['status'] =$data['res']['status'] ?? '';
+        if ($res['status'] == 'Succeeded') {
+            $res['html'] ='<h4>Barion tranzakció sikeres:</h4> ';
+        } else { $res['html'] = '<h4>Sikertelen barion fizetés</h4> ';}
 
         return response()->json($res);
     }

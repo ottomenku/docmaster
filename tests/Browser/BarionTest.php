@@ -2,26 +2,48 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 class BarionTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
+   
+  
+    public function testBarioncallback()
+    {
+      $this->browse(function (Browser $browser) {
+
+        $browser->visit(config('app.duskDomain').'/test/barioncallback?paymentId=32ba2d668de54da285ec6fb376f1956c')
+            ->screenshot('barion-callback')
+            ->assertSee('Nincs hiba')
+            ->assertSee('status : Expired');
+    });
+    }
+  
+  /**
+     *komplett store test
      * @return void
      */
-    public function testExample()
+  public function testStore()
     {
-        $this->browse(function (Browser $browser) {
-          //  $browser->visit('http://localhost:8000/')
-          $browser->visit('http://doc.mottoweb.hu/login')
-                //->assertPresent('#csomag1');
-                  //  ->screenshot('home-page')
-                   ->assertSee('Login');
-                   //->assertPresent('<!--view:index-->');
+      $this->browse(function (Browser $browser) {
+            $browser->visit(config('app.duskDomain').'/test/storetest')
+                ->screenshot('barion-page')
+                ->assertSee('Nincs hiba')
+                ->assertSee('gateway')
+                ->assertSee('billingdata_id')
+                ->assertSee('barion_id');
         });
     }
+  
+    public function testPreparebarion()
+    {
+      $this->browse(function (Browser $browser) {
+            $browser->visit(config('app.duskDomain').'/test/barionprepare')
+                ->screenshot('praparebarion-page')
+                ->assertSee('Nincs hiba')
+                ->assertSee('gateway');
+        });
+    }
+   
 }
