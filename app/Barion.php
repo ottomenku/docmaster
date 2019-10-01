@@ -31,7 +31,7 @@ class Barion extends Model
      *
      * @var array
      */
-    protected $fillable = ['payment_id','bariontransaction_id','script','fulljson','errors'];
+    protected $fillable = ['payment_id','bariontransaction_id','script','status','fulljson','errors'];
 
  
     public function bariontransaction()

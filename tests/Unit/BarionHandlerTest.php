@@ -58,23 +58,25 @@ class BarionHandlerTest extends TestCase
       $PayRoletime= $br->createPayRoletime($pay);
       $this->assertNotEquals($PayRoletime->id ,$payid);
     }
- /*   
+  
     public function testCreateBariontransaction() 
     {
         $br = new BarionTraitHandler();
-        $BarionPay= $br->createBariontransaction(111,'min') ;
+        $Bariontransaction= $br->createBariontransaction(111,'min') ;
       // $BarionPay= $this->createBariontransaction(111,'min');
-        $BarionPayid=$BarionPay->id ?? 0;
-        $this->assertTrue($BarionPayid > 0);
-        $this->assertEquals($BarionPay->total,400);
-        $this->assertEquals($BarionPay->days,30);
+        $Bariontransactionid=$Bariontransaction->id ?? 0;
+        $this->assertTrue($Bariontransactionid > 0);
+       // $this->assertTrue($Bariontransaction->user_id> 0);
+        $this->assertEquals($Bariontransaction->total,400);
+        $this->assertEquals($Bariontransaction->days,30);
     }
     
 
       public function testCreatePay() //Transactions[[Items[[Name]],[items2]],  Errors, PaymentId
     {
         $br = new BarionTraitHandler();
-        $pay= $br->createBarionPay(111,11,'min');
+        $Bariontransaction= $br->createBariontransaction(111,'min') ;
+        $pay= $br->createTransactionPay($Bariontransaction->id);
         $payid=$pay->id ?? 0;
         $this->assertTrue($payid > 0);
 
@@ -179,5 +181,5 @@ class BarionHandlerTest extends TestCase
         $this->assertTrue($billingdata->id > 0);
 
     }
-    */
+    
 }

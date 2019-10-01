@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Pay;
 use Illuminate\Http\Request;
 
+
+
 //use Illuminate\Foundation\Http\FormRequest ;
 //require_once '../library/BarionClient.php';
-
+//TODO: duplán írja be a bariontransactions-t megoldva. a formot elküldte az ajax is meg a submit is.  asubmit gombot formon kívülre raktam
 class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
@@ -23,9 +25,9 @@ class BarionController extends Controller
     public $ordersData; //csomag dijak, adatok
 
     public function __construct()
-    {   Auth::check() ;
+    {  // \Auth::check() ;
         //$user = Auth::user();
-        $this->userid = Auth::id() ?? 0;
+      //  $this->userid = \Auth::id() ?? 0;
         $this->barionResEmail = config($this->configFile . '.barionResEmail');
         $this->ordersData = config($this->configFile . '.ordersData');
     }
@@ -36,14 +38,14 @@ class BarionController extends Controller
      */
     public function billingdataformJson($order_id)
     {
-       if (Auth::check() == FALSE) {  
+       if (\Auth::check() == FALSE) {  
         return response()->json(['html' => view('cristal.needlogin')->render()]);
        // return response()->json(['html' => 'userid:'.$this->userid ]);
        } else {
             $data = Billingdata::where('user_id', Auth::id())->latest()->first();
             $data['order_id'] = $order_id;
-            $data['user_id'] = Auth::id();
-            return response()->json(['html' => view('cristal.billingdata', compact('data'))->render()]);
+            $data['user_id'] = \Auth::id();
+            return response()->json(['csrf_token' =>csrf_token() ,'html' => view('cristal.billingdata', compact('data'))->render()]);
       }
     }
 
@@ -65,9 +67,9 @@ class BarionController extends Controller
         ]);
         $data = $this->storeHandler($request); $data['res'];
         if ( $data['noerror']) {
-            return response()->json(['gateway' => $data['res']['gateway'], 'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
+            return response()->json(['csrf_token' =>csrf_token() ,'gateway' => $data['res']['gateway'], 'html' => '<h4>Átirányítás</h4>']); // ajax script irányítja át az oldalt
         } else {
-            return response()->json(['statusz' => 'hiba', 'html' => json_encode($data['errors'])]);
+            return response()->json(['csrf_token' =>csrf_token() ,'statusz' => 'hiba', 'html' => json_encode($data['errors'])]);
         }
     }
 /**

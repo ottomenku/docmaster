@@ -7,7 +7,7 @@ use App\Billingdata;
 use App\Pay;
 use App\Roletime;
 use \Carbon\Carbon;
-
+//use Illuminate\Support\Facades\Auth;
 trait BarionHandler
 {
     /**
@@ -29,12 +29,14 @@ trait BarionHandler
      */
     public function createTransactionPay($bariontransaction_id)
     {
+        \Auth::check() ;
+        $userid = \Auth::id() ?? 0;
         $pay = Pay::where('action_id', $bariontransaction_id)->first();
         $pay_id = $pay->id ?? null;
         if ($pay_id == null) {
             $bariontransaction = Bariontransaction::where('id', $bariontransaction_id)->first();
             //TODO:logolni ha nem érvényes a $bariontransaction_id
-            $data['user_id'] = $this->userid;
+            $data['user_id'] = $userid;
             $data['admin_id'] = 1; //1: root a gépi bevitelek pl barion ezt használják egyébként user_id
             $data['action_id'] = $bariontransaction->id; // barion:post_transaction_id, nyugtaszám, paypal_id
             $data['billingdata_id'] = $bariontransaction->billingdata_id; //fizetési adataok
@@ -64,10 +66,9 @@ trait BarionHandler
 
         if ($paymentState->Status == 'Succeeded') { //sikeres:Succeeded        
             $pay = $this->createTransactionPay($bariontransaction_id);
-            //TODO: script mező nincs az adatbázisban
             $res['pay_id'] = $pay->id ?? null;
             $res['roletime_id'] =$this-> createPayRoletime($pay)->id ?? null;
-            //TODO: kipróbálni hogy ír-e már be useridet
+            //TODO: kipróbálni hogy ír-e már be useridet megoldva az use Illuminate\Support\Facades\Auth; helyett \Auth-ot kell használni
         }
         $data['res']=$res;
         return $data;
@@ -108,21 +109,26 @@ trait BarionHandler
      * @return Bariontransaction
      */
     public function createBariontransaction($billingdata_id, $order_id)
-    {
+    { 
+        \Auth::check() ;
+        //$user = Auth::user();
+        $userid = \Auth::id() ?? 0;
         $data['time'] = time();
-        $data['user_id'] = $this->userid;
+        $data['user_id'] = $userid;
         $data['billingdata_id'] = $billingdata_id; //fizetési adataok
         $data['order_id'] = $order_id; // csomag azonosító 1-3
-        //    $data['post_transaction_id'] = $billingdata_id. '-' . rand(100, 10000); //$paymentState->Transactions->POSTransactionId
+        //$data['post_transaction_id'] //  nem kell mert a saját id+time de a time csak biztonsági  plusz  más asdatbázissal való összefésülhetőség miatt
         $data['total'] = $this->ordersData[$order_id]['total']; //nem elég az order_id mert a csomag adatok változhatnak
         $data['days'] = $this->ordersData[$order_id]['days']; //nem elég az order_id mert a csomag adatok változhatnak
         return Bariontransaction::create($data);
     }
 
     public function createBarion($paymentState, $transaction_id, $script = 'nincs')
-    {$data['payment_id'] = $paymentState->PaymentId;
+    {
+        $data['payment_id'] = $paymentState->PaymentId;
         $data['bariontransaction_id'] = $transaction_id; //?? $paymentState->Transactions->POSTransactionId ?? 'nincs';
         $data['script'] = $script;
+        $data['status'] = $paymentState->Status;
         $data['fulljson'] = json_encode($paymentState);
         $data['errors'] = json_encode($paymentState->Errors);
         $barion = Barion::Create($data);

@@ -2,7 +2,7 @@
 <div class="card-body">
         {!! Form::model($data, [
             'method' => 'POST',
-            'url' => [route('pay')],
+          //  'url' => [route('pay')],
             'class' => 'form-horizontal',
             'id' => "billingdataform"
         ]) !!}
@@ -66,10 +66,11 @@
                     @endphp     
              <input type="hidden"  name="user_id" value="{{ $userid }}">      
                <input type="hidden"  name="order_id" value="{{ $orderid }}">        
+    </form>            
                     <div class="form-group">
-                            <button id="saveBtn" onclick=" datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary">Tovább a fizetéshez</button>
+                            <div id="saveBtn" onclick="datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'}) ;" class="btn btn-primary">Tovább a fizetéshez </div>
                         </div>
-    </form>
+   
 
 </div>
 

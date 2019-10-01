@@ -51,11 +51,12 @@ function datasendModal(dataout) {
     else{    
         if(dataout.data != null){datasend=dataout.data ;}
     }
-  
+  var csrf_token='{{ csrf_token() }}';
     $.ajax({
       url:dataout.url,
-      headers: {'X-CSRF-TOKEN':'{{ csrf_token() }}'},
+      //headers: {'X-CSRF-TOKEN':csrf_token},
       type: "POST",
+      beforeSend: function (xhr){ xhr.setRequestHeader('X-CSRF-TOKEN',csrf_token);},
       data:datasend,
       dataType: 'json',
       success: function (data) { // session has script kezeli!
@@ -63,6 +64,9 @@ function datasendModal(dataout) {
         //  if(data.modalstatus != null){modalstatus=data.modalstatus;} //hide, show   
           $('#alertdiv').html(data.flash_message || '');
           $('#modalbody').html(data.html);
+      //   $('#modalbody').html('csrf_token:'+csrf_token+'data.csrf_token:'+data.csrf_token);
+       //  $.ajax.headers.X-CSRF-TOKEN=data.csrf_token;
+          if(data.csrf_token != null){csrf_token = data.csrf_token;}
           if(data.gateway != null){document.location.href = data.gateway;}
           if(data.filedownload != null){ window.location=data.filedownload;}
       },

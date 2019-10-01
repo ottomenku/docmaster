@@ -6,7 +6,7 @@ use App\Category;
 use App\Doc;
 use App\Roletime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -51,10 +51,10 @@ class HomeController extends Controller
     }
     public function directdownload($id)
     {
-        $user = Auth::user();
-        $userid = $user->id ?? 0;
+        \Auth::check() ;
+        $userid=\Auth::id();
 
-        if ($userid > 0 && Roletime::hasRole($user->id, 3)) {
+        if ( $userid > 0 && Roletime::hasRole($userid, 3)) {
             $fileNeve = Doc::find($id)->filename ?? '';
             $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
             return response()->download($filepath); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
@@ -66,12 +66,12 @@ class HomeController extends Controller
     {
         //$user = Auth::user();
        // $userid = $user->id ?? 0; // ajax kérésben nem azonosít
-       Auth::check() ;
-        if (Auth::id() < 1) {
+      \Auth::check() ;
+        if (\Auth::id() < 1) {
           return response()->json(['html' => view('cristal.needlogin')->render()]);
           // return response()->json(['html' => 'erzherzhzhzhrt']);
         } else {
-            if (Roletime::hasRole(Auth::id(), 3)) {
+            if (Roletime::hasRole(\Auth::id(), 3)) {
                 $fileNeve = Doc::find($id)->filename ?? '';
                 $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
                 if (is_file($filepath)) {
