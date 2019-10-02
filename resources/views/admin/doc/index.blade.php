@@ -35,13 +35,13 @@
                                 </thead>
                                 <tbody>
                                         @php 
-                                   $src=url(App\Http\Controllers\Admin\DocController::$docPrevThumb_path_final).'/';
+                                  $docprew_thumb_path=config('app.docprev_thumb_path');
                                        @endphp
 
                                 @foreach($doc as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->category->name ?? '' }}</td><td>{{ $item->name }}</td><td><img src="{{ $src.$item->prev}}" width="50px" height="50px"></td>
+                                        <td>{{ $item->category->name ?? '' }}</td><td>{{ $item->name }}</td><td><img src="{{ url($docprew_thumb_path.$item->prev)}}" width="50px" height="50px"></td>
                                         <td>
                                             <a href="{{ url('/admin/doc/' . $item->id) }}" title="View Doc"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                                             <a href="{{ url('/admin/doc/' . $item->id . '/edit') }}" title="Edit Doc"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>

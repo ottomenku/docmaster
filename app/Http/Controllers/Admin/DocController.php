@@ -13,23 +13,20 @@ class DocController extends Controller
 { 
   use \App\Traits\StatPropertyHandler; //getProp('doc_path')
     
-    public static $configFile = 'appp'; // a config file neve ami felül írja az alap propertiket ha a getProp()-al kérjük le. ha felül akarjuk írni  a kulsnak meg kell egyeznie a property nevével
-  //config file értékének felülírása. pótlása--------------
-    public static $doc_path = 'doc'; //a dokumentumok mentésének helye a resources mappán belül
-    public static $docprev_path = 'docprev'; //prev fileok helye a public mappán belül, a public és a resource  a getPath() ban változtatható
-    public  $base_prev_img = ['pdf.png','file.png','doc.png']; // ezeket nem törli a prev img közül
-//a controller által használt változók----------------
-public static $doc_path_final; //a dokumentumok mentésének helye a resources mappán belül
-public static $docPrev_path_final; //prev fileok helye a public mappán belül, a public és a resource  a getPath() ban változtatható
-public static $docPrevThumb_path_final ;
+    private  $configFile = 'app'; // a config file neve ami felül írja az alap propertiket ha a getProp()-al kérjük le. ha felül akarjuk írni  a kulsnak meg kell egyeznie a property nevével
+  //config file  felülírja--------------
+    public  $doc_path;     //= 'resources/doc/'; //a dokumentumok mentésének helye 
+    public  $docprev_path;  //= 'public/docprev/'; //prev fileok helye  
+     public  $docprev_thumb_path;     //='public/docprev/thumb/';
+    public  $base_prev_img ;//= ['pdf.png','file.png','doc.png']; // ezeket nem törli a prev img közül
+
 
 public function __construct()
 {
-    //self::$doc_path_final = resource_path(self::getProp('doc_path')).'/';  // a teljes elérési út problémás lehet a bladeben
-   // self::$docPrev_path_final = public_path(self::getProp('doc_path')).'/';
-self::$doc_path_final =url('resources/'.self::getProp('doc_path'));
-self::$docPrev_path_final =url(self::getProp('docprev_path')).'/'; 
-    self::$docPrevThumb_path_final = self::$docPrev_path_final.'thumb';
+    $this->doc_path = config($this->configFile . '.doc_path') ?? $this->doc_path ;
+    $this->docprev_path = config($this->configFile . '.docprev_path') ?? $this->docprev_path ;
+     $this->docprev_thumb_path = config($this->configFile . '.docprev_thumb_path') ?? $this->docprev_thumb_path ;
+    $this->base_prev_img = config($this->configFile . '.base_prev_img') ?? $this->base_prev_img ;
 }
 
     public function index(Request $request)
@@ -58,7 +55,7 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
      */
     public function create()
     {
-        return view('file');
+        return view('admin.doc.fileupload');
     }
 
     /**
@@ -70,7 +67,7 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
      */
     public function store(Request $request)
     {
-        $path =self::$doc_path_final; 
+        $path =$this->doc_path; 
         $this->validate($request, [
             'file' => 'required',
             'file.*' => 'mimes:doc,pdf,docx,txt,xls',
@@ -147,14 +144,14 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
             $ext = $request->thumb->getClientOriginalExtension();
             $prevname = $doc->filename . '.' . $ext;
 
-           $prevpath=self::$docPrev_path_final;
-           $thumbpath=self::$docPrevThumb_path_final;
+           $prevpath=public_path($this->docprev_path);
+           $thumbpath=public_path($this->docprev_thumb_path); 
           
            if (!in_array($doc->prev , $this->base_prev_img)) {
                   if (file_exists($prevpath. $doc->prev)) {File::delete($prevpath. $doc->prev);}
                   if (file_exists($thumbpath . $doc->prev)) {File::delete($thumbpath . $doc->prev);}
            }
-            Image::make($image->getRealPath())->save( $prevpath. $prevname);
+            Image::make($image->getRealPath())->save($prevpath. $prevname);
             Image::make($image->getRealPath())->resize(100, 100)->save( $thumbpath. $prevname);
              $requestData['prev'] = $prevname;
         }
@@ -168,7 +165,7 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
 
     /**
      * Remove the specified resource from storage.
-     *
+     *  
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -176,26 +173,34 @@ self::$docPrev_path_final =url(self::getProp('docprev_path')).'/';
     public function destroy($id)
     {
         $doc = Doc::findOrFail($id);
-        $file = self::$doc_path_final. $doc->filename;
-        $prew = self::$docPrev_path_final. $doc->prev;
-        $thumb =self::$docPrevThumb_path_final. $doc->prev;
+        $file = $this->doc_path. $doc->filename;
+        $prew = public_path($this->docprev_path). $doc->prev;
+        $thumb =public_path($this->docprev_thumb_path). $doc->prev;
         Doc::destroy($id);
         File::delete($file);
-        File::delete($prew);
-        File::delete($thumb);
+        if(!in_array($doc->prev,$this->base_prev_img)){
+            File::delete($prew);
+            File::delete($thumb);
+        }
+       
         return redirect('admin/doc')->with('flash_message', 'Doc deleted!'.$file);
     }
+    /**
+     * A preview et törli és visszaírja az alap nézetet ext.png
+     */
     public function resetPrev($id)
     {
         $doc = Doc::findOrFail($id);
         $type = $doc->type ?? 'file';
         $newPrev = $type . '.png';
 
-        $prew = self::$docPrev_path_final. $doc->prew;
-        $thumb = self::$docPrevThumb_path_final. $doc->prew;
+        $prew = public_path($this->docprev_path). $doc->prew;
+        $thumb = public_path($this->docprev_thumb_path). $doc->prew;
         $doc->updated(['prev' => $newPrev]);
-        File::delete($prew);
-        File::delete($thumb);
+        if(!in_array($doc->prev,$this->base_prev_img)){
+            File::delete($prew);
+            File::delete($thumb);
+        }
         return redirect('admin/doc')->with('flash_message', 'Doc prev reset!');
     }
 

@@ -1,0 +1,625 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Uploading.com - the simplest and secure way to host your files!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="upload, files" />
+	<meta name="description" content="Upload files" />
+	<link rel="shortcut icon" href="http://uploading.com/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="http://uploading.com/static/css/main.css?v=18" />	<script type="text/javascript" src="http://uploading.com/static/js/jquery.js?v=18"></script>	<script type="text/javascript" src="http://uploading.com/static/js/main.js?v=18"></script>	<script type="text/javascript" src="http://uploading.com/static/js/JsHttpRequest.js?v=18"></script>
+	<script language="javascript" src="http://www.google-analytics.com/ga.js"></script>
+</head>
+
+<body class="body" >
+
+<script language="javascript">
+	var CONF = {host: 'http://uploading.com/', domain: 'uploading.com'};
+
+	if(navigator.userAgent.toLowerCase().indexOf('linux') != -1)
+	{
+		if($.browser.mozilla)
+			$("body").append('<link rel="stylesheet" type="text/css" href="'+ CONF.host + 'static/css/linux_firefox.css">');
+		else if($.browser.opera)
+			$("body").append('<link rel="stylesheet" type="text/css" href="'+ CONF.host + 'static/css/linux_opera.css">');
+	}
+	var text_yes	= 'Yes';
+	var text_no		= 'No';
+
+</script>
+
+<div id="header">
+	<a href="http://uploading.com/"><img src="http://uploading.com/static/images/logo2.png" class="logo" alt="Uploading.com"/></a> 
+
+	<div id="login_box">
+	<form action="http://uploading.com/general/login_form/" class="login" method="post" entity="ajax" id="login_form" onsubmit="return check_login_captcha_showed();">
+		<table class="tform">
+			<tr>
+				<td class="tright"><label>E-mail:</label></td>
+				<td colspan="2"><div class="pre_input"><input type="text" class="text" name="email" id="login_email" /></div></td>
+			</tr>
+			<tr>
+				<td class="tright"><label>Password:</label></td>
+				<td colspan="2"><div class="pre_input"><input type="password" class="text" name="password" id="login_password" /></div></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input name="remember" id="remember_checkbox" type="checkbox" class="check" checked="checked"/> Remember Me&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td class="tright"><button type="submit" class="log_in">Sign In</button></td>
+			</tr>
+		</table>
+		<a href="#" class="question" onclick="$('#retrieve_box').show(); $('#login_box').hide(); return false;" title="Forgot Password?">?</a>
+	</form>
+</div>
+<div id="retrieve_box"style="display: none;">
+	<form action="http://uploading.com/registration/reminder/" class="login retrieve" method="post" entity="ajax">
+		<table class="tform">
+			<tr>
+				<td colspan="3"><div class="h2">Retrieve password</div></td>
+			</tr>
+			<tr>
+				<td class="tleft"><label>E-mail:</label></td>
+				<td colspan="2"><div class="pre_input"><input type="text" class="text border" name="reminder_email" /></div></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="tleft"><a href="#" onclick="$('#retrieve_box').hide(); $('#login_box').show(); return false;">&laquo; Go Back</a></td>
+				<td class="tright"><button class="send">Send</button></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div id="login_captcha_form" style="display: none;">
+	<!--
+		<div style="text-align: center;">
+			<label id="enter_captcha">Please enter the code displayed on the image</label><br/>
+			<div style="height: px; margin: 10px;">
+			<center>
+				<img style="display: none; width: px; height: px;" id="login_captcha" src="http://uploading.com/static/images/blank.gif" onload="$('#login_captcha_loading').hide(); $('#login_captcha').show()"/>
+				<div class="captcha_loading" id="login_captcha_loading">Loading...</div>
+			</center>
+			</div>
+			<input type="text" class="text" id="login_captcha_code" style="width: px; margin-bottom: 10px;"/>
+		</div>
+	-->
+</div>
+
+<script language="javascript">
+
+	function login_form_callback(resp)
+	{
+		if(resp && resp.captcha)
+		{
+			show_login_captcha(resp.captcha, 'submit_login');
+		}
+	}
+
+	function show_login_captcha(type, callback)
+	{
+		var d = new Date();
+		var content = get_system_window_content($('#login_captcha_form').html(), true);
+		open_windows.login_captcha_window_id = show_dhtml_window(content, [{title: 'Submit', is_ok: true, handler: callback}]);
+		$('#login_captcha').attr('src', 'http://uploading.com/general/captcha/'+type+'/?ts=' + d.getTime());
+	}
+
+	function submit_login()
+	{
+		do_request('general', 'login_form', {
+			email: $('!login_email').value,
+			password: $('!login_password').value,
+			remember: $('!remember_checkbox').checked,
+			captcha: $('!login_captcha_code').value
+		}, login_form_callback);
+
+		close_login_captcha_window();
+	}
+
+	function close_login_captcha_window()
+	{
+		close_system_window(open_windows.login_captcha_window_id);
+	}
+
+	function check_login_captcha_showed()
+	{
+		return open_windows.login_captcha_window_id ? false : true;
+	}
+
+</script><div class="menu"><div>
+<ul>
+	<li class=" active first"><span>Upload File</span></li><li class=""><a href="http://uploading.com/premium/">Premium Membership</a></li><li class=""><a href="http://uploading.com/registration/">Sign Up</a></li><li class=""><a href="http://uploading.com/partners/">For Partners</a></li><li class=""><a href="http://uploading.com/faq/">FAQ</a></li><li class=""><a href="http://uploading.com/top_files/">Top Files</a></li><li class=""><a href="http://uploading.com/contactus/">Support</a></li></ul>
+</div></div>
+
+<div class="undermenu"></div>
+<div id="lang" class="lang"><img src="http://uploading.com/static/images/blank.gif" class="lngen" alt=""/></div>
+
+<script language="javascript">
+
+function change_language(language_id)
+{
+	var r = function(resp)
+	{
+		if(resp)
+			document.location = document.location;
+	}
+
+	do_request('general', 'select_language', {language: language_id}, r);
+}
+
+$(function()
+{
+	var languages = [];
+	var lng_numbers = [];
+
+	languages[1] = "en";lng_numbers[1] = 1;languages[2] = "de";lng_numbers[2] = 2;languages[3] = "fr";lng_numbers[3] = 3;languages[18] = "pt";lng_numbers[4] = 18;languages[19] = "br";lng_numbers[5] = 19;languages[4] = "es";lng_numbers[6] = 4;languages[5] = "no";lng_numbers[7] = 5;languages[6] = "nl";lng_numbers[8] = 6;languages[7] = "gr";lng_numbers[9] = 7;languages[8] = "fi";lng_numbers[10] = 8;languages[9] = "it";lng_numbers[11] = 9;languages[10] = "cz";lng_numbers[12] = 10;languages[11] = "pl";lng_numbers[13] = 11;languages[12] = "ru";lng_numbers[14] = 12;languages[20] = "hr";lng_numbers[15] = 20;languages[16] = "sk";lng_numbers[16] = 16;languages[13] = "tr";lng_numbers[17] = 13;languages[14] = "jp";lng_numbers[18] = 14;languages[15] = "cn";lng_numbers[19] = 15;
+	var lang = $('#lang');
+	var lang_im = lang.find('img');
+	
+	html_lng = '';
+
+	for(var n in lng_numbers){
+		nn = lng_numbers[n];
+		y = (lng_numbers[n]-1)*(-21)-1;
+		html_lng += '<p class="lng'+languages[nn]+'" onclick="change_language(' + lng_numbers[n]  + ')"><'+'/p>';
+	}
+	lang.append('<div id="lang_list">'+html_lng+'<'+'/div>');
+
+	var lang_list = $('#lang_list');
+	lang_im.click(function(){
+		if (lang.hasClass('show_lang'))
+			lang.removeClass('show_lang');
+		else
+			lang.addClass('show_lang');
+
+		document.onmouseup = function (e)
+		{
+			$('#lang').removeClass('show_lang')
+		}
+	});
+
+	if(navigator.userAgent.toLowerCase().indexOf("msie 6") != -1){
+		lang_list.hover(function(){
+			$(this).addClass('hover');
+		},function(){
+			$(this).removeClass('hover');
+		});
+	}
+});
+
+</script>
+</div>
+
+<div id="main">
+	<div class="bb"><div class="lt"><div class="rb"><div class="rt"><div class="lb">
+	
+<script type="text/javascript" src="http://uploading.com/static/js/upload_file.js?v=18"></script><script language="javascript">
+	var	is_msie				= $.browser.msie;
+	var is_flash			= is_flash_exists();
+	var is_window_loaded	= false;
+
+
+	function _show_iframe_upload()
+	{
+		if(is_window_loaded)
+			show_iframe_upload();
+		else
+			$(window).load(function()
+			{
+				show_iframe_upload();
+			});
+	}
+
+</script>
+
+<div class="pageUpload" id="page_simple_upload">
+
+<iframe name="uploadframe" style="display: none;" width="0" height="0" frameborder="0" id="upload_form_iframe"></iframe>
+<iframe id="progressframe" style="display: none;" width="0" height="0" frameborder="0"></iframe>
+
+<div id="flash_div_container" class="flash_div">
+	<div id="flash_div"></div>
+</div>
+
+<div id="upload_div">
+	<div class="how_cool">
+		<div class="desc" id="cool_service">Plenty of free disk space<br />and bandwidth for you!<br /><span>100% uptime!</span></div>
+		<div class="right_border"></div>
+	</div>
+
+	<div class="upload_form" id="flash_div_stop">
+	
+		<div id="div_msie_show" style="display: none; ">
+
+		<div class="upload_text">Select a file to upload<span>&nbsp;</span><a href="#" onclick="_show_iframe_upload(); return false; ">Multiple files upload</a></div>
+
+		</div>
+
+		<div id="div_msie_hide">
+
+		<h2>Select files to upload </h2>
+
+		</div>
+
+		<script language="javascript">
+			if(is_msie && !is_flash)
+			{
+				$('#div_msie_show').show();
+				$('#div_msie_hide').hide();
+			}
+		</script>
+
+		<div class="advanced advanced_upload" id="upload_advanced">More Options</div>
+
+		<div class="msie_show files_data_box">
+			<div class="loading" id="upload_iframe_loading_show" style="display: none; ">
+				<div>
+					<img src="http://uploading.com/static/images/upload_file_status_ulodaing.gif" alt="" />&nbsp;
+					<b>Loading...</b>
+				</div>
+			</div>
+
+			<div id="upload_iframe_loading_hide">
+			<form action="" enctype="multipart/form-data" onsubmit="upload_file(); return false;" method="post" target="uploadframe" id="upload_form" do_not_change_iframe="1"> 
+			<div class="fake_button">
+				<table>
+				<tr>
+					<td><input type="text" class="text" readonly="readonly" id="single_file_input" /></td>
+					<td class="img"><img class="en" src="http://uploading.com/static/images/blank.gif" alt="" /></td>
+				</tr>
+				</table>
+				<div><input type="file" name="file" size="1" id="single_file" onchange="single_file_selected(this);" /></div>
+			</div>
+			</form>
+			</div>
+		</div>
+
+		<div class="flash_show files_data_box">
+			<div class="fake_button">
+				<table>
+				<tr>
+					<td><input type="text" class="text" readonly="readonly" /></td>
+					<td class="img"><img class="en" src="http://uploading.com/static/images/blank.gif" alt="" /></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="msie_hide flash_hide">
+
+		<div id="files_data_box" class="files_data_box">
+		<div id="file_data_box_0">
+			<form action="" enctype="multipart/form-data" onsubmit="upload_file(); return false;" method="post" target="uploadframe">
+			<div class="fake_button">
+				<table>
+				<tr>
+					<td><input type="text" class="text" readonly="readonly" /></td>
+					<td class="img"><img class="en" src="http://uploading.com/static/images/blank.gif" alt="" id="flash_div_orientir" /></td>
+				</tr>
+				</table>
+				<div><input type="file" name="file" size="1" onchange="file_selected(this);" /></div>
+			</div>
+			</form>
+		</div>
+		</div>
+
+		<div id="files_info_box">
+		</div>
+
+		<div style="display: none; " id="file_input_template">
+			<form action="" enctype="multipart/form-data" onsubmit="upload_file(); return false;" method="post" target="uploadframe">
+			<div class="fake_button">
+				<table>
+				<tr>
+					<td><input type="text" class="text" readonly="readonly" /></td>
+					<td class="img"><img class="en" src="http://uploading.com/static/images/blank.gif" alt="" /></td>
+				</tr>
+				</table>
+				<div><input type="file" name="file" size="1" onchange="file_selected(this);" /></div>
+			</div>
+			</form>
+		</div>
+
+		<div style="display: none; " id="file_info_template" class="file_info">
+			<img class="del" src="http://uploading.com/static/images/upload_file_delete.gif" alt="" onclick="delete_queue_file('#file_id#')" />
+			<div class="file_name">
+				<span>#file_name#</span>
+				<div class="clt"></div>
+				<div class="crt"></div>
+				<div class="crb"></div>
+				<div class="clb"></div>
+			</div>
+		</div>
+
+		</div>
+
+		<div class="max_file_size">
+		Maximum file size 1 GB		</div>
+		<br/>
+		<div class="f1" id="upload_advanced_simple_form" style="display: none;">
+		<form action="" onsubmit="upload_file(); return false;" method="post">
+		<table class="tform">
+						<tr>
+				<td><label><b>Description:</b></label></td>
+				<td><input type="text" class="text" name="description" id="description" /></td>
+				<td><span class="optional">(optional)</span></td>
+			</tr>
+			<tr>
+				<td><label><b>Share</b></label></td>
+				<td>
+					<input type="text" class="text" name="share_email" id="share_email" />
+					<span class="exp">Email download links to your friends</span>
+				</td>
+				<td><span class="optional">(optional)</span></td>
+			</tr>
+			<tr>
+				<td><label>Password:</label></td>
+				<td>
+					<input type="text" class="text" name="pass" id="pass" />
+					<span class="exp">Set a password to protect your file</span>
+				</td>
+				<td><span class="optional">(optional)</span></td>
+			</tr>
+		</table>
+		</form>
+		</div>
+		<span class="terms">
+		<input type="checkbox" class="check" checked="checked" id="agree"/>
+			I agree with Uploading.com <a href="http://uploading.com/terms/">Terms & Conditions</a>		</span><br/>
+		<button class="blue" type="button" id="button_upload_file">Upload Now!</button>
+		<br/><br/><br/><br/><br />
+	</div>
+</div>
+
+<div id="progress_div" style="display: none; ">
+	<div class="uploading">
+		<b class="text_uploading"><span id="text_uploading_single" style="display: none; ">Please wait while your file is being uploaded</span>
+		<span id="text_uploading_multiple" style="display: none; ">Please wait while your files are being uploaded</span>:</b>
+
+		<div id="upload_info_box" class="upload_info_files">
+		</div>
+
+		<div style="display: none; " id="upload_info_file_template" class="file_info">
+			<div class="file_name">
+				<span id="upload_file_name_#id#">#file_name#</span>
+				<div class="clt"></div>
+				<div class="crt"></div>
+				<div class="crb"></div>
+				<div class="clb"></div>
+			</div>
+			<img src="http://uploading.com/static/images/blank.gif" class="upload_statuses" id="upload_status_image_#id#" alt="" />
+			<div class="upload_status" id="upload_status_title_#id#"></div>
+			<br class="clear" />
+		</div>
+
+		<div class="progress_bar">
+			<div class="progress" id="progress_bar" style="width: 0%"></div>
+			<div class="decor"><div>Uploading file<span id="files_count"></span> (<span id="progress_percent">0%</span>)</div></div>
+		</div>
+
+		<div class="upload_progress">
+			<b>Upload progress:</b>
+			<span id="progress_status">starting</span>
+			<span id="progress_details" style="display: none; "><strong><span id="progress_done"></span>&nbsp;/&nbsp;<span id="progress_total"></span></strong>&nbsp;|&nbsp;<b>Time remaining:</b> <span id="time_remaining"></span></span>
+			<br class="clear" />
+		</div>
+
+		<div class="upload_progress" style="display: none; " id="total_upload_progress">
+			<br />
+			<b>Total time remaining:</b>
+			<span id="total_time_remaining"><strong>n/a</strong></span>
+		</div>
+
+		<div class="cancel_upload">
+			<a href="#" onclick="cancel_upload(); return false;">Cancel upload</a>
+			<br class="clear" />
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="msie_show">
+	<div class="pageIframeUpload" style="display: none;" id="page_iframe_upload">
+		<iframe frameborder="0" allowtransparency="true" id="upload_iframe"></iframe>
+	</div>
+
+</div>
+
+<div class="upload_description">
+<table id="upload_description_table">
+<tr>
+	<td class="img"><img src="http://uploading.com/static/images/blank.gif" alt="" width="2" /></td>
+	<td class="img"><img src="http://uploading.com/static/images/ico_arrow_up.gif" alt="" /></td>
+	<td class="text">Uploading.com allows you to download<br />as well as upload, store and exchange<br />any files essential to you. But only<br />registered users are allowed full<br />access to all service features.<br />Registration only takes a few seconds,<br />but will make a great difference!<br /><a href="http://uploading.com/registration/" class="link">Get more advantages&nbsp;&raquo;</a></td>
+	<td class="img"><img src="http://uploading.com/static/images/ico_vip.gif" alt="" /></td>
+	<td class="text">The premium membership is a must have<br />for those who know the value of time.<br />Premium access allows the downloading<br />of files with the highest speed, without<br />any delays or limitations! It also grants<br />you more privileges for file uploads and<br />unlimited disk space to store any files!<br /><a href="http://uploading.com/premium/" class="link">Obtain premium access&nbsp;&raquo;</a></td>
+	<td class="img"><img src="http://uploading.com/static/images/ico_dollar.gif" alt="" /></td> 
+	<td class="text">We generously encourage distributors<br />of popular files. We not only pay up<br />to 20 USD for every 1000 downloads,<br />we also offer a commission for premium<br />account sales, and the commission<br />reaches 50%. And we certainly provide<br />everything to make your work convenient!<br /><a href="http://uploading.com/partners/" class="link">Become our partner&nbsp;&raquo;</a></td>
+	<td class="img"><img src="http://uploading.com/static/images/blank.gif" alt="" width="13" /></td>
+</tr>
+</table>
+</div>
+
+<script language="javascript">
+	document.domain = 'uploading.com';
+
+	var swfu;
+
+	upload_file_init({
+		domain:						'uploading.com',
+		text_select_label:			'Select a label',
+		text_add_new_label:			'Add new',
+		error_agree_to_terms:		'Please agree with Uploading.com Terms & Conditions',
+		error_no_file_to_upload:	'Please select a file to upload',
+		text_hours:					'<strong>%count% hours</strong>',
+		text_minutes:				'<strong>%count% minutes</strong>',
+		text_seconds:				'<strong>%count% seconds</strong>',
+		error_occured:				'Error occured!',
+		text_done:					'done',
+		text_few_seconds:			'<strong>a few seconds</strong>',
+		text_mb:					'MB',
+		text_kb:					'KB',
+		text_bytes:					'bytes',
+		status_title: {
+			completed:				'Completed',
+			starting:				'Starting',
+			uploading:				'Uploading',
+			error:					'Error',
+			canceled:				'Cancelled'
+		},
+		done_url:					'http://uploading.com/files/done/',
+		is_logged:					false,
+		has_labels:					false,
+		max_file_size:				1048576000,
+		urls:						new Object({"upload_url":"http:\/\/fs322.uploading.com\/upload_file\/%3DU6IgkSwxR8bugWSR1-KQB3KHYL0R-sM2OBruNHNDrwZ-FaIu-iTU13CiOvZxhovvsEHHy4wBK-Hn6L%7CBTxkLGdpLz%7CAbKeIb1AODOaQvwy8HEcARhzxRZ52X8ZZkQdgyjnOqU%7C5APxMOrNfNrgLdiQ7ul3g3QaCuDlAgKhMPNqc","progress_url":"http:\/\/fs322.uploading.com\/show_progress\/%3DU6IgkSwxR8bugWSR1-KQB3KHYL0R-sM2OBruNHNDrwZ-FaIu-iTU13CiOvZxhovvsEHHy4wBK-Hn6L%7CBTxkLGdpLz%7CAbKeIb1AODOaQvwy8HEcARhzxRZ52X8ZZkQdgyjnOqU%7C5APxMOrNfNrgLdiQ7ul3g3QaCuDlAgKhMPNqc","get_progress_url":"http:\/\/fs322.uploading.com\/progress\/%3DU6IgkSwxR8bugWSR1-KQB3KHYL0R-sM2OBruNHNDrwZ-FaIu-iTU13CiOvZxhovvsEHHy4wBK-Hn6L%7CBTxkLGdpLz%7CAbKeIb1AODOaQvwy8HEcARhzxRZ52X8ZZkQdgyjnOqU%7C5APxMOrNfNrgLdiQ7ul3g3QaCuDlAgKhMPNqc","upload_iframe_url":"http:\/\/fs322.uploading.com\/upload_iframe\/%3DU6IgkSwxR8bugWSR1-KQB3KHYL0R-sM2OBruNHNDrwZ-FaIu-iTU13CiOvZxhovvsEHHy4wBK-Hn6L%7CBTxkLGdpLz%7CAbKeIb1AODOaQvwy8HEcARhzxRZ52X8ZZkQdgyjnOqU%7C5APxMOrNfNrgLdiQ7ul3g3QaCuDlAgKhMPNqc","upload_target_url":"http:\/\/fs322.uploading.com\/upload_target_iframe"}),
+		max_extention_length:		7,
+		max_queue_length:			10,
+		is_iframe:					false,
+		is_progress:				false,
+		is_single:					is_msie && !is_flash,
+		progress_id:				0,
+		post_params:				{
+			SID: '9a4f897a141007214fd88ff728d84b1b'
+		}
+	});
+
+	var variants = [];
+	if(is_flash)
+		variants[variants.length] = 'You can select and<br />upload up to 10 files<br />at the same time';
+
+	if(variants.length > 0)
+	{
+		var variant_id = Math.floor(Math.random() * (variants.length + 1));
+		if(variant_id > 0)
+			$('#cool_service').html(variants[variant_id - 1]);
+	}
+
+	if(is_msie && !is_flash)
+	{
+		$('.msie_hide').hide();
+		$('.msie_show').show();
+
+		show_single_upload();
+	}
+	else
+		init_multiple_upload();
+
+	if(is_flash)
+	{
+		$(document).ready(function()
+		{
+			$('#ajax_loading').show();
+
+			var position = getAbsCoords($('!flash_div_orientir'), 'flash_div_stop');
+			$('#flash_div_container').css({left: position.left + 'px', top: position.top + 'px'});
+
+			swfu = new SWFUpload(
+			{
+				file_size_limit: '1000 MB',
+				file_types: '*.*',
+				file_types_description: 'All Files',
+				file_upload_limit : '0',
+				file_queue_limit : '0',
+				file_queued_handler: fileQueued,
+				file_dialog_complete_handler : fileDialogComplete,
+				file_post_name: 'file',
+				upload_start_handler : fileUploadStart,
+				upload_progress_handler : fileUploadProgress,
+				upload_success_handler : fileUploadSuccess,
+				upload_complete_handler : fileUploadComplete,
+				upload_error_handler : fileUploadError,
+				upload_url: 'http://fs322.uploading.com/upload_file/%3DU6IgkSwxR8bugWSR1-KQB3KHYL0R-sM2OBruNHNDrwZ-FaIu-iTU13CiOvZxhovvsEHHy4wBK-Hn6L%7CBTxkLGdpLz%7CAbKeIb1AODOaQvwy8HEcARhzxRZ52X8ZZkQdgyjnOqU%7C5APxMOrNfNrgLdiQ7ul3g3QaCuDlAgKhMPNqc',
+	
+				queue_complete_handler : fileQueueComplete,
+	
+				button_cursor: SWFUpload.CURSOR.HAND,
+				button_placeholder_id : 'flash_div',
+				button_image_url : 'http://uploading.com/static/images/button-browse-en.gif',
+	
+				button_width: 83,
+				button_height: 25,
+			
+				flash_url : 'http://uploading.com/static/flash/swfupload.swf',
+	
+				debug: false,
+				post_params: {}
+			});
+
+			var parentBox = $('#page_simple_upload');
+			$('.flash_hide', parentBox).hide();
+			$('.flash_show', parentBox).show();
+
+			setTimeout(function () {
+				$('#flash_div_container').css({width: '83px', height: '25px'});
+				$('#ajax_loading').hide();
+			}, 1000);
+		
+		});
+	}
+	else
+	{
+		$('#button_upload_file').click(function () {
+			upload_file();
+		});
+	}
+	$(window).load(function()
+	{
+		is_window_loaded= true;
+	});
+</script>
+
+	</div></div></div></div></div>
+</div>
+
+<div id="footer">
+	<span class="copy">© 2005-2011 Uploading.com. All rights reserved.</span>
+		<ul>
+		<li><a href="http://uploading.com/terms/">Terms & Conditions</a></li>
+		<li><a href="http://uploading.com/privacy/">Privacy Policy</a></li>
+		<li><a href="http://uploading.com/dmca/">DMCA</a></li>
+		<li><a href="http://resellers.uploading.com/">Resellers</a></li>
+		<li><a href="http://uploading.com/filechecker/">File Checker</a></li>
+	</ul>
+	</div>
+
+<div id="tooltip" class="bubbling" style="position: absolute;"><div class="bubble_head"><b class="b1"></b><b class="b2"></b></div><div class="bubble"><div class="bubble_c_left"></div></div><div class="bubble_foot"><b class="b2"></b><b class="b1"></b></div></div>
+
+<script language="javascript">
+	hide_tooltip();
+</script>
+
+<div id="ajax_loading" class="ajax-loading">Loading...</div>
+
+<script language="javascript">
+	try
+	{
+		var pageTracker = _gat._getTracker("UA-21112893-1");
+		pageTracker._trackPageview();
+	}
+	catch(err){}
+
+	if(1305750985 - cookie.get('time') > 100)
+		set_notification('alert', 'Cookies seem to be disabled in your browser!<br />They must be enabled to continue using Uploading.com. Please enable cookies in your browser and reload the page.');
+
+</script>
+
+<script language="javascript">
+
+	var error = cookie.get('error');
+
+	if(error)
+	{
+		$(document).ready(function(){
+			set_notification('alert', cookie.decode(error));
+		});
+
+		cookie.delete_cookie('error', '/', '.' + CONF.domain);
+	}
+
+</script>
+
+<script type="text/javascript">
+    document.write("<img src='http://www.jscount.com/a/5/c773cf25/z?ref="+escape(document.referrer)+"&url="+escape(document.URL)+"&rand="+Math.random()+"' width=1 height=1 alt='' style='display:none'>");
+</script>
+
+</body>
+</html>

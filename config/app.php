@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | Application Name  H:\laravel\docmaster\public\docprev\thumb\pdf.png
     |--------------------------------------------------------------------------
     |
     | This value is the name of your application. This value is used when the
@@ -27,9 +27,10 @@ return [
 
     // doc beállítások-------------------------------------------
 
-    'doc_path' => 'doc',  //resource mappán belül
-    'docprew_path'=>'docprev',  //public mappán belül
-    'docprew_thumb_path'=>'docprew/thumb',  // nem mukod
+    'doc_path' => 'resources/doc/',  
+    'docprev_path'=>'docprev/',  // az előnézeti képek helye a public mappán belül
+    'docprev_thumb_path'=>'docprev/thumb/',  
+    'base_prev_img'=> ['pdf.png','file.png','doc.png'], 
 
 
    // Laravel beállítások 

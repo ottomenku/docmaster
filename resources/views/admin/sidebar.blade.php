@@ -16,7 +16,7 @@
     ['/admin/users' ,  'Felhasználók'],
     ['/admin/category','Kategóriák'],
     ['/admin/doc', 'Dokumentumok'],
-    ['/admin/upload-image', ' upload'],
+    ['admin/doc/create', 'Dok feltöltés'],
     ['/admin/pays', ' befizetések'],
     ['/admin/customers', ' Vevő adatok'],
     ],

@@ -30,10 +30,10 @@
     @php 
      $prew=$data['doc']->prev ?? $data['doc']->type.'.png' ?? 'file.png'  ;
 //$src='/docprev/thumb/'.$prew;
-$src=url(App\Http\Controllers\Admin\DocController::$docPrev_path_final);
+$docprew_thumb_path=config('app.docprew_thumb_path');
     @endphp
    
-    <img id="prewimg" src="{{ $src}}/thumb/{{$prew}}" alt="your image" width="200px"  height="200px"/>
+    <img id="prewimg" src="{{url($docprew_thumb_path.$prew)}}" alt="your image" width="200px"  height="200px"/>
     
     {!! $errors->first('thumb', '<p class="help-block">:message</p>') !!}
 </div>

@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                    <a href="{{ url('/admin') }}" title="Vissza az admin felülethez"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Vissza az admin felülethez</button></a>        
+                    <a href="{{ url('/admin/doc') }}" title="Vissza az admin felülethez"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Vissza az admin felülethez</button></a>        
                 <h1 class="text-center">File feltöltés</h1><br>                
                     <div class="form-group">
                         <div class="file-loading">
