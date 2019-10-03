@@ -55,9 +55,16 @@ public function __construct()
      */
     public function create()
     {
-        return view('admin.doc.fileupload');
+        $data['cat'] = Category::all();
+        $data['id'] =0;
+        return view('admin.doc.fileupload',compact('data'));
     }
-
+    public function createWithCat($id)
+    {
+        $data['cat'] = Category::all();
+        $data['id'] =$id;
+        return view('admin.doc.fileupload',compact('data'));
+    }
     /**
      * Store a newly created resource  in storage.
      *
@@ -81,6 +88,7 @@ public function __construct()
 
         $docdata = [
             'filename' => $filename,
+            'category_id'=>$request->cat_id,
             'name' => $OriginalName,
             'originalname' => $OriginalName,
             'type' => $ext,

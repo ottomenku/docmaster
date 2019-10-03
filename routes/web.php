@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('/roletimes', 'Admin\\RoletimesController');
     Route::resource('/users', 'Admin\\UsersController');
     Route::resource('/doc', 'Admin\\DocController');
+    Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');
     Route::post('/upload-image', ['as' => 'image.upload', 'uses' => 'Admin\\DocController@store']);
     Route::post('/prewupload', 'Admin\\DocController@prewupload')->name('prewupload');
     Route::resource('/pays', 'PaysController');
