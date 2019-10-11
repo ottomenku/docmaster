@@ -45,7 +45,7 @@ class BarionController extends Controller
             $data = Billingdata::where('user_id', Auth::id())->latest()->first();
             $data['order_id'] = $order_id;
             $data['user_id'] = \Auth::id();
-            return response()->json(['csrf_token' =>csrf_token() ,'html' => view('cristal.billingdata', compact('data'))->render()]);
+            return response()->json(['csrf_token' =>csrf_token() ,'html' => view('cristal.billingdata_noclass', compact('data'))->render()]);
       }
     }
 
@@ -85,7 +85,7 @@ class BarionController extends Controller
     public function barionredirect(Request $request)
     {
         $paymentId = $request->get("paymentId");
-        $data= $this-> barioncallbackHandler($paymentId);
+        $data= $this-> barioncallbackHandler($paymentId,'redirect');
         $status=$data['res']['status'] ?? '';
   
         if ($status == 'Succeeded') { //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
@@ -104,6 +104,10 @@ class BarionController extends Controller
  */
     public function barioncallback(Request $request)
     {
+      /*  $request->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');*/
+
         $paymentId = $request->get("paymentId");
         $data= $this-> barioncallbackHandler($paymentId);
         $res['status'] =$data['res']['status'] ?? '';

@@ -53,3 +53,10 @@ xdebug.remote_enable = 1
 xdebug.remote_autostart = 1  // ez okozhat figyelmeztetést
 ha valami iconv depcrepated... hiba-figyelmeztetés van, ki kell kapcsolni az oldalsávon a töréspontoknál az everything -et.
 csak az error meg az exeptions legyen bekapcsolva
+
+xcsrf kikapcsolása routopknál. (pl barion callbacknél kellett volna de nem működött)
+\app\Http\Middleware\VerifyCsrfToken.php :
+  protected $except = [
+        '/barioncallback/*',
+    ];
+ha nem működik a routot atkell tenni a web.php ról az api.php-ba utána api előtag pl. api/callback

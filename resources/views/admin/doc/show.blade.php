@@ -26,14 +26,27 @@
                         {!! Form::close() !!}
                         <br/>
                         <br/>
-
+                            @php 
+                                $docprew_thumb_path=config('app.docprev_thumb_path');
+                            @endphp
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <th>ID</th><td>{{ $doc->id }}</td>
                                     </tr>
-                                    <tr><th> Category Id </th><td> {{ $doc->category_id }} </td></tr><tr><th> Name </th><td> {{ $doc->name }} </td></tr><tr><th> Imgpath </th><td> {{ $doc->imgpath }} </td></tr>
+                                    <tr><th> Kategoria </th><td> {{ $doc->category_id }} </td></tr>
+                                    <tr><th> Doc neve</th><td> {{ $doc->name }} </td></tr>
+                                     <tr><th>Eredeti név </th><td> {{ $doc->originalname }} </td></tr>
+                                    <tr><th> filenév</th><td> {{ $doc->filename}} </td></tr>
+                                    <tr><th>Jegyzet </th><td> {{ $doc->note }} </td></tr>
+                                    <tr><th>Méret KB</th><td> {{ $doc->sizekb}} </td></tr>
+                                    <tr><th> Előnézet </th><td> 
+                                        <button href="/admin/docprev/{{$doc->id}}" data-remote="false" data-toggle="modal" data-target="#myModal" >
+                                            <img src="{{ url($docprew_thumb_path.$doc->prev)}}" width="50px" height="50px">
+                                        </button>  
+                                    </td></tr>
+
                                 </tbody>
                             </table>
                         </div>

@@ -50,6 +50,12 @@
       "modified": false
     },
     "barion-web-php-master": {},
+    "barions.sql": {
+      "type": "-",
+      "size": 1994,
+      "lmtime": 0,
+      "modified": false
+    },
     "bootstrap": {},
     "composer.json": {
       "type": "-",
@@ -77,13 +83,25 @@
       "lmtime": 0,
       "modified": true
     },
-    "example": {},
-    "library": {},
-    "notes": {
+    "docmaster3table.sql": {
       "type": "-",
-      "size": 1407,
+      "size": 3609,
       "lmtime": 0,
       "modified": false
+    },
+    "example": {},
+    "library": {},
+    "mini.php": {
+      "type": "-",
+      "size": 9686,
+      "lmtime": 0,
+      "modified": false
+    },
+    "notes": {
+      "type": "-",
+      "size": 2133,
+      "lmtime": 0,
+      "modified": true
     },
     "package.json": {
       "type": "-",

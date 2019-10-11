@@ -7,20 +7,20 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Pay {{ $pay->id }}</div>
+                    <div class="card-header">Category {{ $category->id }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/pays') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/pays/' . $pay->id . '/edit') }}" title="Edit Pay"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        <a href="{{ url('/admin/category') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/category/' . $category->id . '/edit') }}" title="Edit Category"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                         {!! Form::open([
                             'method'=>'DELETE',
-                            'url' => ['pays', $pay->id],
+                            'url' => ['admin/category', $category->id],
                             'style' => 'display:inline'
                         ]) !!}
                             {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
                                     'type' => 'submit',
                                     'class' => 'btn btn-danger btn-sm',
-                                    'title' => 'Delete Pay',
+                                    'title' => 'Delete Category',
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
@@ -31,9 +31,9 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <th>ID</th><td>{{ $pay->id }}</td>
+                                        <th>ID</th><td>{{ $category->id }}</td>
                                     </tr>
-                                    <tr><th> User Id </th><td> {{ $pay->user_id }} </td></tr>
+                                    <tr><th> Role Id </th><td> {{ $category->role_id }} </td></tr><tr><th> Name </th><td> {{ $category->name }} </td></tr><tr><th> Note </th><td> {{ $category->note }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

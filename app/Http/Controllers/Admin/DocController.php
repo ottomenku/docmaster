@@ -73,8 +73,9 @@ public function __construct()
      * @return \Illuminate\Http\Response|
      */
     public function store(Request $request)
-    {
-        $path =$this->doc_path; 
+    { 
+        //$path =$this->doc_path; 
+        $path =resource_path('doc');
         $this->validate($request, [
             'file' => 'required',
             'file.*' => 'mimes:doc,pdf,docx,txt,xls',
@@ -95,7 +96,6 @@ public function __construct()
             'prev' => $prev,
             'sizekb' => $request->file('file')->getSize()];
         Doc::create($docdata);
-
         request()->file->move($path, $filename);
         return response()->json(['uploaded' => $OriginalName]);
     }
@@ -113,7 +113,11 @@ public function __construct()
 
         return view('admin.doc.show', compact('doc'));
     }
-
+    public function prev($id)
+    {
+        $doc = Doc::findOrFail($id);
+      return response('<img src="'.url('docprev/'.$doc->prev).'" height="600px" width="100%">');
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -26,8 +26,8 @@ Route::any('/billingdataformJson/{orders_id}', 'BarionController@billingdataform
 
 Route::post('/pay', 'BarionController@store')->name('pay');
 Route::any('/barionredirect', 'BarionController@barionredirect');
+//Route::any('/barioncallback', 'BarionController@barioncallback')->middleware(['cors']);
 Route::any('/barioncallback', 'BarionController@barioncallback');
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/cat/{id}', 'HomeController@category')->name('cat');
 Route::any('/download/{id}', 'HomeController@download');
@@ -50,14 +50,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'admin'], function () {
     Route::get('/', ['uses' => 'Admin\\AdminController@index']);
     Route::resource('/roletimes', 'Admin\\RoletimesController');
+    Route::resource('pays', 'Admin\\PayController');
     Route::resource('/users', 'Admin\\UsersController');
     Route::resource('/doc', 'Admin\\DocController');
+    Route::get('/docprev/{id}', 'Admin\\DocController@prev');
     Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');
     Route::post('/upload-image', ['as' => 'image.upload', 'uses' => 'Admin\\DocController@store']);
     Route::post('/prewupload', 'Admin\\DocController@prewupload')->name('prewupload');
-    Route::resource('/pays', 'PaysController');
     Route::resource('/customers', 'CustomersController');
 });
 
-Route::resource('pays', 'PaysController');
 Route::resource('customers', 'CustomersController');
+

@@ -22,7 +22,12 @@ $items=$data['list'] ?? [];
                             </a>
                         </div>
                         <div class="blog-item-text" style="padding:5px;overflow: hidden;">
-                        <center><img src="/docprev/thumb/{{$item['prev']}}" height="200px" width="200px"> </center>
+                        <center>
+                                <a href="/admin/docprev/{{$item['id']}}" data-remote="false" data-toggle="modal" data-target="#myModal" >
+                                    <img src="/docprev/thumb/{{$item['prev']}}" height="200px" width="200px">
+                                </a>                                   
+                            
+                         </center>
                             <h3> {{$item['name']}}</h3> 
                             <p>
                                     {{Str::limit($item['note'] , 100)}}

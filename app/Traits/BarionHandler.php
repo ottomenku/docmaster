@@ -51,7 +51,7 @@ trait BarionHandler
 /**
  * /test/barioncallback
  */
-    public function barioncallbackHandler($paymentId)
+    public function barioncallbackHandler($paymentId,$script='callback')
     {
         $paymentState = \Barion::getPaymentState($paymentId);
         $res['status'] = $paymentState->Status ?? null; //sikeres:Succeeded   https://doksi.barion.com/PaymentStatus
@@ -61,13 +61,13 @@ trait BarionHandler
         //$res['message'] = ' Nem fizetős barionm hívás';
         // $errors = $paymentState-> ?? 'nincs hiba';
         $bariontransaction_id = explode('-', $paymentState->Transactions[0]->POSTransactionId)[0]; 
-        $barion = $this->createBarion($paymentState, $bariontransaction_id, 'callback');
+        $barion = $this->createBarion($paymentState, $bariontransaction_id, $script);
         $res['barion_id'] = $barion->id ?? null;
 
         if ($paymentState->Status == 'Succeeded') { //sikeres:Succeeded        
             $pay = $this->createTransactionPay($bariontransaction_id);
             $res['pay_id'] = $pay->id ?? null;
-            $res['roletime_id'] =$this-> createPayRoletime($pay)->id ?? null;
+            $res['roletime_id'] =$this->createPayRoletime($pay)->id ?? null;
             //TODO: kipróbálni hogy ír-e már be useridet megoldva az use Illuminate\Support\Facades\Auth; helyett \Auth-ot kell használni
         }
         $data['res']=$res;

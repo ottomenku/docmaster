@@ -1,11 +1,16 @@
 {
+ "/app/Http/Controllers/Admin/CategoryController.php": "upload",
  "/app/Http/Controllers/Admin/DocController.php": "upload",
- "/app/Http/Controllers/BarionController.php": "upload",
- "/app/Traits/BarionHandler.php": "upload",
- "/config/app.php": "upload",
- "/public/.htaccess": "upload",
- "/resources/views/admin/doc/fileupload.blade.php": "upload",
- "/resources/views/admin/doc/form.blade.php": "upload",
+ "/app/Http/Controllers/Admin/PayController.php": "upload",
+ "/notes": "upload",
+ "/resources/laravel-admin/menus.json": "upload",
  "/resources/views/admin/doc/index.blade.php": "upload",
- "/tests/Unit/BarionHandlerTest.php": "upload"
+ "/resources/views/admin/doc/show.blade.php": "upload",
+ "/resources/views/admin/pay/index.blade.php": "upload",
+ "/resources/views/admin/pay/show.blade.php": "upload",
+ "/resources/views/cristal/billingdata.blade.php": "upload",
+ "/resources/views/cristal/category.blade.php": "upload",
+ "/resources/views/layouts/backend.blade.php": "upload",
+ "/resources/views/pays/form.blade.php": "upload",
+ "/routes/web.php": "upload"
 }

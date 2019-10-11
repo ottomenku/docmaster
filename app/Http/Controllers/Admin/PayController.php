@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Category;
+//use App\Pay;
+use App\Pay;
 use App\Role;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class PayController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,15 +23,15 @@ class CategoryController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $category = Category::where('order_id', 'LIKE', "%$keyword%")
-                ->orWhere('days', 'LIKE', "%$keyword%")
-                ->orWhere('total', 'LIKE', "%$keyword%")
+            $pay = Pay::where('role_id', 'LIKE', "%$keyword%")
+                ->orWhere('name', 'LIKE', "%$keyword%")
+                ->orWhere('note', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $category = Category::latest()->paginate($perPage);
+            $pay = Pay::latest()->with('user')->paginate($perPage);
         }
 
-        return view('admin.category.index', compact('category'));
+        return view('admin.pay.index', compact('pay'));
     }
 
     /**
@@ -38,11 +39,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\View\View
      */
-   /* public function create()
+    public function create()
     {
        $data['roles']=Role::pluck('name','id');
-        return view('admin.category.create',compact('data'));
-    }*/
+        return view('admin.pay.create',compact('data'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,17 +52,17 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   /* public function store(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
 			'name' => 'required'
 		]);
         $requestData = $request->all();
         
-        Category::create($requestData);
+        Pay::create($requestData);
 
-        return redirect('admin/category')->with('flash_message', 'Category added!');
-    }*/
+        return redirect('admin/pay')->with('flash_message', 'Pay added!');
+    }
 
     /**
      * Display the specified resource.
@@ -72,9 +73,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $Pay = Pay::findOrFail($id);
 
-        return view('admin.category.show', compact('category'));
+        return view('admin.pay.show', compact('Pay'));
     }
 
     /**
@@ -84,12 +85,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\View\View
      */
- /* public function edit($id)
+    public function edit($id)
     {
-        $category = Category::findOrFail($id);
+        $pay = Pay::findOrFail($id);
         $data['roles']=Role::pluck('name','id');
-        return view('admin.category.edit', compact('category','data'));
-    }**/
+        return view('admin.pay.edit', compact('Pay','data'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -99,18 +100,18 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   /* public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
 			'name' => 'required'
 		]);
         $requestData = $request->all();
         
-        $category = Category::findOrFail($id);
-        $category->update($requestData);
+        $Pay = Pay::findOrFail($id);
+        $Pay->update($requestData);
 
-        return redirect('admin/category')->with('flash_message', 'Category updated!');
-    }**/
+        return redirect('admin/pay')->with('flash_message', 'Pay updated!');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -119,10 +120,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-/*   public function destroy($id)
+    public function destroy($id)
     {
-        Category::destroy($id);
+        Pay::destroy($id);
 
-        return redirect('admin/category')->with('flash_message', 'Category deleted!');
-    }*/
+        return redirect('admin/pay')->with('flash_message', 'Pay deleted!');
+    }
 }

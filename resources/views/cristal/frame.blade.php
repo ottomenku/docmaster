@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,7 +16,7 @@
     <link rel="stylesheet" href="/cristal/css/owl.carousel.css">
     <link rel="stylesheet" href="/cristal/css/owl.theme.css">
     <link rel="stylesheet" href="/cristal/css/nivo-lightbox.css">
-    <link rel="stylesheet" href="/cristal/css/magnific-popup.css">
+   <!-- <link rel="stylesheet" href="/cristal/css/magnific-popup.css"> -->
     <link rel="stylesheet" href="/cristal/css/animate.css">
     <link rel="stylesheet" href="/cristal/css/menu_sideslide.css">
     <link rel="stylesheet" href="/cristal/css/main.css">
@@ -229,7 +228,6 @@ function datasendModal(dataout) {
         <script src="/cristal/js/jquery.stellar.min.js"></script>
         <script src="/cristal/js/jquery.nav.js"></script>
         <script src="/cristal/js/smooth-scroll.js"></script>
-       <!-- <script src="/cristal/js/smooth-on-scroll.js"></script> -->
         <script src="/cristal/js/wow.js"></script>
         <script src="/cristal/js/menu.js"></script>
         <script src="/cristal/js/jquery.vide.js"></script>

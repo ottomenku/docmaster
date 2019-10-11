@@ -56,7 +56,8 @@ class HomeController extends Controller
 
         if ( $userid > 0 && Roletime::hasRole($userid, 3)) {
             $fileNeve = Doc::find($id)->filename ?? '';
-            $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
+           // $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
+           $filepath = resource_path('doc') . '/' . $fileNeve;
             return response()->download($filepath); // a fájl nevét kell megadni és annak tartalma bele lesz csatornázva a válaszba
 
         }
@@ -73,7 +74,8 @@ class HomeController extends Controller
         } else {
             if (Roletime::hasRole(\Auth::id(), 3)) {
                 $fileNeve = Doc::find($id)->filename ?? '';
-                $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
+              //  $filepath = resource_path(config('app.doc_path')) . '/' . $fileNeve;
+               $filepath = resource_path('doc') . '/' . $fileNeve;
                 if (is_file($filepath)) {
                     return response()->json(['filedownload' => url('directdownload/' . $id), 'html' => '<h4>File letöltés</h4><span>Ha nem indul el automatikusan kattintson <span>
              <a href="/directdownload/' . $id . '" > ide </a>',

@@ -1,7 +1,7 @@
-<div class="form-group{{ $errors->has('User_id') ? 'has-error' : ''}}">
-    {!! Form::label('User_id', 'User Id', ['class' => 'control-label']) !!}
-    {!! Form::number('User_id', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('User_id', '<p class="help-block">:message</p>') !!}
+<div class="form-group{{ $errors->has('user_id') ? 'has-error' : ''}}">
+    {!! Form::label('user_id', 'User Id', ['class' => 'control-label']) !!}
+    {!! Form::number('user_id', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! $errors->first('user_id', '<p class="help-block">:message</p>') !!}
 </div>
 
 

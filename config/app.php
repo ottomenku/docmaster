@@ -17,7 +17,7 @@ return [
 
     // barion beállítások-------------------------------
     'RedirectUrl' => "https://doc.mottoweb.hu/barionredirect",
-    'CallbackUrl' => "https://doc.mottoweb.hu/barioncallback",
+    'CallbackUrl' => "https://doc.mottoweb.hu/api/barioncallback",
     'barionResEmail' => 'menkuotto@gmail.com',
     'ordersData' => [ //csomag dijak, adatok 
       'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
