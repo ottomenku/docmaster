@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Category extends Model
+class Howcat extends Model
 {
     use LogsActivity;
     
@@ -15,7 +15,7 @@ class Category extends Model
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'howcats';
 
     /**
     * The database primary key value.
@@ -35,9 +35,9 @@ class Category extends Model
     {
         return $this->belongsTo('App\Roles');
     }
-    public function doc()
+    public function howto()
     {
-        return $this->hasMany('App\Doc');
+        return $this->hasMany('App\Howto');
     }
 
     /**

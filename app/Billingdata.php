@@ -37,10 +37,13 @@ class Billingdata extends Model
     {
         return $this->belongsTo('App\User');
     }
-    
     public function pay()
     {
         return $this->hasMany('App\Pay');
+    }
+    public function bariontransaction()
+    {
+        return $this->hasMany('App\Bariontransaction');
     }
     /**
      * Change activity log event description

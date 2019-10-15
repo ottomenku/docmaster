@@ -17,21 +17,34 @@ class CreateRoletimesTables extends Migration
 
         Schema::create('roletimes', function (Blueprint $table) {       
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
-            $table->integer('admin_id')->nullable();
-            $table->integer('pay_id')->nullable();
-          
-    /*        $table->foreign('user_id')
+            if (\App::VERSION() >= '5.8') {
+                $table->bigInteger('user_id')->unsigned();
+            } else {
+                $table->integer('user_id')->unsigned();
+            }
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
 
+            $table->integer('role_id')->unsigned()->unsigned();
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('cascade');*/
-
+                ->onDelete('cascade');
+            
+           $table->integer('admin_id')->nullable();
+          /*   $table->foreign('admin_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            */
+            $table->integer('pay_id')->unsigned()->nullable();
+          $table->foreign('pay_id')
+                ->references('id')
+                ->on('pays')
+                ->onDelete('cascade');      
+                
            // $table->primary(['permission_id', 'role_id']);
            $table->string('note')->nullable();
             $table->date('start')->nullable();

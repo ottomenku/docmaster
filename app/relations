@@ -1,0 +1,21 @@
+belongsTo:
+Bariontransaction: 'user_id','billingdata_id','order_id'
+Barion: 'payment_id','bariontransaction_id'
+Billingdata: 'user_id'
+Category :'role_id'
+Doc:'category_id'
+Pay: 'user_id','admin_id','action_id','billingdata_id','order_id'
+Roletime: 'user_id', 'role_id', 'admin_id', 'pay_id'
+
+hasMany:
+user: Bariontransaction,Pay,Billingdata,Roletime:
+billingdata: Bariontransaction,Pay
+payment: Barion, //nem tábla
+bariontransaction:Barion
+role: Category,Roletime
+category:Doc
+pay:Roletime
+
+
+admin_id (user tábla) .pay. roletime
+

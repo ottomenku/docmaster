@@ -14,9 +14,11 @@ class CreateBillingdataTable extends Migration
     {
         Schema::create('billingdata', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
-            $table->softDeletes();
-            $table->integer('user_id');
+            if (\App::VERSION() >= '5.8') {
+                $table->bigInteger('user_id')->unsigned();
+            } else {
+                $table->integer('user_id')->unsigned();
+            }
             $table->string('fullname');
             $table->string('cardname');
             $table->string('city');
@@ -24,6 +26,8 @@ class CreateBillingdataTable extends Migration
             $table->string('tel'); 
             $table->string('address');
             $table->string('adosz')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
             });
     }
 

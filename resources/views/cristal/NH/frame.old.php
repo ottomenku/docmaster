@@ -8,16 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
     <title>Doc master</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-
-    <!-- Bootstrap CSS
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
-    <script src="/cristal/js/jquery-min.js"></script>
- -->
     <link rel="stylesheet" href="/cristal/css/font-awesome.min.css">
     <link rel="stylesheet" href="/cristal/css/line-icons.css">
     <link rel="stylesheet" href="/cristal/css/owl.carousel.css">
@@ -28,7 +21,7 @@
     <link rel="stylesheet" href="/cristal/css/menu_sideslide.css">
     <link rel="stylesheet" href="/cristal/css/main.css">
     <link rel="stylesheet" href="/cristal/css/responsive.css">
-   
+    <script src="/cristal/js/jquery-min.js"></script>
     
     <script>
         $( document ).ready(function() {
@@ -186,12 +179,12 @@ function datasendModal(dataout) {
             <i class="lnr lnr-arrow-up"></i>
         </a>
 
-     <!--    <div id="loader">
+        <div id="loader">
             <div class="spinner">
                 <div class="double-bounce1"></div>
                 <div class="double-bounce2"></div>
             </div>
-        </div> -->
+        </div>
 
         <!-- Default bootstrap modal example -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -228,8 +221,8 @@ function datasendModal(dataout) {
          
 
       
-                 <!-- jQuery first, then Tether, then Bootstrap JS. 
-<script src="/cristal/js/bootstrap.min.js"></script>
+                 <!-- jQuery first, then Tether, then Bootstrap JS. -->
+
         <script src="/cristal/js/tether.min.js"></script>
        
         <script src="/cristal/js/classie.js"></script>
@@ -247,8 +240,9 @@ function datasendModal(dataout) {
         <script src="/cristal/js/waypoints.min.js"></script>
         <script src="/cristal/js/form-validator.min.js"></script>
         <script src="/cristal/js/contact-form-script.js"></script>  
-         <script src="/cristal/js/main.js"></script> 
-         -->
+         <script src="/cristal/js/main.js"></script>
+          <script src="/cristal/js/bootstrap.min.js"></script>
+         
 
 </body>
 

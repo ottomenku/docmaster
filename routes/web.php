@@ -52,11 +52,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('/roletimes', 'Admin\\RoletimesController');
     Route::resource('pays', 'Admin\\PayController');
     Route::resource('/users', 'Admin\\UsersController');
+
     Route::resource('/doc', 'Admin\\DocController');
     Route::get('/docprev/{id}', 'Admin\\DocController@prev');
     Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');
     Route::post('/upload-image', ['as' => 'image.upload', 'uses' => 'Admin\\DocController@store']);
     Route::post('/prewupload', 'Admin\\DocController@prewupload')->name('prewupload');
+ 
+    Route::resource('/howto', 'Admin\\howtoController');
+    Route::get('/howtoprev/{id}', 'Admin\\howtoController@prev');
+    Route::get('/howto/createwithcat/{id}', 'Admin\\howtoController@createWithCat');
+    Route::post('/howtoupload-image', ['as' => 'howtoimage.upload', 'uses' => 'Admin\\howtoController@store']);
+   Route::post('/howtoprewupload', 'Admin\\howtoController@prewupload')->name('howtoprewupload');
+
+    
+
     Route::resource('/customers', 'CustomersController');
 });
 

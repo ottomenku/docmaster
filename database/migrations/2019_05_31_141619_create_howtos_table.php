@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateDocsTable extends Migration
+class CreateHowtosTable extends Migration
 {
     /**
      * Run the migrations.['category_id', 'name', 'originalname','filename', 'type','prev','sizekb','note'];
@@ -12,12 +12,12 @@ class CreateDocsTable extends Migration
      */
     public function up()
     {
-        Schema::create('docs', function (Blueprint $table) {
+        Schema::create('howtos', function (Blueprint $table) {
             $table->increments('id');  
-            $table->integer('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')
+            $table->integer('howcat_id')->unsigned()->nullable();
+            $table->foreign('howcat_id')
             ->references('id')
-            ->on('categories')
+            ->on('howcat')
             ->onDelete('cascade');
 
             $table->string('name')->nullable();
@@ -40,6 +40,6 @@ class CreateDocsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('docs');
+        Schema::drop('howtos');
     }
 }

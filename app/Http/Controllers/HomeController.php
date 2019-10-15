@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Doc;
+use App\Howcat;
 use App\Roletime;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,12 @@ class HomeController extends Controller
     public function index()
     {
         $data['categories'] = Category::all();
-        return view('cristal.index', compact('data'));
+         $data['cat'] = Category::with('doc')->get();
+        $data['howcat'] = Howcat::with('howto')->get();
+//var_dump($data);
+//print_r($data['howcat']);
+//var_dump($data['howcat']);
+      return view('cristal.index', compact('data'));
     }
     public function category(Request $request, $id)
     {

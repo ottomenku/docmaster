@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Category extends Model
+class Howto extends Model
 {
     use LogsActivity;
     
@@ -15,7 +15,7 @@ class Category extends Model
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'howtos';
 
     /**
     * The database primary key value.
@@ -29,16 +29,13 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['role_id', 'name', 'note'];
+    protected $fillable = ['howcat_id', 'name', 'originalname','filename', 'type','prev','thumb','sizekb','note'];
 
-    public function roles()
+    public function howcat()
     {
-        return $this->belongsTo('App\Roles');
+        return $this->belongsTo('App\Howcat');
     }
-    public function doc()
-    {
-        return $this->hasMany('App\Doc');
-    }
+    
 
     /**
      * Change activity log event description

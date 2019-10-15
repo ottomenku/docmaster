@@ -1,4 +1,3 @@
-
 <?php
 composer create-project --prefer-dist laravel/laravel docmaster
 .env szerkesztése (adatbázis)

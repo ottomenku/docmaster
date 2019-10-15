@@ -24,9 +24,12 @@ return [
       'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
       'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
     ],
-
+    //howto beállítások------------------------------
+    'howto_path' => 'resources/howto/',  
+    'howtoprev_path'=>'howtoprev/',  // az előnézeti képek helye a public mappán belül
+    'howtoprev_thumb_path'=>'howtoprev/thumb/',  
+  
     // doc beállítások-------------------------------------------
-
     'doc_path' => 'resources/doc/',  
     'docprev_path'=>'docprev/',  // az előnézeti képek helye a public mappán belül
     'docprev_thumb_path'=>'docprev/thumb/',  

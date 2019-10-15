@@ -36,7 +36,7 @@ class Barion extends Model
  
     public function bariontransaction()
     {
-        return $this->belongsTo('App\bariontransaction');
+        return $this->belongsTo('App\Bariontransaction');
     }
     /**
      * Change activity log event description

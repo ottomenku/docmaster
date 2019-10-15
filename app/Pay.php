@@ -38,17 +38,18 @@ class Pay extends Model
     {
         return $this->belongsTo('App\User');
     }
+    public function admin()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
     public function billingdata()
     {
         return $this->belongsTo('App\Billingdata');
     }
-    public function barion()
+ 
+    public function roletime()
     {
-        return $this->belongsTo('App\Bariion','action_id', 'other_key');
-    }
-    public function bariontransaction()
-    {
-        return $this->belongsTo('App\Bariiontransaction','action_id', 'other_key');
+        return $this->hasMany('App\Roletime');
     }
     /**
      * Change activity log event description

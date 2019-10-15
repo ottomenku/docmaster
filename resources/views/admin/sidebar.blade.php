@@ -11,14 +11,17 @@
     ],
     
     'admin'=>[  
-   
-    ['/admin/roletimes' , 'Userjogok'],
+     ['/admin/pays', ' befizetések'],
+    ['/admin/roletimes' , 'Előfizetések'],
     ['/admin/users' ,  'Felhasználók'],
-    ['/admin/category','Kategóriák'],
-    ['/admin/doc', 'Dokumentumok'],
-    ['admin/doc/create', 'Dok feltöltés'],
-    ['/admin/pays', ' befizetések'],
-    ['/admin/customers', ' Vevő adatok'],
+     ['/admin/customers', ' Vevő adatok'],
+    ['/admin/howcat','Tudástár Kategóriák'],
+    ['/admin/howto', 'tudástár'],
+    ['/admin/category','Dokumentum kategóriák'],
+    ['/admin/post', 'Cikkek'],
+    ['/admin/text', 'nyitólap'],
+   // ['admin/doc/create', 'Dok feltöltés'], 
+   
     ],
     
     ];

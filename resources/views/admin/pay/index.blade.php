@@ -33,7 +33,7 @@
                                 <tbody>
                                 @foreach($pay as $item)
                                     <tr>
-                                        <td>{{ $item->user_id}}</td>
+                                        <td>{{ $item->user->name}}</td>
                                         <td>{{ $item->billingdata_id }}</td>
                                         <td>{{ $item->order_id }}</td>
                                         <td>{{ $item->total}}</td>
