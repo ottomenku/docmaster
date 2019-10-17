@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-@php  $howto=$data['howto']   @endphp
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -7,9 +7,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Tudástár dok. szerkesztése: {{ $howto->name }}</div>
+                    <div class="card-header">Create New Postcat</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/howto') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/postcat') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,14 +21,9 @@
                             </ul>
                         @endif
 
-                        {!! Form::model($howto, [
-                            'method' => 'PATCH',
-                            'url' => ['/admin/howto', $howto->id],
-                            'class' => 'form-horizontal',
-                            'files' => true
-                        ]) !!}
+                        {!! Form::open(['url' => '/postcat', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        @include ('admin.howto.form', ['formMode' => 'edit'])
+                        @include ('postcat.form', ['formMode' => 'create'])
 
                         {!! Form::close() !!}
 
@@ -37,5 +32,4 @@
             </div>
         </div>
     </div>
-
 @endsection

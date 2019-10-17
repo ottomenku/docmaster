@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\howcat;
-use App\Role;
+use App\Textbase;
 use Illuminate\Http\Request;
 
-class HowcatsController extends Controller
+class TextbaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,15 +21,16 @@ class HowcatsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $howcat = Howcat::where('order_id', 'LIKE', "%$keyword%")
-                ->orWhere('days', 'LIKE', "%$keyword%")
-                ->orWhere('total', 'LIKE', "%$keyword%")
+            $textbase = Textbase::where('code', 'LIKE', "%$keyword%")
+                ->orWhere('text', 'LIKE', "%$keyword%")
+                ->orWhere('note', 'LIKE', "%$keyword%")
+                ->orWhere('pub', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $howcat = Howcat::latest()->paginate($perPage);
+            $textbase = Textbase::latest()->paginate($perPage);
         }
 
-        return view('admin.howcat.index', compact('howcat'));
+        return view('admin.textbase.index', compact('textbase'));
     }
 
     /**
@@ -38,10 +38,9 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\View\View
      */
- public function create()
+    public function create()
     {
-       $data['roles']=Role::pluck('name','id');
-        return view('admin.howcat.create',compact('data'));
+        return view('admin.textbase.create');
     }
 
     /**
@@ -51,16 +50,16 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'code' => 'required'
 		]);
         $requestData = $request->all();
         
-        Howcat::create($requestData);
+        Textbase::create($requestData);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat added!');
+        return redirect('admin/textbase')->with('flash_message', 'Textbase added!');
     }
 
     /**
@@ -72,9 +71,9 @@ class HowcatsController extends Controller
      */
     public function show($id)
     {
-        $howcat = Howcat::findOrFail($id);
+        $textbase = Textbase::findOrFail($id);
 
-        return view('admin.howcat.show', compact('howcat'));
+        return view('admin.textbase.show', compact('textbase'));
     }
 
     /**
@@ -84,11 +83,11 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-  public function edit($id)
+    public function edit($id)
     {
-        $howcat = Howcat::findOrFail($id);
-        $data['roles']=Role::pluck('name','id');
-        return view('admin.howcat.edit', compact('howcat','data'));
+        $textbase = Textbase::findOrFail($id);
+
+        return view('admin.textbase.edit', compact('textbase'));
     }
 
     /**
@@ -102,14 +101,14 @@ class HowcatsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'code' => 'required'
 		]);
         $requestData = $request->all();
         
-        $howcat = Howcat::findOrFail($id);
-        $howcat->update($requestData);
+        $textbase = Textbase::findOrFail($id);
+        $textbase->update($requestData);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat updated!');
+        return redirect('admin/textbase')->with('flash_message', 'Textbase updated!');
     }
 
     /**
@@ -119,10 +118,10 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   public function destroy($id)
+    public function destroy($id)
     {
-        Howcat::destroy($id);
+        Textbase::destroy($id);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat deleted!');
+        return redirect('admin/textbase')->with('flash_message', 'Textbase deleted!');
     }
 }

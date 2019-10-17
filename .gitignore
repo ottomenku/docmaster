@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/docprev
+/public/howtoprev
+/resources/howto
+/resources/doc
 /storage/*.key
 /vendor
 .env

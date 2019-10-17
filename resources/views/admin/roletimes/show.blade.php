@@ -7,40 +7,44 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Role</div>
+                    <div class="card-header">Letöltési jogok</div>
                     <div class="card-body">
+                        <a href="{{ url('/admin/roletimes') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+<br/><br/>
+<div class="row">
+    <div class="col-md-4"><h4>Felhasználó név</h4></div><div class="col-md-8"><h4> {{$roletime->user->name ?? ''}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>Letöltési jog</h4></div><div class="col-md-8"><h4>{{$roletime->role->name ?? ''}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>Start</h4></div><div class="col-md-8"><h4>{{$roletime->start}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>End</h4></div><div class="col-md-8"><h4>{{$roletime->end}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>Admin</h4></div><div class="col-md-8"><h4>{{$roletime->admin->name ?? ''}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>Feljegyzés</h4></div><div class="col-md-8"><h4>{{$roletime->note ?? ''}}</h4></div>
+</div>
+<div class="row">
+    <div class="col-md-4"><h4>Dátum</h4></div><div class="col-md-8"><h4>{{$roletime->created_at ?? ''}}</h4></div>
+</div>
+@php
+  $payid= $roletime->pay_id ?? ''
+@endphp
 
-                        <a href="{{ url('/admin/roles') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/admin/roles/' . $role->id . '/edit') }}" title="Edit Role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-                        {!! Form::open([
-                            'method' => 'DELETE',
-                            'url' => ['/admin/roles', $role->id],
-                            'style' => 'display:inline'
-                        ]) !!}
-                            {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-danger btn-sm',
-                                    'title' => 'Delete Role',
-                                    'onclick'=>'return confirm("Confirm delete?")'
-                            ))!!}
-                        {!! Form::close() !!}
-                        <br/>
-                        <br/>
+<div class="row">
+    <div class="col-md-4"><h4>Fizetési adatok</h4></div><div class="col-md-8">
+        @if($payid!='')
+        <h4> <a href="{{ url('/admin/pay/'. $payid) }}" ><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button>Fizetési adatok</a></h4>
+        @endif
+    </div>
+</div>
 
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID.</th> <th>Name</th><th>Label</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $role->id }}</td> <td> {{ $role->name }} </td><td> {{ $role->label }} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
 
                     </div>
                 </div>

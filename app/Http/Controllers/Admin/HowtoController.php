@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
+use App\howcat;
 use App\howto;
 use App\Http\Controllers\Controller;
 use File;
@@ -35,14 +35,14 @@ public function __construct()
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $howto = Howto::with('category')->where('category_id', 'LIKE', "%$keyword%")
+            $howto = Howto::with('howcat')->where('howcat_id', 'LIKE', "%$keyword%")
                 ->orWhere('name', 'LIKE', "%$keyword%")
                 ->orWhere('originalname', 'LIKE', "%$keyword%")
                 ->orWhere('type', 'LIKE', "%$keyword%")
                 ->orWhere('note', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $howto = Howto::with('category')->latest()->paginate($perPage);
+            $howto = Howto::with('howcat')->latest()->paginate($perPage);
         }
 
         return view('admin.howto.index', compact('howto'));
@@ -55,13 +55,13 @@ public function __construct()
      */
     public function create()
     {
-        $data['cat'] = Category::all();
+        $data['howcat'] = Howcat::all();
         $data['id'] =0;
         return view('admin.howto.fileupload',compact('data'));
     }
     public function createWithCat($id)
     {
-        $data['cat'] = Category::all();
+        $data['howcat'] = Howcat::all();
         $data['id'] =$id;
         return view('admin.howto.fileupload',compact('data'));
     }
@@ -89,7 +89,7 @@ public function __construct()
 
         $howtodata = [
             'filename' => $filename,
-            'category_id'=>$request->cat_id,
+            'howcat_id'=>$request->cat_id,
             'name' => $OriginalName,
             'originalname' => $OriginalName,
             'type' => $ext,
@@ -128,7 +128,7 @@ public function __construct()
     public function edit($id)
     {
         $data['howto'] = Howto::findOrFail($id);
-        $data['categories'] = Category::all()->pluck('name', 'id');
+        $data['howcats'] = Howcat::all()->pluck('name', 'id');
         return view('admin.howto.edit', compact('data'));
     }
 

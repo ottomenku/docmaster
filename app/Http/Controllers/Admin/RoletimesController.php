@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class RoletimesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      *
      * @return void
      */
@@ -22,10 +22,10 @@ class RoletimesController extends Controller
         $perPage = 15;
 
         if (!empty($keyword)) {
-            $roles = RoleTime::where('note', 'LIKE', "%$keyword%")->orWhere('User_id', 'LIKE', "%$keyword%")
+            $roles = RoleTime::with(['role','user'])->where('note', 'LIKE', "%$keyword%")->orWhere('User_id', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $roles = RoleTime::latest()->paginate($perPage);
+            $roles = RoleTime::with(['role','user'])->latest()->paginate($perPage);
         }
 
         return view('admin.roletimes.index', compact('roles'));
@@ -74,9 +74,9 @@ $data['end']=Carbon::now()->addDay(30)->format('Y-m-d') ;
      */
     public function show($id)
     {
-        $role = Role::findOrFail($id);
+        $roletime = Roletime::with(['role','user','admin','pay'])->findOrFail($id);
 
-        return view('admin.roletimes.show', compact('role'));
+        return view('admin.roletimes.show', compact('roletime'));
     }
 
     /**

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Doc;
 use App\Howcat;
+//use App\Howto;
 use App\Roletime;
+use App\Textbase;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +22,14 @@ class HomeController extends Controller
     {
 //$this->middleware('auth');
     }
+public function keyToIndex($base,$key='code',$val='text')
+    {
 
+foreach ($base as $row) {
+   $res[$row[$key]]=$row->$val;
+}
+return $res;
+    }
     /**
      * Show the application dashboard.
      *
@@ -31,6 +40,7 @@ class HomeController extends Controller
         $data['categories'] = Category::all();
          $data['cat'] = Category::with('doc')->get();
         $data['howcat'] = Howcat::with('howto')->get();
+        $data['text'] =$this->keyToIndex(Textbase::all(),'code');
 //var_dump($data);
 //print_r($data['howcat']);
 //var_dump($data['howcat']);

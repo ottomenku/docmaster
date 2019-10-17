@@ -14,7 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
-    <!-- Bootstrap CSS
+<!--   
     <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
     <script src="/cristal/js/jquery-min.js"></script>
  -->

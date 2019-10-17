@@ -42,7 +42,7 @@ class Roletime extends Model
     }
    
 /**
- * visszatér az előző jog lejártának időpontjával vagy a mai nappal
+ * visszatér az előző jog lejártának időpontjával vagy a mai nappal 
  */
     public static function getRoleStart($user_id, $role_id)
     {

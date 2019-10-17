@@ -31,14 +31,24 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>username</th><th>note</th><th>start</th><th>end</th><th>actiom</th>
+                                        <th>Felhasználó név</th>
+                                        <th>Jog</th>
+                                        <th>jegyzet</th>
+                                        <th>dátum</th>
+                                        <th>start</th>
+                                        <th>end</th>
+                                        <th>actiom</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($roles as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->user->name }}</td><td>{{Str::limit( $item->note,30) }}</td><td>{{ $item->start }}</td><td>{{ $item->end }}</td>
+                                        <td>{{ $item->user->name }}</td>
+                                        <td>{{ $item->role->name }}</td>
+                                        <td>{{Str::limit( $item->note,30) }}</td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->start }}</td>
+                                        <td>{{ $item->end }}</td>
                                         <td>
                                             <a href="{{ url('/admin/roletimes/' . $item->id) }}" title="View Role"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                                       

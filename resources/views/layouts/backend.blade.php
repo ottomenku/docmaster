@@ -10,16 +10,34 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-     <script src="/cristal/js/bootstrap.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
  
+    
+
+    <!-- eredeti-->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+     <!-- NH eredeti
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+  <!--   <script src="/cristal/js/bootstrap.min.js"></script>-->
+<!--  <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
+
+Nh eredeti vége-->
+    <script>
             $( document ).ready(function() {
         $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd', changeYear: true,defaultDate: new Date()});
         $( "#datepicker2" ).datepicker({ dateFormat: 'yy-mm-dd', changeYear: true,defaultDate:+30});
@@ -27,9 +45,41 @@
             var link = $(e.relatedTarget);
             $(this).find(".modal-body").load(link.attr("href"));
         });
+//crud generator blade----------------------------
+            $(document).on('click', '.btn-add', function(e) {
+                e.preventDefault();
 
+                var tableFields = $('.table-fields'),
+                    currentEntry = $(this).parents('.entry:first'),
+                    newEntry = $(currentEntry.clone()).appendTo(tableFields);
+
+                newEntry.find('input').val('');
+                tableFields.find('.entry:not(:last) .btn-add')
+                    .removeClass('btn-add').addClass('btn-remove')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('<span class="fa fa-minus"></span>');
+            }).on('click', '.btn-remove', function(e) {
+                $(this).parents('.entry:first').remove();
+
+                e.preventDefault();
+                return false;
+            });
+   //----------------------------------------------------------------         
     } );
     </script>
+ <!--    Scripts <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.1/tinymce.min.js"></script> 
+    <script type="text/javascript">
+        tinymce.init({
+            selector: '.crud-richtext'
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Navigation active
+            $('ul.navbar-nav a[href="{{ "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}"]').closest('li').addClass('active');
+        });
+    </script>-->
 </head>
 <body>
     <div id="app">
@@ -93,10 +143,6 @@
 
         <hr/>
 
-        <div class="container">
-            &copy; {{ date('Y') }}. Created by <a href="http://www.appzcoder.com">AppzCoder</a>
-            <br/>
-        </div>
 
     </div>
     <!-- Default bootstrap modal example -->
@@ -131,19 +177,7 @@
             </div>
         </div>
     </div>
-    <!-- Scripts <script src="{{ asset('js/app.js') }}"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.1/tinymce.min.js"></script>
-    <script type="text/javascript">
-        tinymce.init({
-            selector: '.crud-richtext'
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            // Navigation active
-            $('ul.navbar-nav a[href="{{ "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}"]').closest('li').addClass('active');
-        });
-    </script>
+ 
 
 
 </body>

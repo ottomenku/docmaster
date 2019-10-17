@@ -53,22 +53,29 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('pays', 'Admin\\PayController');
     Route::resource('/users', 'Admin\\UsersController');
 
+    Route::resource('/doccat', 'Admin\\CategoryController');
     Route::resource('/doc', 'Admin\\DocController');
     Route::get('/docprev/{id}', 'Admin\\DocController@prev');
     Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');
     Route::post('/upload-image', ['as' => 'image.upload', 'uses' => 'Admin\\DocController@store']);
     Route::post('/prewupload', 'Admin\\DocController@prewupload')->name('prewupload');
  
-    Route::resource('/howto', 'Admin\\howtoController');
+    Route::resource('/howcat', 'Admin\\HowcatsController');
+    Route::resource('/howto', 'Admin\\HowtoController');
     Route::get('/howtoprev/{id}', 'Admin\\howtoController@prev');
     Route::get('/howto/createwithcat/{id}', 'Admin\\howtoController@createWithCat');
-    Route::post('/howtoupload-image', ['as' => 'howtoimage.upload', 'uses' => 'Admin\\howtoController@store']);
+    Route::post('/howtoupload', ['as' => 'howto.upload', 'uses' => 'Admin\\howtoController@store']);
    Route::post('/howtoprewupload', 'Admin\\howtoController@prewupload')->name('howtoprewupload');
 
-    
+    Route::resource('postcat', 'Admin\\PostcatController');
+Route::resource('post', 'Admin\\PostController');
+Route::resource('textbase', 'Admin\\TextbaseController');
 
     Route::resource('/customers', 'CustomersController');
 });
 
-Route::resource('customers', 'CustomersController');
 
+
+
+
+Route::resource('admin/billingdata', 'Admin\\BillingdataController');

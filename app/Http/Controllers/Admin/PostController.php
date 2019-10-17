@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\howcat;
-use App\Role;
+use App\Post;
 use Illuminate\Http\Request;
 
-class HowcatsController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,15 +21,19 @@ class HowcatsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $howcat = Howcat::where('order_id', 'LIKE', "%$keyword%")
-                ->orWhere('days', 'LIKE', "%$keyword%")
-                ->orWhere('total', 'LIKE', "%$keyword%")
+            $post = Post::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('intro', 'LIKE', "%$keyword%")
+                ->orWhere('text', 'LIKE', "%$keyword%")
+                ->orWhere('pub', 'LIKE', "%$keyword%")
+                ->orWhere('postcat_id', 'LIKE', "%$keyword%")
+                ->orWhere('user_id', 'LIKE', "%$keyword%")
+                ->orWhere('image', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $howcat = Howcat::latest()->paginate($perPage);
+            $post = Post::latest()->paginate($perPage);
         }
 
-        return view('admin.howcat.index', compact('howcat'));
+        return view('admin.post.index', compact('post'));
     }
 
     /**
@@ -38,10 +41,9 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\View\View
      */
- public function create()
+    public function create()
     {
-       $data['roles']=Role::pluck('name','id');
-        return view('admin.howcat.create',compact('data'));
+        return view('admin.post.create');
     }
 
     /**
@@ -51,16 +53,17 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'name' => 'required',
+			'text' => 'required'
 		]);
         $requestData = $request->all();
         
-        Howcat::create($requestData);
+        Post::create($requestData);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat added!');
+        return redirect('admin/post')->with('flash_message', 'Post added!');
     }
 
     /**
@@ -72,9 +75,9 @@ class HowcatsController extends Controller
      */
     public function show($id)
     {
-        $howcat = Howcat::findOrFail($id);
+        $post = Post::findOrFail($id);
 
-        return view('admin.howcat.show', compact('howcat'));
+        return view('admin.post.show', compact('post'));
     }
 
     /**
@@ -84,11 +87,11 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-  public function edit($id)
+    public function edit($id)
     {
-        $howcat = Howcat::findOrFail($id);
-        $data['roles']=Role::pluck('name','id');
-        return view('admin.howcat.edit', compact('howcat','data'));
+        $post = Post::findOrFail($id);
+
+        return view('admin.post.edit', compact('post'));
     }
 
     /**
@@ -102,14 +105,15 @@ class HowcatsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'name' => 'required',
+			'text' => 'required'
 		]);
         $requestData = $request->all();
         
-        $howcat = Howcat::findOrFail($id);
-        $howcat->update($requestData);
+        $post = Post::findOrFail($id);
+        $post->update($requestData);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat updated!');
+        return redirect('admin/post')->with('flash_message', 'Post updated!');
     }
 
     /**
@@ -119,10 +123,10 @@ class HowcatsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   public function destroy($id)
+    public function destroy($id)
     {
-        Howcat::destroy($id);
+        Post::destroy($id);
 
-        return redirect('admin/howcat')->with('flash_message', 'howcat deleted!');
+        return redirect('admin/post')->with('flash_message', 'Post deleted!');
     }
 }

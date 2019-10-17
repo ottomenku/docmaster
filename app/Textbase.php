@@ -4,12 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Billingdata extends Model
+class Textbase extends Model
 {
     use LogsActivity;
-    use SoftDeletes;
     
 
     /**
@@ -17,7 +15,7 @@ class Billingdata extends Model
      *
      * @var string
      */
-    protected $table = 'billingdata';
+    protected $table = 'textbases';
 
     /**
     * The database primary key value.
@@ -31,20 +29,10 @@ class Billingdata extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','fullname','cardname','city','zip','address','tel','adosz'];
+    protected $fillable = ['code', 'text', 'note', 'pub'];
 
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-    public function pay()
-    {
-        return $this->hasMany('App\Pay');
-    }
-    public function bariontransaction()
-    {
-        return $this->hasMany('App\Bariontransaction');
-    }
+    
+
     /**
      * Change activity log event description
      *

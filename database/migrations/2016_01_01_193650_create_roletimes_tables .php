@@ -46,7 +46,7 @@ class CreateRoletimesTables extends Migration
                 ->onDelete('cascade');      
                 
            // $table->primary(['permission_id', 'role_id']);
-           $table->string('note')->nullable();
+           $table->text('note')->nullable();
             $table->date('start')->nullable();
             $table->date('end')->nullable();
             $table->timestamps();

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!howtoTYPE html>
 <html lang="en">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                    <a href="{{ url('/admin/doc') }}" title="Vissza az admin felülethez"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Vissza az admin felülethez</button></a>    
+                    <a href="{{ url('/admin/howto') }}" title="Vissza az admin felülethez"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Vissza az admin felülethez</button></a>    
                 <div class="row">
                     <div class="col-md-12">
                         @foreach ($data['howcat'] as $item)
@@ -19,13 +19,13 @@
                         {$class='info';}
                         else{$class='rrimary';}
                         @endphp
-                        <a href="{{ url('/admin/doc/createwithcat')}}/{{$item['id'] }}"  class="btn btn-{{$class}} btn-sm"> {{$item['name']}}</a>      
+                        <a href="{{ url('/admin/howto/createwithcat')}}/{{$item['id'] }}"  class="btn btn-{{$class}} btn-sm"> {{$item['name']}}</a>      
              
         @endforeach   
                     </div>
                 </div>     
 
-                <h1 class="text-center">File feltöltés</h1><br>                
+                <h1 class="text-center">Tudástár Dokumentum feltöltés</h1><br>                
                     <div class="form-group">
                         <div class="file-loading">
                             <input id="image-file" type="file" name="file" accept="*" data-min-file-count="1" multiple>
@@ -43,14 +43,14 @@
     <script type="text/javascript">
         $("#image-file").fileinput({
             theme: 'fa',
-            uploadUrl: "{{route('howtoimage.upload')}}",
+            uploadUrl: "{{route('howto.upload')}}",
             uploadExtraData: function() {
                 return {
                     _token: "{{ csrf_token() }}",
-                    cat_id:"{{ $data['id'] }}",
+                    howcat_id:"{{ $data['id'] }}",
                 };
             },
-            allowedFileExtensions: ['jpg', 'png', 'pdf','doc','txt','jpeg'],
+            allowedFileExtensions: ['jpg', 'png', 'pdf','howto','txt','jpeg', 'gif', 'png'],
             overwriteInitial: false,
             maxFileSize:20480,
             maxFilesNum: 50

@@ -7,10 +7,10 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">howto</div>
+                    <div class="card-header">Tudástár dokumentumok</div>
                     <div class="card-body">
                         <a href="{{ url('/admin/howto/create') }}" class="btn btn-success btn-sm" title="Add New howto">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                            <i class="fa fa-plus" aria-hidden="true"></i> Dok feltöltés
                         </a>
 
                         {!! Form::open(['method' => 'GET', 'url' => '/admin/howto', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
@@ -30,7 +30,10 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th></th><th>Kategoria</th><th>howto név</th><th>Előnézet</th><th>Actions</th>
+                                        <th>Kategoria</th>
+                                        <th>howto név</th>
+                                        <th>Előnézet</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,8 +43,8 @@
 
                                 @foreach($howto as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->category->name ?? '' }}</td><td>{{ str_limit($item->name,30, '..') }}</td>
+                                        <td>{{ $item->howcat->name ?? '' }}</td>
+                                        <td>{{ str_limit($item->name,30, '..') }}</td>
 
                                         <td>
                                             <button href="/admin/howtoprev/{{$item->id}}" data-remote="false" data-toggle="modal" data-target="#myModal" >

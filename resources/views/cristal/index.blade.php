@@ -6,7 +6,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-10">
                     <div class="contents text-center">
-                        <h2  style="color:white " data-wow-duration="1000ms" data-wow-delay="0.3s">Üdvözlő szöveg</h2>
+                        <h2  style="color:white " data-wow-duration="1000ms" data-wow-delay="0.3s">{{$data['text']['salute']}}</h2>
                         <p class="lead  wow fadeIn" data-wow-duration="1000ms" data-wow-delay="400ms">Benutatkozö szöveg Benutatkozó szöveg Benutatkozó szöveg Benutatkozö szöveg Benutatkozó szöveg Benutatkozó szöveg
                                 Benutatkozö szöveg Benutatkozó szöveg Benutatkozó szöveg Benutatkozö szöveg Benutatkozó szöveg Benutatkozó 
                                 Benutatkozö szöveg Benutatkozó szöveg Benutatkozó szöveg Benutatkozö szöveg Benutatkozó szöveg Benutatkozó szöveg

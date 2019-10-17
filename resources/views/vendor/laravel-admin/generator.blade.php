@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.backend')
 
 @section('content')
     <div class="container">
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="soft_deletes" class="col-md-4 col-form-label text-right">Want to use soft deletes?</label>
+                                <label for="soft_deletes" class="col-md-4 col-form-label text-right">Want to soft deletes?</label>
                                 <div class="col-md-6">
                                     <select name="soft_deletes" class="form-control" id="soft_deletes">
                                         <option value="no">No</option>
@@ -130,26 +130,6 @@
 
 @section('scripts')
     <script type="text/javascript">
-        $( document ).ready(function() {
-            $(document).on('click', '.btn-add', function(e) {
-                e.preventDefault();
-
-                var tableFields = $('.table-fields'),
-                    currentEntry = $(this).parents('.entry:first'),
-                    newEntry = $(currentEntry.clone()).appendTo(tableFields);
-
-                newEntry.find('input').val('');
-                tableFields.find('.entry:not(:last) .btn-add')
-                    .removeClass('btn-add').addClass('btn-remove')
-                    .removeClass('btn-success').addClass('btn-danger')
-                    .html('<span class="fa fa-minus"></span>');
-            }).on('click', '.btn-remove', function(e) {
-                $(this).parents('.entry:first').remove();
-
-                e.preventDefault();
-                return false;
-            });
-
-        });
+     
     </script>
 @endsection
