@@ -9,14 +9,14 @@
     <meta name="author" content="Grayrids">
     <title>Doc master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="/cristal/js/jquery-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-
-<!--   
+<!-- 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> nem működik vele a modallscript   
     <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
-    <script src="/cristal/js/jquery-min.js"></script>
+    
  -->
     <link rel="stylesheet" href="/cristal/css/font-awesome.min.css">
     <link rel="stylesheet" href="/cristal/css/line-icons.css">
@@ -31,69 +31,54 @@
    
     
     <script>
-        $( document ).ready(function() {
-        $("#myModal").on("show.bs.modal", function(e) {
-            var link = $(e.relatedTarget);
-            $(this).find(".modal-body").load(link.attr("href"));
-        });
-
-        @if (Session::has('flash_message') or $errors->any())
-        
-            $(window).on('load',function(){
-                $('#myModal').modal('show');
-            });     
-        @endif
-
-        }); 
-        
-    // call:  datasendModal({'url':'{{ route('pay') }}','formid':'billingdataform'})         
-function datasendModal(dataout) {
-    var datasend={};
-    //var modalstatus='show';
-   // if(dataout.modalstatus != null){modalstatus=dataout.modalstatus;}
+            $( document ).ready(function() {
+            $("#myModal").on("show.bs.modal", function(e) {
+                var link = $(e.relatedTarget);
+                $(this).find(".modal-body").load(link.attr("href"));
+            });
     
-    if(dataout.formid != null){
-        datasend= $('form#'+dataout.formid).serialize();
-    }  
-    else{    
-        if(dataout.data != null){datasend=dataout.data ;}
-    }
-  var csrf_token='{{ csrf_token() }}';
-    $.ajax({
-      url:dataout.url,
-      //headers: {'X-CSRF-TOKEN':csrf_token},
-      type: "POST",
-      beforeSend: function (xhr){ xhr.setRequestHeader('X-CSRF-TOKEN',csrf_token);},
-      data:datasend,
-      dataType: 'json',
-      success: function (data) { // session has script kezeli!
-       if(!$('#myModal').is(':visible')){$('#myModal').modal('show');} 
-        //  if(data.modalstatus != null){modalstatus=data.modalstatus;} //hide, show   
-          $('#alertdiv').html(data.flash_message || '');
-          $('#modalbody').html(data.html);
-      //   $('#modalbody').html('csrf_token:'+csrf_token+'data.csrf_token:'+data.csrf_token);
-       //  $.ajax.headers.X-CSRF-TOKEN=data.csrf_token;
-          if(data.csrf_token != null){csrf_token = data.csrf_token;}
-          if(data.gateway != null){document.location.href = data.gateway;}
-          if(data.filedownload != null){ window.location=data.filedownload;}
-      },
-      error: function (jqXHR, exception) {
-      alert('hiba:'+jqXHR.status);
-      }
-  });
-
-};   
-    </script>
-    <!--
-@if (Session::has('flash_message') or $errors->any())
-<script type="text/javascript">
-    $(window).on('load',function(){
-        $('#myModal').modal('show');
-    });
-</script>
-
-@endif
--->
+            
+            }); 
+            
+        // call:  datasendModal({'url':'https://doc.mottoweb.hu/pay','formid':'billingdataform'})         
+    function datasendModal(dataout) {
+        var datasend={};
+        //var modalstatus='show';
+       // if(dataout.modalstatus != null){modalstatus=dataout.modalstatus;}
+        
+        if(dataout.formid != null){
+            datasend= $('form#'+dataout.formid).serialize();
+        }  
+        else{    
+            if(dataout.data != null){datasend=dataout.data ;}
+        }
+      var csrf_token='{{ csrf_token() }}';
+      
+        $.ajax({
+          url:dataout.url,
+          //headers: {'X-CSRF-TOKEN':csrf_token},
+          type: "POST",
+          beforeSend: function (xhr){ xhr.setRequestHeader('X-CSRF-TOKEN',csrf_token);},
+          data:datasend,
+          dataType: 'json',
+          success: function (data) { // session has script kezeli!
+           if(!$('#myModal').is(':visible')){$('#myModal').modal('show');} 
+            //  if(data.modalstatus != null){modalstatus=data.modalstatus;} //hide, show   
+              $('#alertdiv').html(data.flash_message || '');
+              $('#modalbody').html(data.html);
+          //   $('#modalbody').html('csrf_token:'+csrf_token+'data.csrf_token:'+data.csrf_token);
+           //  $.ajax.headers.X-CSRF-TOKEN=data.csrf_token;
+              if(data.csrf_token != null){csrf_token = data.csrf_token;}
+              if(data.gateway != null){document.location.href = data.gateway;}
+              if(data.filedownload != null){ window.location=data.filedownload;}
+          },
+          error: function (jqXHR, exception) {
+          alert('hiba:'+jqXHR.status);
+          }
+      });
+    
+    };   
+        </script>
 </head>
 
 <body>

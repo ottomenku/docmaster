@@ -83,6 +83,12 @@ class BillingdataController extends Controller
 
         return view('admin.billingdata.show', compact('billingdata'));
     }
+    public function modalshow($id)
+    {
+        $billingdata = Billingdata::with('user')->findOrFail($id);
+
+        return view('admin.billingdata.modalshow', compact('billingdata'));
+    }
 
     /**
      * Show the form for editing the specified resource.

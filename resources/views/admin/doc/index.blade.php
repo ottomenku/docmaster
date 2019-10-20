@@ -41,7 +41,8 @@
                                 @foreach($doc as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->category->name ?? '' }}</td><td>{{ str_limit($item->name,30, '..') }}</td>
+                                        <td>{{ $item->category->name ?? '' }}</td>
+                                        <td>{{ str_limit($item->name,30, '..') }}</td>
 
                                         <td>
                                             <button href="/admin/docprev/{{$item->id}}" data-remote="false" data-toggle="modal" data-target="#myModal" >

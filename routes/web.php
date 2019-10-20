@@ -48,9 +48,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'admin'], function () {
+    Route::resource('billingdata', 'Admin\\BillingdataController');
+    Route::get('billingdata/modalshow/{id}', 'Admin\\BillingdataController@modalshow');
+   
     Route::get('/', ['uses' => 'Admin\\AdminController@index']);
     Route::resource('/roletimes', 'Admin\\RoletimesController');
-    Route::resource('pays', 'Admin\\PayController');
+    Route::resource('/pays', 'Admin\\PayController');
     Route::resource('/users', 'Admin\\UsersController');
 
     Route::resource('/doccat', 'Admin\\CategoryController');
@@ -78,4 +81,3 @@ Route::resource('textbase', 'Admin\\TextbaseController');
 
 
 
-Route::resource('admin/billingdata', 'Admin\\BillingdataController');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 //use App\Pay;
 use App\Pay;
 use App\Role;
+use App\Roletime;
 use Illuminate\Http\Request;
 
 class PayController extends Controller
@@ -23,15 +24,15 @@ class PayController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $pay = Pay::where('role_id', 'LIKE', "%$keyword%")
+            $pays = Pay::where('role_id', 'LIKE', "%$keyword%")
                 ->orWhere('name', 'LIKE', "%$keyword%")
                 ->orWhere('note', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
+                ->latest()->with('user')->paginate($perPage);
         } else {
-            $pay = Pay::latest()->with('user')->paginate($perPage);
+            $pays = Pay::latest()->with('user')->paginate($perPage);
         }
 
-        return view('admin.pay.index', compact('pay'));
+        return view('admin.pay.index', compact('pays'));
     }
 
     /**
@@ -73,9 +74,10 @@ class PayController extends Controller
      */
     public function show($id)
     {
-        $Pay = Pay::findOrFail($id);
+        $pay = Pay::with('user','billingdata','roletime')->findOrFail($id);
+        $roletime=Roletime::with('role')->where('pay_id',$pay->id)->first();
 
-        return view('admin.pay.show', compact('Pay'));
+        return view('admin.pay.show', compact('pay','roletime'));
     }
 
     /**

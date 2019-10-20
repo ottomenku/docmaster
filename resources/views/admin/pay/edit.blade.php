@@ -7,9 +7,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Edit Category #{{ $category->id }}</div>
+                    <div class="card-header">Edit Pay #{{ $pay->id }}</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/category') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/pays') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,14 +21,14 @@
                             </ul>
                         @endif
 
-                        {!! Form::model($category, [
+                        {!! Form::model($pay, [
                             'method' => 'PATCH',
-                            'url' => ['/admin/category', $category->id],
+                            'url' => ['/admin/pays', $pay->id],
                             'class' => 'form-horizontal',
                             'files' => true
                         ]) !!}
 
-                        @include ('admin.category.form2', ['formMode' => 'edit'])
+                        @include ('admin.pay.form', ['formMode' => 'edit'])
 
                         {!! Form::close() !!}
 

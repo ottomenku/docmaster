@@ -32,7 +32,29 @@ $cats=$data['cat'] ?? [];
             <div class="row">
             <!-- <div id="home" class="container tab-pane active "><br> -->
             @foreach($cat->doc as $doc)
-            <div class="col-md-4" onclick="#cat{{$doc->id}}">{{$doc->name}}</div>      
+
+            <div class="col-md-4 list-group-item">
+                <table>
+                <tr>
+                  <td>
+                  <a href="/admin/doc/{{$doc->id}}" data-remote="false" data-toggle="modal" data-target="#myModal">
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
+                </td>
+                  <td>
+                <div style="cursor: pointer" onclick=" datasendModal({'url':'{{ url('download/'.$doc->id) }}','modalstatus':'show'}) ;" class="">
+                
+                  &nbsp; {{ str_limit( $doc->name,40, '..') }}
+                </div>
+                </td>
+              </tr>
+            </table>
+              </div>
+
+ 
+         
+
+                 
             @endforeach
           </div> </div>
           @endforeach
