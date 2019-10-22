@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->boolean('pub')->nullable();
             $table->integer('postcat_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default('noimage.png');
             });
     }
 

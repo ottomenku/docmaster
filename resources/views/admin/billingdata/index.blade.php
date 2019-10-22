@@ -9,10 +9,11 @@
                 <div class="card">
                     <div class="card-header">Billingdata</div>
                     <div class="card-body">
+                    @if (Auth::user()->hasRole('superadmin'))     
                         <a href="{{ url('/admin/billingdata/create') }}" class="btn btn-success btn-sm" title="Add New Billingdatum">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
-
+                    @endif
                         {!! Form::open(['method' => 'GET', 'url' => '/admin/billingdata', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
@@ -40,6 +41,7 @@
                                         <td>{{ $item->user_id }}</td><td>{{ $item->fullname }}</td><td>{{ $item->cardname }}</td>
                                         <td>
                                             <a href="{{ url('/admin/billingdata/' . $item->id) }}" title="View Billingdatum"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                          @if (Auth::user()->hasRole('superadmin'))   
                                             <a href="{{ url('/admin/billingdata/' . $item->id . '/edit') }}" title="Edit Billingdatum"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                                             {!! Form::open([
                                                 'method' => 'DELETE',
@@ -53,6 +55,7 @@
                                                         'onclick'=>'return confirm("Confirm delete?")'
                                                 )) !!}
                                             {!! Form::close() !!}
+                                          @endif  
                                         </td>
                                     </tr>
                                 @endforeach

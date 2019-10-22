@@ -31,7 +31,7 @@ class Post extends Model
      */
     protected $fillable = ['name', 'intro', 'text', 'pub', 'postcat_id', 'user_id', 'image'];
 
-    public function poscat()
+    public function postcat()
     {
         return $this->belongsTo('App\Postcat');
     }

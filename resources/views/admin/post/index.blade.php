@@ -30,14 +30,21 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Intro</th><th>Text</th><th>Actions</th>
+                                        <th>Kategória</th><th>Name</th><th>Text</th><th>Kép</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($post as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration or $item->id }}</td>
-                                        <td>{{ $item->name }}</td><td>{{ $item->intro }}</td><td>{{ $item->text }}</td>
+                                      <td>{{ $item->postcat->name }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        
+                                        <td>{{ $item->text }}</td>
+                                        <td>
+                                        @if(isset($item->image))
+                                        <img src="{{url('postimage/thumb/'.$item->image)}}" width="50px"  height="50px">
+                                        @endif
+                                        </td>
                                         <td>
                                             <a href="{{ url('/admin/post/' . $item->id) }}" title="View Post"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                                             <a href="{{ url('/admin/post/' . $item->id . '/edit') }}" title="Edit Post"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>

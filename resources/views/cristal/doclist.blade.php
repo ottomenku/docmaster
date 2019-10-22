@@ -33,11 +33,11 @@ $cats=$data['cat'] ?? [];
             <!-- <div id="home" class="container tab-pane active "><br> -->
             @foreach($cat->doc as $doc)
 
-            <div class="col-md-4 list-group-item">
+            <div style="background-color:#F5F5F5;" class="col-md-4 list-group-item info">
                 <table>
                 <tr>
                   <td>
-                  <a href="/admin/doc/{{$doc->id}}" data-remote="false" data-toggle="modal" data-target="#myModal">
+                  <a href="/docprev/{{$doc->id}}" data-remote="false" data-toggle="modal" data-target="#myModal">
                       <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
                 </td>

@@ -4,12 +4,28 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Input;
+use Image;
+use File;
 use App\Post;
+use App\Postcat;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+   public $base_prev_img=['file.png','noimage.png'];
+   private  $configFile = 'app'; // a config file neve ami felül írja az alap propertiket ha a getProp()-al kérjük le. ha felül akarjuk írni  a kulsnak meg kell egyeznie a property nevével
+   //config file  felülírja--------------
+     public  $image_path;     //'public/ mappán belül
+      public  $image_thumb_path;     
+ 
+ 
+ public function __construct()
+ {
+     $this->image_path= config($this->configFile . '.postimage_path') ?? $this->image_path ;
+     $this->image_thumb_path =$this->image_path.'thumb/'  ?? $this->image_thumb_path ;
+ 
+ }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +46,7 @@ class PostController extends Controller
                 ->orWhere('image', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $post = Post::latest()->paginate($perPage);
+            $post = Post::with('postcat')->latest()->paginate($perPage);
         }
 
         return view('admin.post.index', compact('post'));
@@ -43,7 +59,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        $post['postcat'] =  Postcat::all()->pluck('name', 'id'); 
+        return view('admin.post.create', compact('post'));
     }
 
     /**
@@ -61,6 +78,17 @@ class PostController extends Controller
 		]);
         $requestData = $request->all();
         
+        
+        if (Input::file()) {
+
+            $image = Input::file('image');
+            $ext = $request->image->getClientOriginalExtension();
+            $imagename = rand(1111, 9999) . time() . '.' . $ext ;
+
+            Image::make($image->getRealPath())->save($this->image_path. $imagename);
+            Image::make($image->getRealPath())->resize(100, 100)->save( $this->image_thumb_path. $imagename);
+             $requestData['image'] = $imagename;
+        }
         Post::create($requestData);
 
         return redirect('admin/post')->with('flash_message', 'Post added!');
@@ -89,8 +117,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
-
+      //  $post = Post::findOrFail($id);
+        $post = Post::with('postcat')->findOrFail($id);
+        $post['postcat'] =  Postcat::all()->pluck('name', 'id');
         return view('admin.post.edit', compact('post'));
     }
 
@@ -111,6 +140,24 @@ class PostController extends Controller
         $requestData = $request->all();
         
         $post = Post::findOrFail($id);
+   
+        if (Input::file()) {
+
+            $image = Input::file('image');
+            $ext = $request->image->getClientOriginalExtension();
+            $imagename = rand(1111, 9999) . time() . '.' . $ext ;
+            $imagepath=$this->image_path;
+            $thumbpath=$this->image_thumb_path; 
+          
+           if (!in_array($post->image , $this->base_prev_img)) {
+                  if (file_exists($imagepath. $post->image)) {File::delete($imagepath. $post->image);}
+                  if (file_exists($thumbpath . $post->image)) {File::delete($thumbpath . $post->image);}
+           }
+            Image::make($image->getRealPath())->save($imagepath. $imagename);
+            Image::make($image->getRealPath())->resize(100, 100)->save( $thumbpath. $imagename);
+             $requestData['image'] = $imagename;
+        }
+
         $post->update($requestData);
 
         return redirect('admin/post')->with('flash_message', 'Post updated!');
@@ -125,8 +172,14 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::findOrFail($id);
+        $prew = $this->image_path. $post->image;
+        $thumb =$this->image_thumb_path. $post->image;
         Post::destroy($id);
-
+        if(!in_array($post->image,$this->base_prev_img)){
+            File::delete($prew);
+            File::delete($thumb);
+        }
         return redirect('admin/post')->with('flash_message', 'Post deleted!');
     }
 }

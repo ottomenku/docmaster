@@ -29,7 +29,7 @@ class PostcatController extends Controller
             $postcat = Postcat::latest()->paginate($perPage);
         }
 
-        return view('postcat.index', compact('postcat'));
+        return view('admin.postcat.index', compact('postcat'));
     }
 
     /**
@@ -39,7 +39,7 @@ class PostcatController extends Controller
      */
     public function create()
     {
-        return view('postcat.create');
+        return view('admin.postcat.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class PostcatController extends Controller
         
         Postcat::create($requestData);
 
-        return redirect('postcat')->with('flash_message', 'Postcat added!');
+        return redirect('admin/postcat')->with('flash_message', 'Postcat added!');
     }
 
     /**
@@ -70,7 +70,7 @@ class PostcatController extends Controller
     {
         $postcat = Postcat::findOrFail($id);
 
-        return view('postcat.show', compact('postcat'));
+        return view('admin.postcat.show', compact('postcat'));
     }
 
     /**
@@ -84,7 +84,7 @@ class PostcatController extends Controller
     {
         $postcat = Postcat::findOrFail($id);
 
-        return view('postcat.edit', compact('postcat'));
+        return view('admin.postcat.edit', compact('postcat'));
     }
 
     /**
@@ -103,7 +103,7 @@ class PostcatController extends Controller
         $postcat = Postcat::findOrFail($id);
         $postcat->update($requestData);
 
-        return redirect('postcat')->with('flash_message', 'Postcat updated!');
+        return redirect('admin/postcat')->with('flash_message', 'Postcat updated!');
     }
 
     /**
@@ -117,6 +117,6 @@ class PostcatController extends Controller
     {
         Postcat::destroy($id);
 
-        return redirect('postcat')->with('flash_message', 'Postcat deleted!');
+        return redirect('admin/postcat')->with('flash_message', 'Postcat deleted!');
     }
 }

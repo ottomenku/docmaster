@@ -34,8 +34,8 @@ return [
     'docprev_path'=>'docprev/',  // az előnézeti képek helye a public mappán belül
     'docprev_thumb_path'=>'docprev/thumb/',  
     'base_prev_img'=> ['pdf.png','file.png','doc.png'], 
-
-
+    //post--------------------
+   'postimage_path'=>'postimage/', //public mappán belul
    // Laravel beállítások 
     'name' => env('APP_NAME', 'Laravel'),
     /*

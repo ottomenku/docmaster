@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-
+@if (Auth::user()->hasRole('superadmin')) 
 @section('content')
     <div class="container">
         <div class="row">
@@ -33,3 +33,4 @@
         </div>
     </div>
 @endsection
+@endif

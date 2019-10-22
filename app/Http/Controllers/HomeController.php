@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    public function howtoprev($id)
+    {
+        $howto = Doc::findOrFail($id);
+
+        return view('cristal.howtoprev', compact('howto'));
+    }
+    public function docprev($id)
+    {
+        $doc = Doc::findOrFail($id);
+
+        return view('cristal.docprev', compact('doc'));
+    }
     /**
      * Create a new controller instance.
      *

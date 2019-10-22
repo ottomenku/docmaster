@@ -10,8 +10,8 @@
                     <div class="card-header">Postcat {{ $postcat->id }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/postcat') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/postcat/' . $postcat->id . '/edit') }}" title="Edit Postcat"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        <a href="{{ url('/admin/postcat') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/postcat/' . $postcat->id . '/edit') }}" title="Edit Postcat"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                         {!! Form::open([
                             'method'=>'DELETE',
                             'url' => ['postcat', $postcat->id],

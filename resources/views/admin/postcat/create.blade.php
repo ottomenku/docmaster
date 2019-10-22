@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Create New Postcat</div>
                     <div class="card-body">
-                        <a href="{{ url('/postcat') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/postcat') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,9 +21,9 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['url' => '/postcat', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['url' => '/admin/postcat', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        @include ('postcat.form', ['formMode' => 'create'])
+                        @include ('admin.postcat.form', ['formMode' => 'create'])
 
                         {!! Form::close() !!}
 

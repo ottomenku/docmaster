@@ -32,7 +32,23 @@ $howcats=$data['howcat'] ?? [];
             <div class="row">
             <!-- <div id="home" class="container tab-pane active "><br> -->
             @foreach($howcat->howto as $howto)
-            <div class="col-md-4" onclick="#howcat{{$howto->id}}">{{$howto->name}}</div>      
+            <div style="background-color:#F5F5F5;" class="col-md-4 list-group-item info">
+                <table>
+                <tr>
+                  <td>
+                  <a href="/howtoprev/{{$howto->id}}" data-remote="false" data-toggle="modal" data-target="#myModal">
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
+                </td>
+                  <td>
+                <div style="cursor: pointer" onclick=" datasendModal({'url':'{{ url('download/'.$howto->id) }}','modalstatus':'show'}) ;" class="">
+                
+                  &nbsp; {{ str_limit( $howto->name,40, '..') }}
+                </div>
+                </td>
+              </tr>
+            </table>
+              </div>     
             @endforeach
           </div> </div>
           @endforeach

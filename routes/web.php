@@ -32,6 +32,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/cat/{id}', 'HomeController@category')->name('cat');
 Route::any('/download/{id}', 'HomeController@download');
 Route::any('/directdownload/{id}', 'HomeController@directdownload');
+Route::get('/howtoprev/{id}', 'HomeController@howtoprev');
+Route::get('/docprev/{id}', 'HomeController@docprev');
+
+
 // Check role in route middleware
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'superadmin'], function () {
 
@@ -44,33 +48,42 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('/category', 'Admin\\CategoryController');
     Route::resource('/activitylogs', 'Admin\ActivityLogsController')->only([
         'index', 'show', 'destroy']);
-
+     Route::resource('/postcat', 'Admin\\PostcatController');   
+     Route::resource('/usersfull', 'Admin\\UsersController');
+     Route::resource('/pays', 'Admin\\PayController');
+      Route::resource('/roletimes', 'Admin\\RoletimesController');
+ Route::resource('billingdata', 'Admin\\BillingdataController');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'admin'], function () {
-    Route::resource('billingdata', 'Admin\\BillingdataController');
-    Route::get('billingdata/modalshow/{id}', 'Admin\\BillingdataController@modalshow');
-   
+  
     Route::get('/', ['uses' => 'Admin\\AdminController@index']);
-    Route::resource('/roletimes', 'Admin\\RoletimesController');
-    Route::resource('/pays', 'Admin\\PayController');
-    Route::resource('/users', 'Admin\\UsersController');
+
+    Route::get('billingdata/modalshow/{id}', 'Admin\\BillingdataController@modalshow');
+     Route::resource('billingdata', 'Admin\\BillingdataController')->only([
+        'index', 'show']);  
+     Route::resource('/roletimes', 'Admin\\RoletimesController')->only([
+        'index', 'show']);
+      Route::resource('/pays', 'Admin\\PayController')->only([
+        'index', 'show']);
+    Route::resource('/users', 'Admin\\UsersController')->only([
+        'index', 'show']);
 
     Route::resource('/doccat', 'Admin\\CategoryController');
     Route::resource('/doc', 'Admin\\DocController');
-    Route::get('/docprev/{id}', 'Admin\\DocController@prev');
+  //  Route::get('/docprev/{id}', 'Admin\\DocController@prev'); //előnézet kivéve az admin mappából
     Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');
     Route::post('/upload-image', ['as' => 'image.upload', 'uses' => 'Admin\\DocController@store']);
     Route::post('/prewupload', 'Admin\\DocController@prewupload')->name('prewupload');
  
     Route::resource('/howcat', 'Admin\\HowcatsController');
     Route::resource('/howto', 'Admin\\HowtoController');
-    Route::get('/howtoprev/{id}', 'Admin\\howtoController@prev');
+ //   Route::get('/howtoprev/{id}', 'Admin\\howtoController@prev');
     Route::get('/howto/createwithcat/{id}', 'Admin\\howtoController@createWithCat');
     Route::post('/howtoupload', ['as' => 'howto.upload', 'uses' => 'Admin\\howtoController@store']);
    Route::post('/howtoprewupload', 'Admin\\howtoController@prewupload')->name('howtoprewupload');
 
-    Route::resource('postcat', 'Admin\\PostcatController');
+
 Route::resource('post', 'Admin\\PostController');
 Route::resource('textbase', 'Admin\\TextbaseController');
 

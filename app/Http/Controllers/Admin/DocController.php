@@ -113,11 +113,11 @@ public function __construct()
 
         return view('admin.doc.show', compact('doc'));
     }
-    public function prev($id)
+  /*  public function prev($id) //NH átkerült a homeControllerbe
     {
         $doc = Doc::findOrFail($id);
       return response('<img src="'.url('docprev/'.$doc->prev).'" height="600px" width="100%">');
-    }
+    }*/
     /**
      * Show the form for editing the specified resource.
      *

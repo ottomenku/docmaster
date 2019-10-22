@@ -21,7 +21,9 @@
                                     <tr>
                                         <th>ID</th><td>{{ $post->id }}</td>
                                     </tr>
-                                    <tr><th> Name </th><td> {{ $post->name }} </td></tr><tr><th> Intro </th><td> {{ $post->intro }} </td></tr><tr><th> Text </th><td> {{ $post->text }} </td></tr>
+                                    <tr><th> Cím </th><td> {{ $post->name }} </td></tr>
+                                    <tr><th> Kép </th><td><img src="{{ url('postimage/'.$post->image) }}" style="max-width:90%" ></td></tr>
+                                    <tr><th> Text </th><td> {{ $post->text }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

@@ -7,6 +7,9 @@
     <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <title>Doc master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="/cristal/js/jquery-min.js"></script>
@@ -58,7 +61,12 @@
           url:dataout.url,
           //headers: {'X-CSRF-TOKEN':csrf_token},
           type: "POST",
-          beforeSend: function (xhr){ xhr.setRequestHeader('X-CSRF-TOKEN',csrf_token);},
+         // beforeSend: function (xhr){ xhr.setRequestHeader('X-CSRF-TOKEN',csrf_token);},
+
+         headers: {
+           // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           'X-CSRF-TOKEN': csrf_token
+        },
           data:datasend,
           dataType: 'json',
           success: function (data) { // session has script kezeli!
@@ -82,59 +90,75 @@
 </head>
 
 <body>
-    <div class="menu-wrap">
-        <nav class="menu navbar">
-
-            <div class="icon-list navbar-collapse">
-                <ul class="navbar-nav">
-
-                    @foreach($data['categories'] as $cat)
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cat/{{ $cat->id }}">{{ $cat->name }}</a>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-        </nav>
-        <button class="close-button" id="close-button"><i class="lnr lnr-cross"></i></button>
-    </div>
+ 
     <!-- Header Section Start -->
 
     <header id="video-area" data-stellar-background-ratio="0.5">
         <div id="block" data-vide-bg="cristal/video/video"></div>
         <div class="fixed-top">
+
             <div class="container">
-                <div class="logo-menu">
-                    <!--       <a href="index.html" class="logo"><span class="lnr lnr-diamond"></span> Cégnév</a> -->
+                <nav style="background-color:grey;" class="navbar navbar-expand-lg navbar navbar-dark ">
+               <!--         <a class="navbar-brand" href="#">Navbar</a> -->
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div  class="collapse navbar-collapse" id="navbarNavDropdown">
+                          <ul class="navbar-nav">
+                           
+
+                                    <!-- Authentication Links -->
+                                    @guest
+                             <li class="nav-item">       
+                                    <a class="nav-link" style="font-size: 1.8em;" dusk="login-link" href="{{ url('/login') }}">Belépés </a>
+                                </li>      
+                              <li class="nav-item">       
+                                    <a class="nav-link" style="font-size: 1.8em;"  dusk="registration-link" href="{{ url('/register') }}"> Regisztráció</a>
+                                </li>  
+                                    @else
+                                    <li class="nav-item">  
+                                    <a class="nav-link" style="font-size: 1.8em;" dusk="logout-link" href="{{ url('/logout') }}" onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                                        Kilépés
+                                    </a>
+                
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                
+                                    @endguest
+                            </li>
+                            <li class="nav-item active">
+                                    <a class="nav-link"style="font-size: 1.8em;"  href="#services">Solgáltatásaink <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active">
+                              <a class="nav-link"  style="font-size: 1.8em;"href="#pricing">Népszerű Csomagjaink</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" style="font-size: 1.8em;" href="#blog">Híreink</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" style="font-size: 1.8em;" href="#contact">Kapcsolat</a>
+                            </li>      
+
+                        <!--    <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown link
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                              </div>
+                            </li>-->
+                          </ul>
+                        </div>
+                      </nav>
+
+        </div>
 
 
 
-                    <!-- Authentication Links -->
-                    @guest
-                    <a class="logo" dusk="login-link" href="{{ url('/login') }}">Belépés </a>
-                    <a class="logo" dusk="registration-link" href="{{ url('/register') }}"> Regisztráció</a>
-                    @else
-
-                    <a class="logo" dusk="logout-link" href="{{ url('/logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                        Kilépés
-                    </a>
-
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
-                    @endguest
-
-
-
-
-
-                    <button style="right:150px;" dusk="category-head" class="menu-button" id="open-button">
-                        <h2 style="font-size:x-large ">Dokumentumok</h2>
-                    </button>
-                </div>
-            </div>
         </div>
         <div class="overlay overlay-2"></div>
 
@@ -211,7 +235,7 @@
             </div>
         </div>
          
-
+<script src="/cristal/js/jquery.nav.js"></script>
       
                  <!-- jQuery first, then Tether, then Bootstrap JS. 
 <script src="/cristal/js/bootstrap.min.js"></script>
@@ -222,7 +246,7 @@
         <script src="/cristal/js/nivo-lightbox.js"></script>
         <script src="/cristal/js/owl.carousel.min.js"></script>
         <script src="/cristal/js/jquery.stellar.min.js"></script>
-        <script src="/cristal/js/jquery.nav.js"></script>
+        
         <script src="/cristal/js/smooth-scroll.js"></script>
         <script src="/cristal/js/wow.js"></script>
         <script src="/cristal/js/menu.js"></script>

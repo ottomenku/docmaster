@@ -7,12 +7,11 @@
     ['admin/activitylogs' ,'Activitylogs'],
     ['/admin/settings' ,'Settings'],
     ['/admin/roles', 'jogok'],
-
+['/admin/postcat', 'Cikk kategóriák'],
+ ['/admin/roletimes' , 'Letöltési jogok'],
     ],
     
     'admin'=>[  
-   
-    ['/admin/roletimes' , 'Letöltési jogok'],
     ['/admin/users' ,  'Felhasználók'],
      ['/admin/billingdata', ' Vevő adatok'],
      ['/admin/pays', ' Befizetések'],
@@ -20,8 +19,7 @@
     ['/admin/howto', 'tudástár'],
     ['/admin/doccat','Dokumentum kategóriák'],
     ['/admin/doc', 'Dokumentumok'],
-    ['/admin/postcat', 'Cikk kategóriák'],
-    ['/admin/post', 'Cikkek'],
+    ['/admin/post', 'Hírek-Szolgáltatások'],
     ['/admin/textbase', 'Nyitólap szöveg'],
 
     ],

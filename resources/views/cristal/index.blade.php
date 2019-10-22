@@ -23,8 +23,8 @@
         </div>
     </header>
     <!-- Header Section End -->
-    @include('cristal.doc')  
-    @include('cristal.howto')  
+    @include('cristal.doclist')  
+    @include('cristal.howtolist')  
     <!-- Start Pricing Table Section -->
     <div id="pricing" class="section pricing-section">
         <div class="container">

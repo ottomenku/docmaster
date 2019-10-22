@@ -1,6 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
+@if (Auth::user()->hasRole('superadmin')) 
     <div class="container">
         <div class="row">
             @include('admin.sidebar')
@@ -37,4 +38,5 @@
             </div>
         </div>
     </div>
+ @endif   
 @endsection
