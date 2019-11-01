@@ -17,7 +17,8 @@ class BarionController extends Controller
 {
     use \App\Traits\BarionHandler;
     //helyi adatok
-    private $configFile = 'app'; // Ha lesz külön config az applikációnak oda át tehető
+    public static $configFile = 'app'; // Ha lesz külön config az applikációnak oda át tehető a tesztek is innen veszik ezért kell statikus
+   
     private $userid; 
 
     //a copnfigfájlból betöltött adatok
@@ -28,8 +29,8 @@ class BarionController extends Controller
     {  // \Auth::check() ;
         //$user = Auth::user();
       //  $this->userid = \Auth::id() ?? 0;
-        $this->barionResEmail = config($this->configFile . '.barionResEmail');
-        $this->ordersData = config($this->configFile . '.ordersData');
+        $this->barionResEmail = config(self::$configFile . '.barionResEmail');
+        $this->ordersData = config(self::$configFile . '.ordersData');
     }
     /**
      * Json tömbel tér vissza A html elemben a biilingdata formmal

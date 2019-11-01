@@ -30,7 +30,7 @@ trait BarionHandler
     public function createTransactionPay($bariontransaction_id)
     {
         \Auth::check() ;
-        $userid = \Auth::id() ?? 0;
+        $userid = \Auth::id() ?? 1;
         $pay = Pay::where('action_id', $bariontransaction_id)->first();
         $pay_id = $pay->id ?? null;
         if ($pay_id == null) {

@@ -2,7 +2,8 @@
 //$docs=$data['doc'] ?? [];
 $cats=$data['cat'] ?? [];
 @endphp
-<div class="container">
+
+<div class="container" >
   <div class="section-header">
     <br />
     <h2 class="section-title wow fadeIn" data-wow-duration="1000ms" data-wow-delay="0.3s">Letölthető
@@ -11,7 +12,9 @@ $cats=$data['cat'] ?? [];
     <p class="section-subtitle wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="0.3s">Lorem ipsum dolor sit
       amet, consectetuer adipiscing elit, sed diam nonummy <br> nibh euismod tincidunt ut laoreet dolore magna.</p>
   </div>
-  <div class="row">
+</div>
+  <div class="container" style="min-height:150px;" > 
+  <div class="row" >
     <div class="container mt-3">
       <div class="col-md-11 offset-md-1">
         <ul class="nav nav-tabs">
@@ -24,7 +27,7 @@ $cats=$data['cat'] ?? [];
         </ul>
 
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="tab-content" >
             
           @foreach($cats as $cat)
           
@@ -62,4 +65,5 @@ $cats=$data['cat'] ?? [];
       </div>
     </div>
   </div>
+</div>
 </div>

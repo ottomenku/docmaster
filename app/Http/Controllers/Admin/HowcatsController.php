@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\howcat;
+use App\Howcat;
 use App\Role;
 use Illuminate\Http\Request;
 

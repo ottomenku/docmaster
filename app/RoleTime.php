@@ -64,7 +64,7 @@ class Roletime extends Model
         $date = Carbon::now();
         $roletimes = Roletime::where([
             ['user_id', '=', $user_id],
-            ['role_id', '=', $role_id],
+            ['role_id', '>=', $role_id],
         ])->get();
         foreach ($roletimes as $roletime) {
             if ($roletime->start <= $date && $roletime->end >= $date) {$res = true;}

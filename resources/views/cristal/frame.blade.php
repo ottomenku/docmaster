@@ -11,27 +11,35 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>Doc master</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="/cristal/js/jquery-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <!-- 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> nem működik vele a modallscript   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> nem működik vele a modallscript 
     <link rel="stylesheet" href="/cristal/css/bootstrap.min.css">
-    
+    <script src="/cristal/js/jquery-min.js"></script>
  -->
-    <link rel="stylesheet" href="/cristal/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/cristal/css/line-icons.css">
+ <link rel="stylesheet" href="/cristal/css/line-icons.css">
+<link rel="stylesheet" href="/cristal/css/main.css">
+   <link rel="stylesheet" href="/cristal/css/font-awesome.min.css">
+   <link rel="stylesheet" href="/cristal/css/responsive.css">
+<!-- 
+   
+
+   
+   
     <link rel="stylesheet" href="/cristal/css/owl.carousel.css">
     <link rel="stylesheet" href="/cristal/css/owl.theme.css">
     <link rel="stylesheet" href="/cristal/css/nivo-lightbox.css">
-   <!-- <link rel="stylesheet" href="/cristal/css/magnific-popup.css"> -->
+    <link rel="stylesheet" href="/cristal/css/magnific-popup.css">
     <link rel="stylesheet" href="/cristal/css/animate.css">
     <link rel="stylesheet" href="/cristal/css/menu_sideslide.css">
-    <link rel="stylesheet" href="/cristal/css/main.css">
-    <link rel="stylesheet" href="/cristal/css/responsive.css">
-   
+    
+    -->
     
     <script>
             $( document ).ready(function() {
@@ -93,12 +101,17 @@
  
     <!-- Header Section Start -->
 
-    <header id="video-area" data-stellar-background-ratio="0.5">
-        <div id="block" data-vide-bg="cristal/video/video"></div>
-        <div class="fixed-top">
+    <header id="video-area" style="background-size: cover; background-image: url('/images/background5.jpg');" data-stellar-background-ratio="0.5">
 
-            <div class="container">
-                <nav style="background-color:grey;" class="navbar navbar-expand-lg navbar navbar-dark ">
+
+
+        
+       <!-- <div id="block" data-vide-bg="cristal/video/video"></div> -->
+          <div id="block"></div>
+        <div class="fixed-top" style="background-color:#004C6D">
+
+            <div class="container"  >
+                <nav style="background-color:#004C6D" class="navbar navbar-expand-lg navbar navbar-dark ">
                <!--         <a class="navbar-brand" href="#">Navbar</a> -->
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                           <span class="navbar-toggler-icon"></span>
@@ -110,14 +123,16 @@
                                     <!-- Authentication Links -->
                                     @guest
                              <li class="nav-item">       
-                                    <a class="nav-link" style="font-size: 1.8em;" dusk="login-link" href="{{ url('/login') }}">Belépés </a>
-                                </li>      
+                                  <a class="nav-link" data-remote="false" data-toggle="modal" data-target="#myModal" style="font-size: 1.2em;" dusk="login-link" href="{{ url('/loginmodal') }}">Belépés </a> 
+                               <!--   <span class="nav-link" data-remote="false" data-toggle="modal" data-target="#myModal" style="font-size: 1.2em;" dusk="login-link" href="{{ url('/loginmodal') }}">Belépés </span> -->
+                            </li>      
                               <li class="nav-item">       
-                                    <a class="nav-link" style="font-size: 1.8em;"  dusk="registration-link" href="{{ url('/register') }}"> Regisztráció</a>
+                                 <!--    <a class="nav-link" data-remote="false" data-toggle="modal" data-target="#myModal" style="font-size: 1.2em;"  dusk="registration-link" href="{{ url('/regmodal') }}"> Regisztráció</a>-->
+                                <a class="nav-link" style="font-size: 1.2em;"   href="{{ url('/register') }}"> Regisztráció</a>
                                 </li>  
                                     @else
                                     <li class="nav-item">  
-                                    <a class="nav-link" style="font-size: 1.8em;" dusk="logout-link" href="{{ url('/logout') }}" onclick="event.preventDefault();
+                                    <a class="nav-link" style="font-size: 1.2em;" dusk="logout-link" href="{{ url('/logout') }}" onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                                         Kilépés
                                     </a>
@@ -129,16 +144,16 @@
                                     @endguest
                             </li>
                             <li class="nav-item active">
-                                    <a class="nav-link"style="font-size: 1.8em;"  href="#services">Solgáltatásaink <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link"style="font-size: 1.2em;"  href="#services">Szolgáltatásaink <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item active">
-                              <a class="nav-link"  style="font-size: 1.8em;"href="#pricing">Népszerű Csomagjaink</a>
+                              <a class="nav-link"  style="font-size: 1.2em;"href="#pricing">Népszerű Csomagjaink</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" style="font-size: 1.8em;" href="#blog">Híreink</a>
+                                <a class="nav-link" style="font-size: 1.2em;" href="#blog">Híreink</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" style="font-size: 1.8em;" href="#contact">Kapcsolat</a>
+                                <a class="nav-link" style="font-size: 1.2em;" href="#contact">Kapcsolat</a>
                             </li>      
 
                         <!--    <li class="nav-item dropdown">
@@ -160,14 +175,14 @@
 
 
         </div>
-        <div class="overlay overlay-2"></div>
+        <div  class="overlay overlay-2"></div>
 
         @yield('content')
 
 
         <!-- Footer Section Start -->
         <footer>
-            <div class="container">
+            <div class="container" >
                 <div class="row">
                     <div class="col-md-12">
                         <div class="social-icons wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="0.3s">
@@ -212,7 +227,7 @@
                                 aria-hidden="true">&times;</span></button>
 
                     </div>
-                    <div id="modalbody" class="modal-body">
+                    <div id="modalbody" class="modal-body" style="overflow:hidden;">
 
                         @if ($errors->any())
                         <div class="alert alert-danger">
@@ -235,9 +250,10 @@
             </div>
         </div>
          
-<script src="/cristal/js/jquery.nav.js"></script>
+
       
                  <!-- jQuery first, then Tether, then Bootstrap JS. 
+  <script src="/cristal/js/jquery.nav.js"></script>                  
 <script src="/cristal/js/bootstrap.min.js"></script>
         <script src="/cristal/js/tether.min.js"></script>
        
@@ -257,8 +273,8 @@
         <script src="/cristal/js/form-validator.min.js"></script>
         <script src="/cristal/js/contact-form-script.js"></script>  
          <script src="/cristal/js/main.js"></script> 
-         -->
-
+         
+-->
 </body>
 
 </html

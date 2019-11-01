@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-use App\User;
+
 use Closure;
 
 class TestSetup
@@ -15,10 +15,11 @@ class TestSetup
      */
     public function handle($request, Closure $next)
     {
-         
-        config(['database.default' => 'sqlite_testing']);
-        \Artisan::call('migrate');
-        $user = User::create(['name' => 'test','email' => 'test@test.hu', 'password' => password_hash('123456', 1)]);
-    //echo'fffffffffffffffffffffffffffffff'
-    }
+      config(['database.default' => 'mysqltest']);
+      return $next($request);
+      //  ->header('Access-Control-Allow-Origin', '*')
+      //  ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+       // ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');
+    
+      }
 }

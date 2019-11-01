@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\howcat;
-use App\howto;
+use App\Howcat;
+use App\Howto;
 use App\Http\Controllers\Controller;
 use File;
 use Illuminate\Http\Request;

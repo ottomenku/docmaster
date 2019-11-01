@@ -20,9 +20,9 @@ return [
     'CallbackUrl' => "https://doc.mottoweb.hu/api/barioncallback",
     'barionResEmail' => 'menkuotto@gmail.com',
     'ordersData' => [ //csomag dijak, adatok 
-      'min' => ['name' => 'havi', 'descripton' => 'one month', 'total' => 400, 'days' => 30],
-      'base' => ['name' => 'félév', 'descripton' => 'six month', 'total' => 800, 'days' => 190],
-      'max' => ['name' => 'év', 'descripton' => 'one year', 'total' => 1000, 'days' => 370],
+      1 => ['name' => 'doc', 'descripton' => 'documentum letöltés', 'total' => 400, 'days' => 180],
+      2 => ['name' => 'full', 'descripton' => 'full letöltés', 'total' => 800, 'days' => 370],
+      3 => ['name' => 'full+', 'descripton' => 'full letöltés + támogatás', 'total' => 1000, 'days' => 370],
     ],
     //howto beállítások------------------------------
     'howto_path' => 'resources/howto/',  

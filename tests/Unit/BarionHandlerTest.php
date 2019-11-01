@@ -13,9 +13,12 @@ class BarionTraitHandler
 {
     use \App\Traits\BarionHandler;
 
-    public $ordersData = ['min' => ['total' => 400, 'days' => 30]];
+    public $ordersData ;
     public $userid =1;
-    
+    public function __construct()
+    {  
+        $this->ordersData = config(\App\Http\Controllers\BarionController::$configFile . '.ordersData');
+    }
 }
 /*
  *  $this->saveBillingDataGetBilling($request);
@@ -46,7 +49,7 @@ class BarionHandlerTest extends TestCase
     }
    public function testcreatePayRoletime() 
     { //['user_id','admin_id','action_id','billingdata_id','order_id','type','total','days','note'];
-        $pay=Pay::create( ['user_id'=>1,'admin_id'=>1,'action_id'=>1,'billingdata_id'=>1,'order_id'=>'min','type'=>'min','total'=>1,'days'=>1,'note']);
+        $pay=Pay::create( ['user_id'=>1,'admin_id'=>1,'action_id'=>1,'billingdata_id'=>1,'order_id'=>'1','type'=>'min','total'=>1,'days'=>1,'note']);
         $br = new BarionTraitHandler();
         $PayRoletime= $br->createPayRoletime($pay) ;
       // $BarionPay= $this->createBariontransaction(111,'min');
@@ -54,7 +57,7 @@ class BarionHandlerTest extends TestCase
       $this->assertTrue($payid > 0);
       $PayRoletime=$br->createPayRoletime($pay);
       $this->assertEquals($PayRoletime->id ,$payid);
-      $pay=Pay::create( ['user_id'=>1,'admin_id'=>1,'action_id'=>2,'billingdata_id'=>2,'order_id'=>'min','type'=>'min','total'=>1,'days'=>1,'note']);
+      $pay=Pay::create( ['user_id'=>1,'admin_id'=>1,'action_id'=>2,'billingdata_id'=>2,'order_id'=>'1','type'=>'min','total'=>1,'days'=>1,'note']);
       $PayRoletime= $br->createPayRoletime($pay);
       $this->assertNotEquals($PayRoletime->id ,$payid);
     }
@@ -62,20 +65,20 @@ class BarionHandlerTest extends TestCase
     public function testCreateBariontransaction() 
     {
         $br = new BarionTraitHandler();
-        $Bariontransaction= $br->createBariontransaction(111,'min') ;
+        $Bariontransaction= $br->createBariontransaction(111,1) ;
       // $BarionPay= $this->createBariontransaction(111,'min');
         $Bariontransactionid=$Bariontransaction->id ?? 0;
         $this->assertTrue($Bariontransactionid > 0);
        // $this->assertTrue($Bariontransaction->user_id> 0);
         $this->assertEquals($Bariontransaction->total,400);
-        $this->assertEquals($Bariontransaction->days,30);
+        $this->assertEquals($Bariontransaction->days,180);
     }
     
 
       public function testCreatePay() //Transactions[[Items[[Name]],[items2]],  Errors, PaymentId
     {
         $br = new BarionTraitHandler();
-        $Bariontransaction= $br->createBariontransaction(111,'min') ;
+        $Bariontransaction= $br->createBariontransaction(111,'1') ;
         $pay= $br->createTransactionPay($Bariontransaction->id);
         $payid=$pay->id ?? 0;
         $this->assertTrue($payid > 0);
@@ -85,13 +88,13 @@ class BarionHandlerTest extends TestCase
     public function testcreateTransactionPay() //Transactions[[Items[[Name]],[items2]],  Errors, PaymentId
     {
         $br = new BarionTraitHandler();  //['time','user_id','billingdata_id','order_id','total','days']
-        $barionTransaction=Bariontransaction::create(['time'=>'22228787','billingdata_id'=>1,'order_id'=>'min','total'=>100,'days'=>10]);
+        $barionTransaction=Bariontransaction::create(['time'=>'22228787','user_id'=>'1','billingdata_id'=>1,'order_id'=>'1','total'=>100,'days'=>10]);
         $pay= $br->createTransactionPay($barionTransaction->id);
         $payid=$pay->id ?? 0;
         $this->assertTrue($payid > 0);
         $pay= $br->createTransactionPay($barionTransaction->id);
         $this->assertEquals($pay->id ,$payid);
-         $barionTransaction=Bariontransaction::create(['time'=>'22228787','billingdata_id'=>2,'order_id'=>'min','total'=>10,'days'=>10]);
+         $barionTransaction=Bariontransaction::create(['time'=>'22228787','user_id'=>'1','billingdata_id'=>2,'order_id'=>'1','total'=>10,'days'=>10]);
         $pay= $br->createTransactionPay($barionTransaction->id);
         $this->assertNotEquals($pay->id ,$payid);
     }
