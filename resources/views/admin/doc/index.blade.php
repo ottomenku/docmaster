@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    <div class="container">
+    <div class="container" dusk="doc.index">
         <div class="row">
             @include('admin.sidebar')
 
@@ -51,8 +51,8 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ url('/admin/doc/' . $item->id) }}" title="View Doc"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                            <a href="{{ url('/admin/doc/' . $item->id . '/edit') }}" title="Edit Doc"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                            <a href="{{ url('/admin/doc/' . $item->id) }}" dusk="show{{ $item->id }}" title="View Doc"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                            <a href="{{ url('/admin/doc/' . $item->id . '/edit') }}" dusk="edit{{ $item->id }}" title="Edit Doc"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                                             {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'url' => ['/admin/doc', $item->id],

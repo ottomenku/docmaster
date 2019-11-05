@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
+        <div dusk="howcat.create" class="row">
             @include('admin.sidebar')
 
             <div class="col-md-9">

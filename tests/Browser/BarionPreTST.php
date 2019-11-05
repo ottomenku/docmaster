@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 class BarionTest extends DuskTestCase
 {
    
-  
+  /*
     public function testBarioncallback()
     {
       $this->browse(function (Browser $browser) {
@@ -45,5 +45,5 @@ class BarionTest extends DuskTestCase
                 ->assertSee('gateway');
         });
     }
-   
+  
 }

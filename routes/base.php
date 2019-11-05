@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('/users', 'Admin\\UsersController')->only([
         'index', 'show']);
 
-    Route::resource('/doccat', 'Admin\\CategoryController');
+    Route::resource('/category', 'Admin\\CategoryController');
     Route::resource('/doc', 'Admin\\DocController');
   //  Route::get('/docprev/{id}', 'Admin\\DocController@prev'); //előnézet kivéve az admin mappából
     Route::get('/doc/createwithcat/{id}', 'Admin\\DocController@createWithCat');

@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 @php  $howto=$data['howto']   @endphp
 @section('content')
-    <div class="container">
+    <div class="container" dusk="doc.edit" >
         <div class="row">
             @include('admin.sidebar')
 

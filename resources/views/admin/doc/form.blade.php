@@ -56,5 +56,5 @@ function imgPrev(input) {
 </script>
 
 <div class="form-group">
-    {!! Form::submit($formMode === 'edit' ? 'Update' : 'Create', ['class' => 'btn btn-primary']) !!}
+    <input dusk="save" class="btn btn-primary" type="submit" value="Mentés">
 </div>

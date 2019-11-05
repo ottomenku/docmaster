@@ -22,13 +22,12 @@ return [
     ]
 
     //https://laravel.com/docs/5.8/migrations
-    //https://laravel.com/docs/5.8/validation
     //https://github.com/fzaninotto/faker
-   // ['type','faker','validate','alias=ha nem egyezik a beviteli mező neve az adatbázi mezőével']
-   ,'columns'=> ['id' => ['increments','','', null]
-                ,'category_id' => ['integer,unsigned','1','','cat']
-                ,'name' => ['string:50,default:doc1','doc1',''] 
-                ,'note' => ['text,nullable','lorem','']
+   // ['type','validate','faker']
+   ,'columns'=> ['id' => ['increments','','']
+                ,'category_id' => ['integer,unsigned','1','']
+                ,'name' => ['string:50,default:doc1','doc1'] 
+                ,'note' => ['text,nullable','lorem']
  
                 ]
 //column type :               
@@ -39,5 +38,43 @@ return [
         [ 'category_id'=> '1', 'name'=> 'doc1', 'note'=> 'fgweg ergwegwegwegw ']
        , [ 'category_id'=> '1', 'name'=> 'doc2', 'note'=> 'dfghgb efddggfgf']
         ]
+        
+    , 'goodtest' => [
+        [ 'category_id'=> '1', 'name'=> 'doc1', 'note'=> 'fgweg ergwegwegwegw ']
+        , [ 'category_id'=> '1', 'name'=> 'doc2', 'note'=> 'dfghgb efddggfgf']
+        ]   
 
+/*
+ //https://laravel.com/docs/5.8/validation
+
+accepted|between:min,max (integer, string,array, file)|boolean|different:field
+email|exists:table,column|file|filled|image|integer|json|max:value|min:value|numeric|required
+not_regex:pattern|regex:pattern
+same:field
+
+
+datum:
+'start_date' => 'required|date|after:tomorrow'
+'finish_date' => 'required|date|after:start_date' 
+after:date, after_or_equal:date,
+before:date, before_or_equal:date
+date_format:Y-m-d
+
+'photo' => 'mimes:jpeg,bmp,png'
+confirmed: lennie kell egy columname_confirmation mezőnek Pl.: password-hez password_confirmation -nak és abba ugyanazt kell beírni
+different:field_name   nem lehet ugyanolyan mint a field_name mező
+ends_with:foo,bar,...The field under validation must end with one of the given values.
+gt:field  nagyobb mint a field 
+ gte:field nagyobb vagy egyenlő field-el 
+lt:field kisebb mint a field 
+lte:field kisebb vagy egyenlő field-el 
+not_in:foo,bar,... nem lehetsem foo sem bar  stb.
+
+required_if:anotherfield,value,...
+use Illuminate\Validation\Rule;
+Validator::make($request->all(), [
+    'role_id' => Rule::requiredIf($request->user()->is_admin),
+]);
+
+*/
 ];

@@ -38,11 +38,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\View\View
      */
-   /* public function create()
+  public function create()
     {
        $data['roles']=Role::pluck('name','id');
         return view('admin.category.create',compact('data'));
-    }*/
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,7 +51,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   /* public function store(Request $request)
+ public function store(Request $request)
     {
         $this->validate($request, [
 			'name' => 'required'
@@ -61,7 +61,7 @@ class CategoryController extends Controller
         Category::create($requestData);
 
         return redirect('admin/category')->with('flash_message', 'Category added!');
-    }*/
+    }
 
     /**
      * Display the specified resource.
@@ -70,12 +70,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+   /* public function show($id)
     {
         $category = Category::findOrFail($id);
 
         return view('admin.category.show', compact('category'));
-    }
+    }*/
 
     /**
      * Show the form for editing the specified resource.
@@ -84,12 +84,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\View\View
      */
- /* public function edit($id)
+  public function edit($id)
     {
         $category = Category::findOrFail($id);
         $data['roles']=Role::pluck('name','id');
         return view('admin.category.edit', compact('category','data'));
-    }**/
+    }
 
     /**
      * Update the specified resource in storage.
@@ -99,7 +99,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-   /* public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
 			'name' => 'required'
@@ -110,7 +110,7 @@ class CategoryController extends Controller
         $category->update($requestData);
 
         return redirect('admin/category')->with('flash_message', 'Category updated!');
-    }**/
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -119,10 +119,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-/*   public function destroy($id)
+  public function destroy($id)
     {
         Category::destroy($id);
 
         return redirect('admin/category')->with('flash_message', 'Category deleted!');
-    }*/
+    }
 }

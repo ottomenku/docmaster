@@ -7,7 +7,7 @@
   
 </head>
 <body>
-    <div class="container">
+    <div class="container" dusk="doc.fileupload" >
         <div class="row">
             <div class="col-md-12">
                     <a href="{{ url('/admin/doc') }}" title="Vissza az admin felülethez"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Vissza az admin felülethez</button></a>    

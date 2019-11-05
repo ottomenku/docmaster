@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            //\App\Http\Middleware\Localization::class,
         ],
 
       /*  'test' => [
@@ -53,6 +54,11 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'auth' => [
+            \Illuminate\Auth\Middleware\Authenticate::class,
+          //  \App\Http\Middleware\Localization::class,
+        ],
     ];
 
     /**
@@ -63,6 +69,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+
+    
+
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -74,7 +84,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'roles' => \App\Http\Middleware\CheckRole::class,
         'cors' => \App\Http\Middleware\Cors::class,
+
+        //'localization' =>\App\Http\Middleware\Localization::class,
        'testsetup' => \App\Http\Middleware\TestSetup::class,
+       
     ];
 
     /**
@@ -85,6 +98,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
+       // \App\Http\Middleware\TestSetup::class,
+       // \App\Http\Middleware\Localization::class,
+
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\Authenticate::class,
