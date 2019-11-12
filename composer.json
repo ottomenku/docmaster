@@ -39,7 +39,9 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Ottomenku\\Moview\\": "packages/ottomenku/laravel-moview/src/"
+
         },
         "classmap": [
             "database/seeds",
@@ -48,7 +50,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Ottomenku\\Moview\\": "packages/ottomenku/laravel-moview/src/"
         }
     },
     "minimum-stability": "dev",

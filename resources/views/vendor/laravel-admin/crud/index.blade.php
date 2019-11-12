@@ -6,7 +6,7 @@
             @include('admin.sidebar')
 
             <div class="col-md-9">
-                <div class="card">                 
+                <div class="card">
                     <div class="card-header">howcat</div>
                     <div class="card-body">
                         <a href="{{ url('/admin/howcat/create') }}" class="btn btn-success btn-sm" dusk="new" title="Új tudástár kategória">

@@ -8,7 +8,10 @@ return [
     |--------------------------------------------------------------------------
     |
     */
- 'truncate' => ['howcats','categories','howtos'],
+ 'truncate' => [
+'howcats',
+ 'categories',
+ 'howtos'],
  'baseurl' => env('DUSK_TEST_BASE_URL', 'http://test.localhost:8000'),
 //'baseurl' => 'http://test.localhost:8000',
  'memoryDB' => 'sqlite_testing',

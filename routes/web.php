@@ -11,7 +11,11 @@
 |
  */
 //Auth::routes();
+Route::get('/html', function() {
 
+ return Html::mk();
+
+});
 
 Route::get('kiir', function () {
 //$generator= Faker\Factory::create();;

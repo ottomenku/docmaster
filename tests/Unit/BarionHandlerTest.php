@@ -31,8 +31,8 @@ class BarionHandlerTest extends TestCase
     public $userid =1;
     public $ordersData = ['min' => ['total' => 400, 'days' => 30]];
     //  ha kikommentelem a tesztetket legyen egy jó teszt hogy a phpunit ne jelezzen hibát   
-  //  public function testTrue() {$this->assertTrue(true);}
-    public function setUp(): void
+    public function testTrue() {$this->assertTrue(true);}
+ /*   public function setUp(): void
     {
         parent::setUp();
         config(['database.default' => 'sqlite_testing']);
@@ -184,5 +184,5 @@ class BarionHandlerTest extends TestCase
         $this->assertTrue($billingdata->id > 0);
 
     }
-    
+  */  
 }

@@ -201,6 +201,9 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         LaravelHungary\Barion\BarionServiceProvider::class,
+        App\Providers\MHtmlServiceProvider::class,
+        Ottomenku\Moview\MoHtmlServiceProvider::class,
+       // App\Providers\ToolsServiceProvider::class,
     ],
 
     /*
@@ -252,7 +255,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Barion' =>  LaravelHungary\Barion\BarionFacade::class
+        'Barion' =>  LaravelHungary\Barion\BarionFacade::class,
+        'Mhtml'   =>   App\Facades\MHtml::class,
+         'MoHtml' =>Ottomenku\Moview\MoHtmlFacade::class,
     ],
 
 ];
